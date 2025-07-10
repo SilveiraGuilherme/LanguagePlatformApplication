@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-LanguageplatformApplication<languageplatform>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.guilherme.project.languageplatform.LanguageplatformApplication",
+            "projectName": "languageplatform",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
