@@ -8,7 +8,7 @@ import com.guilherme.project.languageplatform.enums.Rating;
 import com.guilherme.project.languageplatform.repository.PracticeSessionFlashCardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,62 +19,32 @@ public class PracticeSessionFlashCardService {
     @Autowired
     private PracticeSessionFlashCardRepository repository;
 
-    /**
-     * Get all session-flashcard links.
-     *
-     * @return a list containing all PracticeSessionFlashCard entities
-     */
+    // Get all PracticeSessionFlashCards
     public List<PracticeSessionFlashCard> getAll() {
         return repository.findAll();
     }
 
-    /**
-     * Find by composite ID.
-     *
-     * @param id the composite ID of the PracticeSessionFlashCard
-     * @return an Optional containing the found PracticeSessionFlashCard, or empty if not found
-     */
+    // Get one by composite ID
     public Optional<PracticeSessionFlashCard> getById(PracticeSessionFlashCardId id) {
         return repository.findById(id);
     }
 
-    /**
-     * Save or update flashcard in session.
-     *
-     * @param psfc the PracticeSessionFlashCard to save
-     * @return the saved PracticeSessionFlashCard
-     */
+    // Save or update a PracticeSessionFlashCard
     public PracticeSessionFlashCard save(PracticeSessionFlashCard psfc) {
         return repository.save(psfc);
     }
 
-    /**
-     * Delete link by ID.
-     *
-     * @param id the composite ID of the PracticeSessionFlashCard to delete
-     */
+    // Delete by ID
     public void deleteById(PracticeSessionFlashCardId id) {
         repository.deleteById(id);
     }
 
-    /**
-     * Get all flashcards for a session.
-     *
-     * @param sessionId the ID of the practice session
-     * @return a list of PracticeSessionFlashCards in the specified session
-     */
-    public List<PracticeSessionFlashCard> getBySessionId(Integer sessionId) {
+    // Get all flashcards in a session
+    public List<PracticeSessionFlashCard> getBySessionId(Long sessionId) {
         return repository.findByIdSessionID(sessionId);
     }
 
-    /**
-     * Update student rating for a flashcard.
-     *
-     * @param id the composite ID of the PracticeSessionFlashCard to update
-     * @param newRating the new rating to set
-     * @return the updated PracticeSessionFlashCard
-     * @throws EntityNotFoundException if the flashcard is not found in the session
-     */
+    // Update rating for a flashcard in session
     public PracticeSessionFlashCard updateRating(PracticeSessionFlashCardId id, Rating newRating) {
         Optional<PracticeSessionFlashCard> optional = repository.findById(id);
         if (optional.isPresent()) {
@@ -89,5 +59,28 @@ public class PracticeSessionFlashCardService {
     public PracticeSessionFlashCard addFlashCardToSession(PracticeSession session, FlashCard flashCard) {
         PracticeSessionFlashCard psfc = new PracticeSessionFlashCard(session, flashCard);
         return repository.save(psfc);
+    }
+
+    // Get flashcards for student sorted by priority (DONT_KNOW > HARD > ...)
+    public List<FlashCard> getPrioritizedFlashCardsForStudent(Long studentId, int maxFlashcards) {
+        List<PracticeSessionFlashCard> rated = repository.findByIdStudentID(studentId);
+
+        // Sort by rating priority
+        rated.sort((a, b) -> Integer.compare(getPriority(b.getRating()), getPriority(a.getRating())));
+
+        return rated.stream()
+                    .limit(maxFlashcards)
+                    .map(PracticeSessionFlashCard::getFlashCard)
+                    .toList();
+    }
+
+    private int getPriority(Rating rating) {
+        return switch (rating) {
+            case DONT_KNOW -> 4;
+            case HARD -> 3;
+            case MEDIUM -> 2;
+            case EASY -> 1;
+            default -> 1;
+        };
     }
 }

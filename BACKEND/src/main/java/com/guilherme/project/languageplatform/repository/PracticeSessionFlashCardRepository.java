@@ -10,5 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PracticeSessionFlashCardRepository
         extends JpaRepository<PracticeSessionFlashCard, PracticeSessionFlashCardId> {
 
-    List<PracticeSessionFlashCard> findByIdSessionID(Integer sessionID);
+    List<PracticeSessionFlashCard> findByIdSessionID(Long sessionID);
+
+    List<PracticeSessionFlashCard> findByIdStudentID(Long studentId);
 }

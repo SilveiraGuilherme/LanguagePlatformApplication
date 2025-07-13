@@ -9,23 +9,28 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+// Service layer for managing Student entities
 public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
 
+    // Retrieve all students from the database
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
 
+    // Find a student by their ID
     public Optional<Student> getStudentById(Long id) {
         return studentRepository.findById(id);
     }
 
+    // Save or update a student in the database
     public Student saveStudent(Student student) {
         return studentRepository.save(student);
     }
 
+    // Delete a student by their ID
     public void deleteStudent(Long id) {
         studentRepository.deleteById(id);
     }

@@ -1,13 +1,12 @@
 package com.guilherme.project.languageplatform.service;
 
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import com.guilherme.project.languageplatform.entity.FlashCard;
 import com.guilherme.project.languageplatform.entity.PracticeSession;
 import com.guilherme.project.languageplatform.entity.Student;
 import com.guilherme.project.languageplatform.entity.QuizResult;
-import com.guilherme.project.languageplatform.enums.DifficultyLevel;
 import com.guilherme.project.languageplatform.repository.FlashCardRepository;
 import com.guilherme.project.languageplatform.repository.PracticeSessionRepository;
 import com.guilherme.project.languageplatform.repository.StudentRepository;
@@ -18,10 +17,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class QuizResultService {
@@ -38,14 +34,17 @@ public class QuizResultService {
     @Autowired
     private PracticeSessionRepository practiceSessionRepository;
 
+    // Return all quiz results
     public List<QuizResult> getAllQuizResults() {
         return quizResultRepository.findAll();
     }
 
+    // Save a new quiz result
     public QuizResult saveQuizResult(QuizResult result) {
         return quizResultRepository.save(result);
     }
 
+    // Delete quiz result by ID
     public void deleteQuizResultById(Long id) {
         if (!quizResultRepository.existsById(id)) {
             throw new RuntimeException("QuizResult not found with ID: " + id);
@@ -53,20 +52,22 @@ public class QuizResultService {
         quizResultRepository.deleteById(id);
     }
 
-    public QuizResult processQuizSubmission(QuizSubmission submission) {
-        Long studentID = submission.getStudentID();
-        List<Answer> answers = submission.getAnswers();
+    @SuppressWarnings("unchecked")
+    public QuizResult processQuizSubmission(Map<String, Object> submissionData) {
+        Long studentID = ((Number) submissionData.get("studentID")).longValue();
+        Long sessionID = ((Number) submissionData.get("sessionID")).longValue();
+        List<Map<String, String>> answers = (List<Map<String, String>>) submissionData.get("answers");
 
         if (answers == null || answers.isEmpty()) {
             throw new IllegalArgumentException("Answer list cannot be null or empty.");
         }
+
         int totalQuestions = answers.size();
         int correctAnswers = 0;
-        Set<String> difficultyLevels = new HashSet<>();
 
-        for (Answer answer : answers) {
-            Long flashCardID = answer.getFlashCardID();
-            String selected = answer.getSelectedOption();
+        for (Map<String, String> answer : answers) {
+            Long flashCardID = Long.parseLong(answer.get("flashCardID"));
+            String selected = answer.get("selectedOption");
 
             FlashCard flashCard = flashCardRepository.findById(flashCardID)
                     .orElseThrow(() -> new RuntimeException("FlashCard not found: " + flashCardID));
@@ -74,8 +75,6 @@ public class QuizResultService {
             if (flashCard.getCorrectAnswer().equalsIgnoreCase(selected)) {
                 correctAnswers++;
             }
-
-            difficultyLevels.add(flashCard.getDifficultyLevel().name());
         }
 
         BigDecimal scorePercentage = BigDecimal.valueOf((correctAnswers * 100.0) / totalQuestions)
@@ -84,8 +83,8 @@ public class QuizResultService {
         Student student = studentRepository.findById(studentID)
                 .orElseThrow(() -> new RuntimeException("Student not found: " + studentID));
 
-        PracticeSession session = practiceSessionRepository.findById(submission.getSessionID())
-                .orElseThrow(() -> new RuntimeException("PracticeSession not found: " + submission.getSessionID()));
+        PracticeSession session = practiceSessionRepository.findById(sessionID)
+                .orElseThrow(() -> new RuntimeException("PracticeSession not found: " + sessionID));
 
         QuizResult result = new QuizResult();
         result.setStudent(student);
@@ -95,14 +94,10 @@ public class QuizResultService {
         result.setScorePercentage(scorePercentage);
         result.setCompletionTime(LocalDateTime.now());
 
-        if (!difficultyLevels.isEmpty()) {
-            String level = difficultyLevels.iterator().next();
-            result.setDifficultyLevel(DifficultyLevel.valueOf(level));
-        }
-
         return quizResultRepository.save(result);
     }
 
+    // Retrieve quiz result by ID
     public QuizResult getQuizResultById(Long id) {
         return quizResultRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("QuizResult not found with ID: " + id));
