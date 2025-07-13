@@ -26,12 +26,8 @@ public class QuizResultController {
     // Get a quiz result by ID
     @GetMapping("/{id}")
     public ResponseEntity<QuizResult> getQuizResultById(@PathVariable Long id) {
-        try {
-            QuizResult result = quizResultService.getQuizResultById(id);
-            return ResponseEntity.ok(result);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        QuizResult result = quizResultService.getQuizResultById(id);
+        return ResponseEntity.ok(result);
     }
 
     // Create a new quiz result
@@ -44,33 +40,22 @@ public class QuizResultController {
     // Submit a completed quiz for processing
     @PostMapping("/submit")
     public ResponseEntity<QuizResult> submitQuiz(@RequestBody Map<String, Object> submissionData) {
-        try {
-            QuizResult result = quizResultService.processQuizSubmission(submissionData);
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        QuizResult result = quizResultService.processQuizSubmission(submissionData);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     // Update an existing quiz result
     @PutMapping("/{id}")
     public ResponseEntity<QuizResult> updateQuizResult(@PathVariable Long id, @RequestBody QuizResult updatedResult) {
         updatedResult.setResultID(id);
-        try {
-            return ResponseEntity.ok(quizResultService.saveQuizResult(updatedResult));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        QuizResult updated = quizResultService.saveQuizResult(updatedResult);
+        return ResponseEntity.ok(updated);
     }
 
     // Delete a quiz result by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteQuizResult(@PathVariable Long id) {
-        try {
-            quizResultService.deleteQuizResultById(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        quizResultService.deleteQuizResultById(id);
+        return ResponseEntity.noContent().build();
     }
 }
