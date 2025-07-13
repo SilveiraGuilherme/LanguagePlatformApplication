@@ -4,7 +4,10 @@ import com.guilherme.project.languageplatform.entity.id.PracticeSessionFlashCard
 import com.guilherme.project.languageplatform.enums.Rating;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "PracticeSessionFlashCard")
 public class PracticeSessionFlashCard {
@@ -22,6 +25,7 @@ public class PracticeSessionFlashCard {
     @JoinColumn(name = "flashCardID")
     private FlashCard flashCard;
 
+    @Min(0)
     private int positionInQueue;
 
     @Enumerated(EnumType.STRING)
@@ -39,6 +43,12 @@ public class PracticeSessionFlashCard {
         this.id = new PracticeSessionFlashCardId(session.getSessionID(), flashCard.getFlashCardID());
     }
 
+    public PracticeSessionFlashCard(PracticeSession session, FlashCard flashCard) {
+        this.session = session;
+        this.flashCard = flashCard;
+    }
+
+    // Getters and Setters
     public PracticeSessionFlashCardId getId() {
         return id;
     }
@@ -47,7 +57,6 @@ public class PracticeSessionFlashCard {
         this.id = id;
     }
 
-    // Getters and Setters
     public PracticeSession getSession() {
         return session;
     }

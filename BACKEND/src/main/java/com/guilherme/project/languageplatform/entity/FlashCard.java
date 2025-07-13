@@ -17,9 +17,6 @@ public class FlashCard {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String sentence;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String translation;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private DifficultyLevel difficultyLevel;
@@ -47,10 +44,9 @@ public class FlashCard {
     public FlashCard() {
     }
 
-    public FlashCard(String sentence, String translation, DifficultyLevel difficultyLevel,
+    public FlashCard(String sentence, DifficultyLevel difficultyLevel,
             String optionA, String optionB, String optionC, String optionD, String correctAnswer) {
         this.sentence = sentence;
-        this.translation = translation;
         this.difficultyLevel = difficultyLevel;
         this.optionA = optionA;
         this.optionB = optionB;
@@ -74,14 +70,6 @@ public class FlashCard {
 
     public void setSentence(String sentence) {
         this.sentence = sentence;
-    }
-
-    public String getTranslation() {
-        return translation;
-    }
-
-    public void setTranslation(String translation) {
-        this.translation = translation;
     }
 
     public DifficultyLevel getDifficultyLevel() {

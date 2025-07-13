@@ -3,6 +3,7 @@ package com.guilherme.project.languageplatform.controller;
 import com.guilherme.project.languageplatform.entity.QuizResult;
 import com.guilherme.project.languageplatform.service.QuizResultService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +25,18 @@ public class QuizResultController {
     @GetMapping("/{id}")
     public ResponseEntity<QuizResult> getQuizResultById(@PathVariable Long id) {
         Optional<QuizResult> result = quizResultService.getQuizResultById(id);
-        return result.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public QuizResult createQuizResult(@RequestBody QuizResult quizResult) {
         return quizResultService.saveQuizResult(quizResult);
+    }
+
+    @PostMapping("/submit")
+    public ResponseEntity<QuizResult> submitQuiz(@RequestBody QuizResult submission) {
+        QuizResult result = quizResultService.processQuizSubmission(submission);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

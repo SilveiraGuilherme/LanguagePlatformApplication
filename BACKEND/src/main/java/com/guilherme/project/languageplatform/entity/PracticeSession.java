@@ -3,25 +3,32 @@ package com.guilherme.project.languageplatform.entity;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "PracticeSession")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class PracticeSession {
     // Variables
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer sessionID;
+    private Long sessionID;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "studentID", nullable = false)
     private Student student;
 
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime startTime;
 
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime endTime;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SessionStatus sessionStatus = SessionStatus.ONGOING;
@@ -49,11 +56,11 @@ public class PracticeSession {
     }
 
     // Getters and Setters
-    public Integer getSessionID() {
+    public Long getSessionID() {
         return sessionID;
     }
 
-    public void setSessionID(Integer sessionID) {
+    public void setSessionID(Long sessionID) {
         this.sessionID = sessionID;
     }
 

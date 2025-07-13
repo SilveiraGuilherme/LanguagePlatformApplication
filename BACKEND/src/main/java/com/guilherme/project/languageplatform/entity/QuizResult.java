@@ -1,10 +1,13 @@
 package com.guilherme.project.languageplatform.entity;
 
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 import com.guilherme.project.languageplatform.enums.DifficultyLevel;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "QuizResult")
@@ -14,26 +17,37 @@ public class QuizResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long resultID;
 
+    @NotNull
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne
     @JoinColumn(name = "studentID", nullable = false)
     private Student student;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne
-    @JoinColumn(name = "sessionID", nullable = false)
+    @JoinColumn(name = "sessionID", nullable = true)
     private PracticeSession session;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "difficultyLevel")
     private DifficultyLevel difficultyLevel;
 
+    @NotNull
     @Column(nullable = false)
     private int totalQuestions;
 
+    @NotNull
     @Column(nullable = false)
     private int correctAnswers;
 
+    @NotNull
     @Column(name = "completionTime", nullable = false)
-    private LocalDateTime timestamp;
+    private LocalDateTime completionTime;
+
+    @NotNull
+    @Column(name = "scorePercentage")
+    private BigDecimal scorePercentage;
 
     // Constructors
     public QuizResult() {
@@ -46,13 +60,9 @@ public class QuizResult {
         this.difficultyLevel = difficultyLevel;
         this.totalQuestions = totalQuestions;
         this.correctAnswers = correctAnswers;
-        this.timestamp = LocalDateTime.now();
+        this.completionTime = LocalDateTime.now();
     }
 
-    @PrePersist
-    protected void onCreate() {
-        this.timestamp = LocalDateTime.now();
-    }
 
     // Getters and Setters
     public Long getResultID() {
@@ -103,18 +113,26 @@ public class QuizResult {
         this.correctAnswers = correctAnswers;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    public LocalDateTime getCompletionTime() {
+        return completionTime;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
+    public void setCompletionTime(LocalDateTime completionTime) {
+        this.completionTime = completionTime;
+    }
+
+    public BigDecimal getScorePercentage() {
+        return scorePercentage;
+    }
+
+    public void setScorePercentage(BigDecimal scorePercentage) {
+        this.scorePercentage = scorePercentage;
     }
 
     @Override
     public String toString() {
         return "QuizResult{" + "resultID=" + resultID + ", student=" + student.getStudentID() + ", difficultyLevel="
                 + difficultyLevel + ", totalQuestions=" + totalQuestions + ", correctAnswers=" + correctAnswers
-                + ", timestamp=" + timestamp + '}';
+                + ", completionTime=" + completionTime + '}';
     }
 }

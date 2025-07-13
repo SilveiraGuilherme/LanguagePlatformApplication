@@ -25,7 +25,7 @@ public class PracticeSessionFlashCardController {
 
     // Get by composite ID
     @GetMapping("/{sessionId}/{flashCardId}")
-    public Optional<PracticeSessionFlashCard> getById(@PathVariable Integer sessionId,
+    public Optional<PracticeSessionFlashCard> getById(@PathVariable Long sessionId,
             @PathVariable Long flashCardId) {
         PracticeSessionFlashCardId id = new PracticeSessionFlashCardId(sessionId, flashCardId);
         return service.getById(id);
@@ -45,7 +45,7 @@ public class PracticeSessionFlashCardController {
 
     // Update rating
     @PutMapping("/{sessionId}/{flashCardId}/rating")
-    public PracticeSessionFlashCard updateRating(@PathVariable Integer sessionId,
+    public PracticeSessionFlashCard updateRating(@PathVariable Long sessionId,
             @PathVariable Long flashCardId,
             @RequestParam Rating rating) {
         PracticeSessionFlashCardId id = new PracticeSessionFlashCardId(sessionId, flashCardId);
@@ -54,7 +54,7 @@ public class PracticeSessionFlashCardController {
 
     // Delete by composite ID
     @DeleteMapping("/{sessionId}/{flashCardId}")
-    public void delete(@PathVariable Integer sessionId,
+    public void delete(@PathVariable Long sessionId,
             @PathVariable Long flashCardId) {
         PracticeSessionFlashCardId id = new PracticeSessionFlashCardId(sessionId, flashCardId);
         service.deleteById(id);

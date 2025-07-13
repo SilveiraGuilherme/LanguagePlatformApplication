@@ -1,12 +1,15 @@
 package com.guilherme.project.languageplatform.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.List;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
 
 @Entity
 @Table(name = "Student")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Student {
     // Variables
     @Id
@@ -24,6 +27,15 @@ public class Student {
     @Column(name = "lastName", nullable = false)
     private String lastName;
 
+    @NotBlank
+    @Email
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    @NotBlank
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PracticeSession> practiceSessions;
 
@@ -34,12 +46,34 @@ public class Student {
     public Student() {
     }
 
-    public Student(String firstName, String lastName) {
+    public Student(Long studentID) {
+        this.studentID = studentID;
+    }
+
+    public Student(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
+        this.password = password;
     }
 
     // Getters and Setters
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Long getStudentID() {
         return studentID;
     }
@@ -66,6 +100,11 @@ public class Student {
 
     @Override
     public String toString() {
-        return firstName + " " + lastName;
+        return "Student{" +
+                "studentID=" + studentID +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

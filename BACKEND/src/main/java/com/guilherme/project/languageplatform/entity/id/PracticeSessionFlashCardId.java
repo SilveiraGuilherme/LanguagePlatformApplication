@@ -10,24 +10,24 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class PracticeSessionFlashCardId implements Serializable {
     // Variables
-    private Integer sessionID;
+    private Long sessionID;
     private Long flashCardID;
 
     // Constructors
     public PracticeSessionFlashCardId() {
     }
 
-    public PracticeSessionFlashCardId(Integer sessionID, Long flashCardID) {
+    public PracticeSessionFlashCardId(Long sessionID, Long flashCardID) {
         this.sessionID = sessionID;
         this.flashCardID = flashCardID;
     }
 
     // Getters and Setters
-    public Integer getSessionID() {
+    public Long getSessionID() {
         return sessionID;
     }
 
-    public void setSessionID(Integer sessionID) {
+    public void setSessionID(Long sessionID) {
         this.sessionID = sessionID;
     }
 

@@ -22,12 +22,12 @@ public class PracticeSessionController {
     }
 
     @GetMapping("/{id}")
-    public Optional<PracticeSession> getSessionById(@PathVariable Integer id) {
+    public Optional<PracticeSession> getSessionById(@PathVariable Long id) {
         return practiceSessionService.getPracticeSessionById(id);
     }
 
     @GetMapping("/ongoing/{studentId}")
-    public ResponseEntity<PracticeSession> getOngoingSession(@PathVariable Integer studentId) {
+    public ResponseEntity<PracticeSession> getOngoingSession(@PathVariable Long studentId) {
         return practiceSessionService.getOngoingSessionByStudentId(studentId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -39,12 +39,12 @@ public class PracticeSessionController {
     }
 
     @PutMapping("/{id}")
-    public PracticeSession updateSession(@PathVariable Integer id, @RequestBody PracticeSession updatedSession) {
+    public PracticeSession updateSession(@PathVariable Long id, @RequestBody PracticeSession updatedSession) {
         return practiceSessionService.updatePracticeSession(id, updatedSession);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSession(@PathVariable Integer id) {
+    public void deleteSession(@PathVariable Long id) {
         practiceSessionService.deletePracticeSession(id);
     }
 }

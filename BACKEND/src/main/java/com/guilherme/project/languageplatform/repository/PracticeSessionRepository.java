@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PracticeSessionRepository extends JpaRepository<PracticeSession, Integer> {
+public interface PracticeSessionRepository extends JpaRepository<PracticeSession, Long> {
 
-    Optional<PracticeSession> findByStudentStudentIDAndSessionStatus(Integer studentId,
+    Optional<PracticeSession> findByStudentStudentIDAndSessionStatus(Long studentId,
             PracticeSession.SessionStatus sessionStatus);
 }
