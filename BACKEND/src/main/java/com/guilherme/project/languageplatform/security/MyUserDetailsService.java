@@ -1,6 +1,6 @@
 package com.guilherme.project.languageplatform.security;
 
-import com.guilherme.project.languageplatform.model.Student;
+import com.guilherme.project.languageplatform.entity.Student;
 import com.guilherme.project.languageplatform.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
