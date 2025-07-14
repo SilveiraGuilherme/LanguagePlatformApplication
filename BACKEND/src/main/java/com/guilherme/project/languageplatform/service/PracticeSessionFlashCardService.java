@@ -41,7 +41,7 @@ public class PracticeSessionFlashCardService {
 
     // Get all flashcards in a session
     public List<PracticeSessionFlashCard> getBySessionId(Long sessionId) {
-        return repository.findByIdSessionID(sessionId);
+        return repository.findBySessionSessionID(sessionId);
     }
 
     // Update rating for a flashcard in session
@@ -63,15 +63,15 @@ public class PracticeSessionFlashCardService {
 
     // Get flashcards for student sorted by priority (DONT_KNOW > HARD > ...)
     public List<FlashCard> getPrioritizedFlashCardsForStudent(Long studentId, int maxFlashcards) {
-        List<PracticeSessionFlashCard> rated = repository.findByIdStudentID(studentId);
+        List<PracticeSessionFlashCard> rated = repository.findBySessionStudentStudentID(studentId);
 
         // Sort by rating priority
         rated.sort((a, b) -> Integer.compare(getPriority(b.getRating()), getPriority(a.getRating())));
 
         return rated.stream()
-                    .limit(maxFlashcards)
-                    .map(PracticeSessionFlashCard::getFlashCard)
-                    .toList();
+                .limit(maxFlashcards)
+                .map(PracticeSessionFlashCard::getFlashCard)
+                .toList();
     }
 
     private int getPriority(Rating rating) {
