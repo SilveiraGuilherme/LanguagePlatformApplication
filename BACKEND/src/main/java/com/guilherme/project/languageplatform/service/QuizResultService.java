@@ -23,16 +23,16 @@ import java.util.List;
 public class QuizResultService {
 
     @Autowired
-    private QuizResultRepository quizResultRepository;
+    public QuizResultRepository quizResultRepository;
 
     @Autowired
-    private FlashCardRepository flashCardRepository;
+    public FlashCardRepository flashCardRepository;
 
     @Autowired
-    private StudentRepository studentRepository;
+    public StudentRepository studentRepository;
 
     @Autowired
-    private PracticeSessionRepository practiceSessionRepository;
+    public PracticeSessionRepository practiceSessionRepository;
 
     // Return all quiz results
     public List<QuizResult> getAllQuizResults() {

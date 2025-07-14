@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.guilherme.project.languageplatform.LanguageplatformApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.287 s -- in com.guilherme.project.languageplatform.LanguageplatformApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.636 s -- in com.guilherme.project.languageplatform.LanguageplatformApplicationTests

@@ -1,25 +1,35 @@
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/LanguageplatformApplication.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/controller/FlashCardController.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/controller/PracticeSessionController.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/controller/PracticeSessionFlashCardController.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/controller/QuizResultController.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/controller/StudentController.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/dto/QuizSubmissionDTO.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/entity/FlashCard.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/entity/PracticeSession.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/entity/PracticeSessionFlashCard.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/entity/QuizResult.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/entity/Student.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/entity/id/PracticeSessionFlashCardId.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/enums/DifficultyLevel.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/enums/Rating.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/repository/FlashCardRepository.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/repository/PracticeSessionFlashCardRepository.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/repository/PracticeSessionRepository.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/repository/QuizResultRepository.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/repository/StudentRepository.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/service/FlashCardService.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/service/PracticeSessionFlashCardService.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/service/PracticeSessionService.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/service/QuizResultService.java
-/Users/guilhermesilveira/Documents/Projects GitHub/NCI-Projects/Final Project/Project/BACKEND/src/main/java/com/guilherme/project/languageplatform/service/StudentService.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/dto/AuthResponse.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/security/JwtAuthenticationFilter.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/entity/FlashCard.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/LanguageplatformApplication.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/service/FlashCardService.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/service/StudentService.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/dto/RegisterRequest.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/controller/PracticeSessionController.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/security/MyUserDetailsService.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/repository/PracticeSessionRepository.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/dto/LoginRequest.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/entity/PracticeSession.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/repository/FlashCardRepository.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/entity/PracticeSessionFlashCard.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/security/SecurityConfig.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/controller/StudentController.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/security/JwtUtil.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/service/QuizResultService.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/exception/GlobalExceptionHandler.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/entity/QuizResult.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/enums/Rating.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/exception/ResourceNotFoundException.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/entity/id/PracticeSessionFlashCardId.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/repository/QuizResultRepository.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/controller/QuizResultController.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/enums/DifficultyLevel.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/repository/PracticeSessionFlashCardRepository.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/controller/FlashCardController.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/entity/Student.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/controller/AuthenticationController.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/controller/PracticeSessionFlashCardController.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/repository/StudentRepository.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/service/PracticeSessionService.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/security/AuthenticationService.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/guilherme/project/languageplatform/service/PracticeSessionFlashCardService.java

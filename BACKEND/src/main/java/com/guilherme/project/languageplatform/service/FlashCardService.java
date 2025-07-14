@@ -19,6 +19,14 @@ public class FlashCardService {
     @Autowired
     private FlashCardRepository flashCardRepository;
 
+    /**
+     * Constructor for FlashCardService.
+     * @param flashCardRepository the repository to interact with flashcards.
+     */
+    public FlashCardService(FlashCardRepository flashCardRepository) {
+        this.flashCardRepository = flashCardRepository;
+    }
+
     // Get all flashcards
     public List<FlashCard> getAllFlashCards() {
         return flashCardRepository.findAll();
