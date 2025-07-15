@@ -37,11 +37,23 @@ public class QuizResultController {
         return quizResultService.saveQuizResult(quizResult);
     }
 
-    // Submit a completed quiz for processing
+    /**
+     * Accepts a student's completed quiz submission, processes the answers,
+     * calculates the score, and stores the result.
+     * Expected input: {
+     *   "studentID": 1,
+     *   "sessionID": 2,
+     *   "difficultyLevel": "BEGINNER" or "MIXED",
+     *   "answers": [
+     *     { "flashCardID": 1, "selectedOption": "Your answer" },
+     *     ...
+     *   ]
+     * }
+     */
     @PostMapping("/submit")
     public ResponseEntity<QuizResult> submitQuiz(@RequestBody Map<String, Object> submissionData) {
         QuizResult result = quizResultService.processQuizSubmission(submissionData);
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     // Update an existing quiz result

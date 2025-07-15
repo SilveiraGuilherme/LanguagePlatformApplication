@@ -6,6 +6,8 @@ import com.guilherme.project.languageplatform.entity.PracticeSessionFlashCard;
 import com.guilherme.project.languageplatform.entity.id.PracticeSessionFlashCardId;
 import com.guilherme.project.languageplatform.enums.Rating;
 import com.guilherme.project.languageplatform.repository.PracticeSessionFlashCardRepository;
+import com.guilherme.project.languageplatform.service.FlashCardService;
+import com.guilherme.project.languageplatform.service.PracticeSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,6 +20,12 @@ public class PracticeSessionFlashCardService {
 
     @Autowired
     private PracticeSessionFlashCardRepository repository;
+
+    @Autowired
+    private PracticeSessionService practiceSessionService;
+
+    @Autowired
+    private FlashCardService flashCardService;
 
     // Get all PracticeSessionFlashCards
     public List<PracticeSessionFlashCard> getAll() {
@@ -74,6 +82,19 @@ public class PracticeSessionFlashCardService {
                 .toList();
     }
 
+    // Get flashcards for session sorted by priority
+    public List<FlashCard> getPrioritizedFlashCardsForSession(Long sessionId, int maxFlashcards) {
+        List<PracticeSessionFlashCard> rated = repository.findBySessionSessionID(sessionId);
+
+        rated.sort((a, b) -> Integer.compare(getPriority(b.getRating()), getPriority(a.getRating())));
+
+        return rated.stream()
+                .limit(maxFlashcards)
+                .map(PracticeSessionFlashCard::getFlashCard)
+                .toList();
+    }
+
+    // Helper method to get priority based on rating
     private int getPriority(Rating rating) {
         return switch (rating) {
             case DONT_KNOW -> 4;
@@ -82,5 +103,18 @@ public class PracticeSessionFlashCardService {
             case EASY -> 1;
             default -> 1;
         };
+    }
+    // Create a PracticeSessionFlashCard from session and flashcard IDs
+    public PracticeSessionFlashCard createFromIds(Long sessionId, Long flashCardId, Rating rating) {
+        PracticeSession session = practiceSessionService.getPracticeSessionById(sessionId)
+                .orElseThrow(() -> new EntityNotFoundException("PracticeSession not found with id: " + sessionId));
+        FlashCard flashCard = flashCardService.getFlashCardById(flashCardId)
+                .orElseThrow(() -> new EntityNotFoundException("FlashCard not found with id: " + flashCardId));
+
+        PracticeSessionFlashCard psfc = new PracticeSessionFlashCard(session, flashCard);
+        psfc.setRating(rating);
+        // Set a default position (can be ignored if dynamically calculated later)
+        psfc.setPositionInQueue(0);
+        return repository.save(psfc);
     }
 }

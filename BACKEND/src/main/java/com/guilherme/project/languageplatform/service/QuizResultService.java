@@ -66,8 +66,8 @@ public class QuizResultService {
         int correctAnswers = 0;
 
         for (Map<String, String> answer : answers) {
-            Long flashCardID = Long.parseLong(answer.get("flashCardID"));
-            String selected = answer.get("selectedOption");
+            Long flashCardID = Long.valueOf(answer.get("flashCardID").toString());
+            String selected = answer.get("selectedOption").toString();
 
             FlashCard flashCard = flashCardRepository.findById(flashCardID)
                     .orElseThrow(() -> new RuntimeException("FlashCard not found: " + flashCardID));
@@ -93,6 +93,20 @@ public class QuizResultService {
         result.setCorrectAnswers(correctAnswers);
         result.setScorePercentage(scorePercentage);
         result.setCompletionTime(LocalDateTime.now());
+
+        Object difficultyObj = submissionData.get("difficultyLevel");
+        if (difficultyObj != null) {
+            String difficultyStr = difficultyObj.toString().trim().toUpperCase();
+            if (!difficultyStr.equals("MIXED")) {
+                try {
+                    result.setDifficultyLevel(Enum.valueOf(com.guilherme.project.languageplatform.enums.DifficultyLevel.class, difficultyStr));
+                } catch (IllegalArgumentException e) {
+                    throw new RuntimeException("Invalid difficulty level: " + difficultyStr);
+                }
+            }
+        } else {
+            throw new RuntimeException("difficultyLevel is required.");
+        }
 
         return quizResultRepository.save(result);
     }

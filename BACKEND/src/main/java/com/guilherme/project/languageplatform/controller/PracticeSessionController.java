@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/practice-sessions")
@@ -39,10 +40,11 @@ public class PracticeSessionController {
     }
 
     // Create a new practice session
-    @PostMapping
-    public ResponseEntity<PracticeSession> createSession(@RequestBody PracticeSession session) {
-        PracticeSession saved = practiceSessionService.savePracticeSession(session);
-        return ResponseEntity.status(201).body(saved);
+    @PostMapping("/start")
+    public ResponseEntity<PracticeSession> createSession(@RequestBody Map<String, Long> request) {
+        Long studentId = request.get("studentId");
+        PracticeSession session = practiceSessionService.startSessionForStudent(studentId);
+        return ResponseEntity.status(201).body(session);
     }
 
     // Update an existing practice session by its ID

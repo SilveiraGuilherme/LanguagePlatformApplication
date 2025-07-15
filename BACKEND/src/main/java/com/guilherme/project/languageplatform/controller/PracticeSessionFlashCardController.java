@@ -49,7 +49,8 @@ public class PracticeSessionFlashCardController {
     @PutMapping("/{sessionId}/{flashCardId}/rating")
     public PracticeSessionFlashCard updateRating(@PathVariable Long sessionId,
             @PathVariable Long flashCardId,
-            @RequestParam Rating rating) {
+            @RequestBody java.util.Map<String, String> request) {
+        Rating rating = Rating.valueOf(request.get("rating"));
         PracticeSessionFlashCardId id = new PracticeSessionFlashCardId(sessionId, flashCardId);
         return service.updateRating(id, rating);
     }
@@ -61,5 +62,20 @@ public class PracticeSessionFlashCardController {
             @PathVariable Long flashCardId) {
         PracticeSessionFlashCardId id = new PracticeSessionFlashCardId(sessionId, flashCardId);
         service.deleteById(id);
+    }
+    // Create a PracticeSessionFlashCard from session and flashcard IDs
+    @PostMapping("/create")
+    public PracticeSessionFlashCard createSimplified(@RequestBody java.util.Map<String, Object> data) {
+        Long sessionId = Long.valueOf(data.get("practiceSessionId").toString());
+        Long flashCardId = Long.valueOf(data.get("flashCardId").toString());
+        Rating rating = Rating.valueOf(data.get("rating").toString());
+        return service.createFromIds(sessionId, flashCardId, rating);
+    }
+    // Get prioritized flashcards for a session
+    @GetMapping("/session/{sessionId}/prioritized")
+    public List<com.guilherme.project.languageplatform.entity.FlashCard> getPrioritizedFlashCards(
+            @PathVariable Long sessionId,
+            @RequestParam(defaultValue = "10") int limit) {
+        return service.getPrioritizedFlashCardsForSession(sessionId, limit);
     }
 }

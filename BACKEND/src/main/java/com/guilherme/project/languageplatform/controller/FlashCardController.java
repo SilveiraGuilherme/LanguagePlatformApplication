@@ -36,7 +36,13 @@ public class FlashCardController {
         if (difficultyLevel == null || difficultyLevel.isBlank()) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(flashCardService.getFlashCardsFiltered(difficultyLevel));
+
+        List<String> allowed = List.of("BEGINNER", "INTERMEDIATE", "ADVANCED");
+        if (!allowed.contains(difficultyLevel.toUpperCase())) {
+            return ResponseEntity.badRequest().body(List.of());
+        }
+
+        return ResponseEntity.ok(flashCardService.getFlashCardsFiltered(difficultyLevel.toUpperCase()));
     }
 
     // Create a new flashcard

@@ -24,8 +24,6 @@ public class PracticeSession {
     @Column(nullable = false)
     private LocalDateTime startTime;
 
-    @NotNull
-    @Column(nullable = false)
     private LocalDateTime endTime;
 
     @NotNull

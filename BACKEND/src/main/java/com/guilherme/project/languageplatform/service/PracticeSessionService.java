@@ -1,10 +1,15 @@
 package com.guilherme.project.languageplatform.service;
 
 import com.guilherme.project.languageplatform.entity.PracticeSession;
+import com.guilherme.project.languageplatform.entity.PracticeSession.SessionStatus;
+import com.guilherme.project.languageplatform.entity.Student;
 import com.guilherme.project.languageplatform.repository.PracticeSessionRepository;
+import com.guilherme.project.languageplatform.repository.StudentRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +33,32 @@ public class PracticeSessionService {
     public Optional<PracticeSession> getOngoingSessionByStudentId(Long studentId) {
         return practiceSessionRepository.findByStudentStudentIDAndSessionStatus(studentId,
                 PracticeSession.SessionStatus.ONGOING);
+    }
+
+
+    // Start a new session for a student
+    @Autowired
+    private StudentRepository studentRepository;
+
+    public PracticeSession startSessionForStudent(Long studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        PracticeSession session = new PracticeSession();
+        session.setStudent(student);
+        session.setSessionStatus(SessionStatus.ONGOING);
+        session.setStartTime(LocalDateTime.now());
+        return practiceSessionRepository.save(session);
+    }
+
+    public PracticeSession completeSession(Long sessionId) {
+        PracticeSession session = practiceSessionRepository.findById(sessionId)
+                .orElseThrow(() -> new RuntimeException("Session not found"));
+
+        session.setEndTime(LocalDateTime.now());
+        session.setSessionStatus(SessionStatus.COMPLETED);
+
+        return practiceSessionRepository.save(session);
     }
 
     // Save new session

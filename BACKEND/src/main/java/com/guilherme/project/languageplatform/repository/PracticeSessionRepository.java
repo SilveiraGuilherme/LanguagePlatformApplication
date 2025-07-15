@@ -10,6 +10,4 @@ public interface PracticeSessionRepository extends JpaRepository<PracticeSession
 
     Optional<PracticeSession> findByStudentStudentIDAndSessionStatus(Long studentId,
             PracticeSession.SessionStatus sessionStatus);
-
-    Optional<PracticeSession> findByStudentStudentIDAndCompletedFalse(Long studentID);
 }
