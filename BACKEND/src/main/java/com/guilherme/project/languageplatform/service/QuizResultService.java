@@ -1,7 +1,7 @@
 package com.guilherme.project.languageplatform.service;
+import com.guilherme.project.languageplatform.dto.QuizResultResponseDTO;
 
 import java.util.Map;
-import java.util.Optional;
 
 import com.guilherme.project.languageplatform.entity.FlashCard;
 import com.guilherme.project.languageplatform.entity.PracticeSession;
@@ -53,7 +53,7 @@ public class QuizResultService {
     }
 
     @SuppressWarnings("unchecked")
-    public QuizResult processQuizSubmission(Map<String, Object> submissionData) {
+    public QuizResultResponseDTO processQuizSubmission(Map<String, Object> submissionData) {
         Long studentID = ((Number) submissionData.get("studentID")).longValue();
         Long sessionID = ((Number) submissionData.get("sessionID")).longValue();
         List<Map<String, String>> answers = (List<Map<String, String>>) submissionData.get("answers");
@@ -66,8 +66,26 @@ public class QuizResultService {
         int correctAnswers = 0;
 
         for (Map<String, String> answer : answers) {
-            Long flashCardID = Long.valueOf(answer.get("flashCardID").toString());
-            String selected = answer.get("selectedOption").toString();
+            Object flashCardIdObj = answer.get("flashCardID");
+            if (flashCardIdObj == null) {
+                throw new RuntimeException("flashCardID is missing in one of the answers.");
+            }
+            final Long flashCardID;
+            if (flashCardIdObj instanceof Number) {
+                flashCardID = ((Number) flashCardIdObj).longValue();
+            } else {
+                try {
+                    flashCardID = Long.valueOf(flashCardIdObj.toString());
+                } catch (NumberFormatException e) {
+                    throw new RuntimeException("Invalid flashCardID: " + flashCardIdObj);
+                }
+            }
+
+            Object selectedObj = answer.get("selectedOption");
+            if (selectedObj == null) {
+                throw new RuntimeException("selectedOption is missing in one of the answers.");
+            }
+            String selected = selectedObj.toString();
 
             FlashCard flashCard = flashCardRepository.findById(flashCardID)
                     .orElseThrow(() -> new RuntimeException("FlashCard not found: " + flashCardID));
@@ -108,7 +126,20 @@ public class QuizResultService {
             throw new RuntimeException("difficultyLevel is required.");
         }
 
-        return quizResultRepository.save(result);
+        result = quizResultRepository.save(result);
+
+        QuizResultResponseDTO response = new QuizResultResponseDTO();
+        response.setResultID(result.getResultID());
+        response.setStudentID(student.getStudentID());
+        response.setStudentName(student.getFirstName() + " " + student.getLastName());
+        response.setSessionID(session.getSessionID());
+        response.setDifficultyLevel(result.getDifficultyLevel().toString());
+        response.setTotalQuestions(result.getTotalQuestions());
+        response.setCorrectAnswers(result.getCorrectAnswers());
+        response.setScorePercentage(result.getScorePercentage());
+        response.setCompletionTime(result.getCompletionTime());
+
+        return response;
     }
 
     // Retrieve quiz result by ID

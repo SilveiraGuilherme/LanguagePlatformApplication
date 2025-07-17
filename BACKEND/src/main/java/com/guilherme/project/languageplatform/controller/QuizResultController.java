@@ -2,6 +2,7 @@ package com.guilherme.project.languageplatform.controller;
 
 import com.guilherme.project.languageplatform.entity.QuizResult;
 import com.guilherme.project.languageplatform.service.QuizResultService;
+import com.guilherme.project.languageplatform.dto.QuizResultResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +20,37 @@ public class QuizResultController {
 
     // Get all quiz results
     @GetMapping
-    public List<QuizResult> getAllQuizResults() {
-        return quizResultService.getAllQuizResults();
+    public List<QuizResultResponseDTO> getAllQuizResults() {
+        return quizResultService.getAllQuizResults().stream().map(result -> {
+            QuizResultResponseDTO dto = new QuizResultResponseDTO();
+            dto.setResultID(result.getResultID());
+            dto.setStudentID(result.getStudent().getStudentID());
+            dto.setStudentName(result.getStudent().getFirstName() + " " + result.getStudent().getLastName());
+            dto.setSessionID(result.getSession().getSessionID());
+            dto.setDifficultyLevel(result.getDifficultyLevel().toString());
+            dto.setTotalQuestions(result.getTotalQuestions());
+            dto.setCorrectAnswers(result.getCorrectAnswers());
+            dto.setScorePercentage(result.getScorePercentage());
+            dto.setCompletionTime(result.getCompletionTime());
+            return dto;
+        }).toList();
     }
 
     // Get a quiz result by ID
     @GetMapping("/{id}")
-    public ResponseEntity<QuizResult> getQuizResultById(@PathVariable Long id) {
+    public ResponseEntity<QuizResultResponseDTO> getQuizResultById(@PathVariable Long id) {
         QuizResult result = quizResultService.getQuizResultById(id);
-        return ResponseEntity.ok(result);
+        QuizResultResponseDTO dto = new QuizResultResponseDTO();
+        dto.setResultID(result.getResultID());
+        dto.setStudentID(result.getStudent().getStudentID());
+        dto.setStudentName(result.getStudent().getFirstName() + " " + result.getStudent().getLastName());
+        dto.setSessionID(result.getSession().getSessionID());
+        dto.setDifficultyLevel(result.getDifficultyLevel().toString());
+        dto.setTotalQuestions(result.getTotalQuestions());
+        dto.setCorrectAnswers(result.getCorrectAnswers());
+        dto.setScorePercentage(result.getScorePercentage());
+        dto.setCompletionTime(result.getCompletionTime());
+        return ResponseEntity.ok(dto);
     }
 
     // Create a new quiz result
@@ -37,22 +60,10 @@ public class QuizResultController {
         return quizResultService.saveQuizResult(quizResult);
     }
 
-    /**
-     * Accepts a student's completed quiz submission, processes the answers,
-     * calculates the score, and stores the result.
-     * Expected input: {
-     *   "studentID": 1,
-     *   "sessionID": 2,
-     *   "difficultyLevel": "BEGINNER" or "MIXED",
-     *   "answers": [
-     *     { "flashCardID": 1, "selectedOption": "Your answer" },
-     *     ...
-     *   ]
-     * }
-     */
+    // Process quiz submission
     @PostMapping("/submit")
-    public ResponseEntity<QuizResult> submitQuiz(@RequestBody Map<String, Object> submissionData) {
-        QuizResult result = quizResultService.processQuizSubmission(submissionData);
+    public ResponseEntity<QuizResultResponseDTO> submitQuiz(@RequestBody Map<String, Object> submissionData) {
+        QuizResultResponseDTO result = quizResultService.processQuizSubmission(submissionData);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
