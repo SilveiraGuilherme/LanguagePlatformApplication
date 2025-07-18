@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const firstName = localStorage.getItem('firstName');
 
     const nameSpan = document.getElementById('userNamePlaceholder');
     if (nameSpan) {
-        nameSpan.textContent = user?.firstName || 'User';
+        nameSpan.textContent = firstName || 'User';
     }
 });

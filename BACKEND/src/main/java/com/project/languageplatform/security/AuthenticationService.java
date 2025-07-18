@@ -49,13 +49,11 @@ public class AuthenticationService {
 
         Map<String, Object> response = new HashMap<>();
         response.put("token", token);
-        response.put("user", Map.of(
-            "userID", user.getUserID(),
-            "firstName", user.getFirstName(),
-            "lastName", user.getLastName(),
-            "email", user.getEmail(),
-            "role", user.getRole().name()
-        ));
+        response.put("userID", user.getUserID());
+        response.put("firstName", user.getFirstName());
+        response.put("lastName", user.getLastName());
+        response.put("email", user.getEmail());
+        response.put("role", user.getRole().name());
 
         return response;
     }

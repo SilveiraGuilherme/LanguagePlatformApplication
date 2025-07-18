@@ -1,16 +1,27 @@
 package com.project.languageplatform.dto;
 
+import com.project.languageplatform.enums.Role;
+
 public class AuthResponse {
     // Variable to hold the authentication token
     private String token;
-    private UserResponseDTO user;
+    private Long userID;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private Role role;
 
     // Constructor to initialize the AuthResponse with a token
     public AuthResponse() {
     }
-    public AuthResponse(String token, UserResponseDTO user) {
+
+    public AuthResponse(String token, Long userID, String firstName, String lastName, String email, Role role) {
         this.token = token;
-        this.user = user;
+        this.userID = userID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.role = role;
     }
 
     // Getters and Setters
@@ -21,18 +32,56 @@ public class AuthResponse {
     public void setToken(String token) {
         this.token = token;
     }
-    public UserResponseDTO getUser() {
-        return user;
-    } 
-    public void setUser(UserResponseDTO user) {
-        this.user = user;
+
+    public Long getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override
     public String toString() {
         return "AuthResponse{" +
                 "token='" + token + '\'' +
-                ", user=" + user +
+                ", userID=" + userID +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
                 '}';
     }
 }

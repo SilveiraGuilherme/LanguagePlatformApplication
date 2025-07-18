@@ -22,15 +22,24 @@ async function handleLogin(event) {
         });
 
         if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
+            const { token, userID, firstName, lastName, email, role } = await response.json();
+
+            if (!token || !email) {
+                throw new Error('Incomplete login response from server.');
+            }
+
+            localStorage.setItem('token', token);
+            localStorage.setItem('userID', userID);
+            localStorage.setItem('firstName', firstName);
+            localStorage.setItem('lastName', lastName);
+            localStorage.setItem('email', email);
+            localStorage.setItem('role', role);
             window.location.href = 'dashboard.html';
         } else {
-            errorMessage.textContent = 'Invalid email or password.';
+            errorMessage.textContent = 'Invalid email or password. Please check your credentials.';
         }
     } catch (error) {
-        errorMessage.textContent = 'Server error. Please try again later.';
+        errorMessage.textContent = error.message || 'Server error. Please try again later.';
     }
 }
 
