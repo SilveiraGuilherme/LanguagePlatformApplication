@@ -71,7 +71,7 @@ public class PracticeSessionFlashCardService {
 
     // Get flashcards for student sorted by priority (DONT_KNOW > HARD > ...)
     public List<FlashCard> getPrioritizedFlashCardsForStudent(Long userID, int maxFlashcards) {
-        List<PracticeSessionFlashCard> rated = repository.findBySessionStudentStudentID(userID);
+        List<PracticeSessionFlashCard> rated = repository.findBySessionUserUserID(userID);
 
         // Sort by rating priority
         rated.sort((a, b) -> Integer.compare(getPriority(b.getRating()), getPriority(a.getRating())));
@@ -104,6 +104,7 @@ public class PracticeSessionFlashCardService {
             default -> 1;
         };
     }
+
     // Create a PracticeSessionFlashCard from session and flashcard IDs
     public PracticeSessionFlashCard createFromIds(Long sessionId, Long flashCardId, Rating rating) {
         PracticeSession session = practiceSessionService.getPracticeSessionById(sessionId)

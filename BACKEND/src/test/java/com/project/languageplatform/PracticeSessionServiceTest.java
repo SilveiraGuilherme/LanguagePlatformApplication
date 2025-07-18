@@ -54,11 +54,11 @@ public class PracticeSessionServiceTest {
     @Test
     void testGetOngoingSessionByStudentId() {
         PracticeSession session = new PracticeSession();
-        when(practiceSessionRepository.findByStudentStudentIDAndSessionStatus(1L, PracticeSession.SessionStatus.ONGOING)).thenReturn(Optional.of(session));
+        when(practiceSessionRepository.findByUserUserIDAndSessionStatus(1L, PracticeSession.SessionStatus.ONGOING)).thenReturn(Optional.of(session));
 
         Optional<PracticeSession> result = practiceSessionService.getOngoingSessionByStudentId(1L);
         assertEquals(session, result.orElse(null));
-        verify(practiceSessionRepository, times(1)).findByStudentStudentIDAndSessionStatus(1L, PracticeSession.SessionStatus.ONGOING);
+        verify(practiceSessionRepository, times(1)).findByUserUserIDAndSessionStatus(1L, PracticeSession.SessionStatus.ONGOING);
     }
 
     @Test

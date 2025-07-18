@@ -15,10 +15,11 @@ public class JwtUtil {
 
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; // 10 hours
 
-    // Generate a JWT token using user's email
-    public String generateToken(String email) {
+    // Generate a JWT token using user's email and role
+    public String generateToken(String email, String role) {
         return Jwts.builder()
                 .setSubject(email)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
@@ -28,6 +29,10 @@ public class JwtUtil {
     // Extract email (subject) from token
     public String extractUsername(String token) {
         return extractClaims(token).getSubject();
+    }
+
+    public String extractRole(String token) {
+        return extractClaims(token).get("role", String.class);
     }
 
     // Validate token: check if it matches the user's email and is not expired

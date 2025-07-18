@@ -33,20 +33,22 @@ public class AuthenticationService {
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         userRepository.save(user);
-        return jwtUtil.generateToken(user.getEmail());
+        return jwtUtil.generateToken(user.getEmail(), user.getRole().name());
     }
 
     public String login(LoginRequest request) {
         authManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
-        return jwtUtil.generateToken(request.getEmail());
+        User user = userRepository.findByEmail(request.getEmail())
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return jwtUtil.generateToken(user.getEmail(), user.getRole().name());
     }
 
     public String generateResetToken(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User with given email not found."));
-        return jwtUtil.generateToken(user.getEmail()); // This token can be reused for password reset
+        return jwtUtil.generateToken(user.getEmail(), user.getRole().name()); // This token can be reused for password reset
     }
 
     public void resetPassword(String email, String token, String newPassword) {

@@ -16,7 +16,7 @@ import com.project.languageplatform.security.AuthenticationService;
 
 @Validated
 @RestController
-@RequestMapping("/api/public/auth")
+@RequestMapping("/api/auth")
 public class AuthenticationController {
 
     private final AuthenticationService authService;

@@ -31,7 +31,7 @@ public class PracticeSessionService {
 
     // Get student's ongoing session
     public Optional<PracticeSession> getOngoingSessionByStudentId(Long userID) {
-        return practiceSessionRepository.findByStudentStudentIDAndSessionStatus(userID,
+        return practiceSessionRepository.findByUserUserIDAndSessionStatus(userID,
                 PracticeSession.SessionStatus.ONGOING);
     }
 

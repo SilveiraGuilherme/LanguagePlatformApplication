@@ -8,6 +8,6 @@ import com.project.languageplatform.entity.PracticeSession;
 
 public interface PracticeSessionRepository extends JpaRepository<PracticeSession, Long> {
 
-    Optional<PracticeSession> findByStudentStudentIDAndSessionStatus(Long studentId,
+    Optional<PracticeSession> findByUserUserIDAndSessionStatus(Long userID,
             PracticeSession.SessionStatus sessionStatus);
 }

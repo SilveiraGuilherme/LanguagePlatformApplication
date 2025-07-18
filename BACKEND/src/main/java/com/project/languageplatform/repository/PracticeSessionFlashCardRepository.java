@@ -12,5 +12,5 @@ public interface PracticeSessionFlashCardRepository
 
     List<PracticeSessionFlashCard> findBySessionSessionID(Long sessionID);
 
-    List<PracticeSessionFlashCard> findBySessionStudentStudentID(Long studentId);
+    List<PracticeSessionFlashCard> findBySessionUserUserID(Long userID);
 }
