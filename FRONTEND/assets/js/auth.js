@@ -24,6 +24,7 @@ async function handleLogin(event) {
         if (response.ok) {
             const data = await response.json();
             localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
             window.location.href = 'dashboard.html';
         } else {
             errorMessage.textContent = 'Invalid email or password.';

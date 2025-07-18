@@ -32,9 +32,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
-        String token = authService.login(request);
-        return ResponseEntity.ok(new AuthResponse(token));
+    public ResponseEntity<java.util.Map<String, Object>> login(@Valid @RequestBody LoginRequest request) {
+        return ResponseEntity.ok(authService.login(request));
     }
     @PostMapping("/request-reset")
     public ResponseEntity<String> requestResetToken(@RequestBody java.util.Map<String, String> payload) {

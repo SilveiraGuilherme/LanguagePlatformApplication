@@ -4,6 +4,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.project.languageplatform.dto.LoginRequest;
 import com.project.languageplatform.dto.RegisterRequest;
@@ -36,13 +38,26 @@ public class AuthenticationService {
         return jwtUtil.generateToken(user.getEmail(), user.getRole().name());
     }
 
-    public String login(LoginRequest request) {
+    public Map<String, Object> login(LoginRequest request) {
         authManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
         User user = userRepository.findByEmail(request.getEmail())
             .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        return jwtUtil.generateToken(user.getEmail(), user.getRole().name());
+
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("user", Map.of(
+            "userID", user.getUserID(),
+            "firstName", user.getFirstName(),
+            "lastName", user.getLastName(),
+            "email", user.getEmail(),
+            "role", user.getRole().name()
+        ));
+
+        return response;
     }
 
     public String generateResetToken(String email) {
