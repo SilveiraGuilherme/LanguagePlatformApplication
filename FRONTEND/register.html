@@ -5,261 +5,168 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-	<head>
-		<title>Editorial by HTML5 UP</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-	</head>
-	<body class="is-preload">
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<head>
+	<title>Register - Language Platform</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
 
-				<!-- Main -->
-					<div id="main">
-						<div class="inner">
+<body class="is-preload">
 
-							<!-- Header -->
-								<header id="header">
-									<a href="index.html" class="logo"><strong>Editorial</strong> by HTML5 UP</a>
-									<ul class="icons">
-										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-										<li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
-										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-										<li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
-									</ul>
-								</header>
+	<!-- Wrapper -->
+	<div id="wrapper">
 
-							<!-- Register Section -->
-							<section id="register">
-							  <div class="content">
-							    <header>
-							      <h1>Create an Account</h1>
-							      <p>Please fill in the details to register.</p>
-							    </header>
-							    <form id="registerForm">
-							      <div class="fields">
-							        <div class="field">
-							          <label for="firstName">First Name</label>
-							          <input type="text" name="firstName" id="firstName" required />
-							        </div>
-							        <div class="field">
-							          <label for="lastName">Last Name</label>
-							          <input type="text" name="lastName" id="lastName" required />
-							        </div>
-							        <div class="field">
-							          <label for="email">Email</label>
-							          <input type="email" name="email" id="email" required />
-							        </div>
-							        <div class="field">
-							          <label for="password">Password</label>
-							          <input type="password" name="password" id="password" required />
-							        </div>
-							      </div>
-							      <ul class="actions">
-							        <li><button type="submit" class="button big">Register</button></li>
-							      </ul>
-							    </form>
-							    <p id="registerMessage" style="margin-top: 1em;"></p>
-							  </div>
-							</section>
+		<!-- Main -->
+		<div id="main">
+			<div class="inner">
 
-							<script>
-							  document.getElementById("registerForm").addEventListener("submit", async function (e) {
-							    e.preventDefault();
+				<!-- Header -->
+				<header id="header">
+					<a href="index.html" class="logo"><strong>Language Platform</strong></a>
+				</header>
 
-							    const payload = {
-							      firstName: document.getElementById("firstName").value,
-							      lastName: document.getElementById("lastName").value,
-							      email: document.getElementById("email").value,
-							      password: document.getElementById("password").value
-							    };
-
-							    try {
-							      const response = await fetch("http://localhost:8080/api/auth/register", {
-							        method: "POST",
-							        headers: { "Content-Type": "application/json" },
-							        body: JSON.stringify(payload)
-							      });
-
-							      const result = await response.json();
-
-							      if (response.ok) {
-							        document.getElementById("registerMessage").textContent = "Registration successful! You can now log in.";
-							        document.getElementById("registerMessage").style.color = "green";
-							      } else {
-							        document.getElementById("registerMessage").textContent = result.message || "Registration failed.";
-							        document.getElementById("registerMessage").style.color = "red";
-							      }
-							    } catch (error) {
-							      document.getElementById("registerMessage").textContent = "Something went wrong. Please try again later.";
-							      document.getElementById("registerMessage").style.color = "red";
-							    }
-							  });
-							</script>
-
-							<!-- Section -->
-								<section>
-									<header class="major">
-										<h2>Ipsum sed dolor</h2>
-									</header>
-									<div class="posts">
-										<article>
-											<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-											<h3>Interdum aenean</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
-											<h3>Nulla amet dolore</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
-											<h3>Tempus ullamcorper</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
-											<h3>Sed etiam facilis</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
-											<h3>Feugiat lorem aenean</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic06.jpg" alt="" /></a>
-											<h3>Amet varius aliquam</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-									</div>
-								</section>
-
-						</div>
+				<!-- Register Section -->
+				<section id="register">
+					<div class="content">
+						<header>
+							<h1>Create an Account</h1>
+							<p>Please fill in the details to register.</p>
+						</header>
+						<form id="registerForm">
+							<div class="fields">
+								<div class="field">
+									<label for="firstName">First Name</label>
+									<input type="text" name="firstName" id="firstName" required />
+								</div>
+								<div class="field">
+									<label for="lastName">Last Name</label>
+									<input type="text" name="lastName" id="lastName" required />
+								</div>
+								<div class="field">
+									<label for="email">Email</label>
+									<input type="email" name="email" id="email" required />
+								</div>
+								<div class="field">
+									<label for="password">Password</label>
+									<input type="password" name="password" id="password" required />
+								</div>
+							</div>
+							<ul class="actions">
+								<li><button type="submit" class="button big">Register</button></li>
+							</ul>
+						</form>
+						<p id="registerMessage" style="margin-top: 1em;"></p>
 					</div>
-
-				<!-- Sidebar -->
-					<div id="sidebar">
-						<div class="inner">
-
-							<!-- Search -->
-								<section id="search" class="alt">
-									<form method="post" action="#">
-										<input type="text" name="query" id="query" placeholder="Search" />
-									</form>
-								</section>
-
-							<!-- Menu -->
-								<nav id="menu">
-									<header class="major">
-										<h2>Menu</h2>
-									</header>
-									<ul>
-										<li><a href="index.html">Homepage</a></li>
-										<li><a href="generic.html">Generic</a></li>
-										<li><a href="elements.html">Elements</a></li>
-										<li>
-											<span class="opener">Submenu</span>
-											<ul>
-												<li><a href="#">Lorem Dolor</a></li>
-												<li><a href="#">Ipsum Adipiscing</a></li>
-												<li><a href="#">Tempus Magna</a></li>
-												<li><a href="#">Feugiat Veroeros</a></li>
-											</ul>
-										</li>
-										<li><a href="#">Etiam Dolore</a></li>
-										<li><a href="#">Adipiscing</a></li>
-										<li>
-											<span class="opener">Another Submenu</span>
-											<ul>
-												<li><a href="#">Lorem Dolor</a></li>
-												<li><a href="#">Ipsum Adipiscing</a></li>
-												<li><a href="#">Tempus Magna</a></li>
-												<li><a href="#">Feugiat Veroeros</a></li>
-											</ul>
-										</li>
-										<li><a href="#">Maximus Erat</a></li>
-										<li><a href="#">Sapien Mauris</a></li>
-										<li><a href="#">Amet Lacinia</a></li>
-									</ul>
-								</nav>
-
-							<!-- Section -->
-								<section>
-									<header class="major">
-										<h2>Ante interdum</h2>
-									</header>
-									<div class="mini-posts">
-										<article>
-											<a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-									</div>
-									<ul class="actions">
-										<li><a href="#" class="button">More</a></li>
-									</ul>
-								</section>
-
-							<!-- Section -->
-								<section>
-									<header class="major">
-										<h2>Get in touch</h2>
-									</header>
-									<p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-									<ul class="contact">
-										<li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
-										<li class="icon solid fa-phone">(000) 000-0000</li>
-										<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
-										Nashville, TN 00000-0000</li>
-									</ul>
-								</section>
-
-							<!-- Footer -->
-								<footer id="footer">
-									<p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-								</footer>
-
-						</div>
-					</div>
+				</section>
 
 			</div>
+		</div>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="inner">
 
-	</body>
+				<!-- Search -->
+				<section id="search" class="alt">
+					<form method="post" action="#">
+						<input type="text" name="query" id="query" placeholder="Search" />
+					</form>
+				</section>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<header class="major">
+						<h2>Menu</h2>
+					</header>
+					<ul>
+						<li><a href="index.html">Homepage</a></li>
+						<li><a href="generic.html">Generic</a></li>
+						<li><a href="elements.html">Elements</a></li>
+						<li>
+							<span class="opener">Submenu</span>
+							<ul>
+								<li><a href="#">Lorem Dolor</a></li>
+								<li><a href="#">Ipsum Adipiscing</a></li>
+								<li><a href="#">Tempus Magna</a></li>
+								<li><a href="#">Feugiat Veroeros</a></li>
+							</ul>
+						</li>
+						<li><a href="#">Etiam Dolore</a></li>
+						<li><a href="#">Adipiscing</a></li>
+						<li>
+							<span class="opener">Another Submenu</span>
+							<ul>
+								<li><a href="#">Lorem Dolor</a></li>
+								<li><a href="#">Ipsum Adipiscing</a></li>
+								<li><a href="#">Tempus Magna</a></li>
+								<li><a href="#">Feugiat Veroeros</a></li>
+							</ul>
+						</li>
+						<li><a href="#">Maximus Erat</a></li>
+						<li><a href="#">Sapien Mauris</a></li>
+						<li><a href="#">Amet Lacinia</a></li>
+					</ul>
+				</nav>
+
+				<!-- Section -->
+				<section>
+					<header class="major">
+						<h2>Ante interdum</h2>
+					</header>
+					<div class="mini-posts">
+						<article>
+							<a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
+							<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+						</article>
+						<article>
+							<a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
+							<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+						</article>
+						<article>
+							<a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
+							<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+						</article>
+					</div>
+					<ul class="actions">
+						<li><a href="#" class="button">More</a></li>
+					</ul>
+				</section>
+
+				<!-- Section -->
+				<section>
+					<header class="major">
+						<h2>Get in touch</h2>
+					</header>
+					<p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem
+						ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat
+						tempus aliquam.</p>
+					<ul class="contact">
+						<li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
+						<li class="icon solid fa-phone">(000) 000-0000</li>
+						<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
+							Nashville, TN 00000-0000</li>
+					</ul>
+				</section>
+
+				<!-- Footer -->
+				<footer id="footer">
+					<p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a
+							href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5
+							UP</a>.</p>
+				</footer>
+			</div>
+		</div>
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script src="assets/js/auth.js"></script>
+</body>
+
 </html>
