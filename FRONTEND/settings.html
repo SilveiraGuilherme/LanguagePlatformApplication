@@ -50,6 +50,25 @@
                         <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
                     </div>
                     <hr />
+                    <h3>Edit Profile</h3>
+                    <form id="editProfileForm">
+                        <label for="firstName">First Name:</label>
+                        <input type="text" id="firstName" name="firstName" required />
+                        <label for="lastName">Last Name:</label>
+                        <input type="text" id="lastName" name="lastName" required />
+                        <button type="submit" class="button">Update Profile</button>
+                    </form>
+
+                    <hr />
+                    <h3>Change Password</h3>
+                    <form id="changePasswordForm">
+                        <label for="currentPassword">Current Password:</label>
+                        <input type="password" id="currentPassword" name="currentPassword" required />
+                        <label for="newPassword">New Password:</label>
+                        <input type="password" id="newPassword" name="newPassword" required />
+                        <button type="submit" class="button">Change Password</button>
+                    </form>
+                    <hr />
                     <button id="deleteAccountBtn" class="button">Delete Account</button>
                 </section>
 
@@ -177,6 +196,65 @@
                 });
             }
         });
+
+        // Handle profile update
+        document.getElementById("editProfileForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const updatedUser = {
+                firstName: document.getElementById("firstName").value,
+                lastName: document.getElementById("lastName").value,
+                email: user.email
+            };
+            fetch("http://localhost:8080/api/user/update", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+                body: JSON.stringify(updatedUser)
+            })
+                .then(res => {
+                    if (res.ok) {
+                        alert("Profile updated successfully.");
+                        localStorage.setItem("user", JSON.stringify(updatedUser));
+                        window.location.reload();
+                    } else {
+                        alert("Failed to update profile.");
+                    }
+                });
+        });
+
+        // Handle password change
+        document.getElementById("changePasswordForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const data = {
+                email: user.email,
+                currentPassword: document.getElementById("currentPassword").value,
+                newPassword: document.getElementById("newPassword").value
+            };
+            fetch("http://localhost:8080/api/auth/change-password", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+                body: JSON.stringify(data)
+            })
+                .then(res => {
+                    if (res.ok) {
+                        alert("Password changed successfully.");
+                        document.getElementById("changePasswordForm").reset();
+                    } else {
+                        alert("Failed to change password.");
+                    }
+                });
+        });
+
+        // Pre-fill form with current user info
+        if (user) {
+            document.getElementById("firstName").value = user.firstName;
+            document.getElementById("lastName").value = user.lastName;
+        }
     </script>
 
 </body>

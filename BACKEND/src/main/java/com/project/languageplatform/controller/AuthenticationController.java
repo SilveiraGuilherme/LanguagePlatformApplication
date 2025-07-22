@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.languageplatform.dto.AuthResponse;
+import com.project.languageplatform.dto.ChangePasswordRequest;
 import com.project.languageplatform.dto.LoginRequest;
 import com.project.languageplatform.dto.RegisterRequest;
 import com.project.languageplatform.security.AuthenticationService;
+
+import java.util.Map;
 
 @Validated
 @RestController
@@ -35,6 +38,7 @@ public class AuthenticationController {
     public ResponseEntity<java.util.Map<String, Object>> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
+
     @PostMapping("/request-reset")
     public ResponseEntity<String> requestResetToken(@RequestBody java.util.Map<String, String> payload) {
         String email = payload.get("email");
@@ -49,5 +53,11 @@ public class AuthenticationController {
         String newPassword = payload.get("newPassword");
         authService.resetPassword(email, token, newPassword);
         return ResponseEntity.ok("Password reset successfully.");
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
+        authService.changePassword(request.getEmail(), request.getCurrentPassword(), request.getNewPassword());
+        return ResponseEntity.ok("Password changed successfully.");
     }
 }
