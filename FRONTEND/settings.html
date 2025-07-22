@@ -162,9 +162,14 @@
     <script>
         // Redirect if not logged in or user object is invalid
         const token = localStorage.getItem("token");
-        const user = JSON.parse(localStorage.getItem("user"));
-
+        let user;
+        try {
+            user = JSON.parse(localStorage.getItem("user"));
+        } catch {
+            user = null;
+        }
         if (!token || !user || !user.email) {
+            localStorage.clear();
             window.location.href = 'login.html';
         }
 

@@ -34,6 +34,7 @@ async function handleLogin(event) {
             localStorage.setItem('lastName', lastName);
             localStorage.setItem('email', email);
             localStorage.setItem('role', role);
+            localStorage.setItem('user', JSON.stringify({ userID, firstName, lastName, email, role }));
             window.location.href = 'dashboard.html';
         } else {
             errorMessage.textContent = 'Invalid email or password. Please check your credentials.';
