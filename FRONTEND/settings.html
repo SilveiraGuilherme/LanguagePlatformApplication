@@ -160,24 +160,26 @@
     <script src="assets/js/main.js"></script>
     <script src="js/logout.js"></script>
     <script>
-        // Redirect if not logged in
-        if (!localStorage.getItem('token')) {
+        // Redirect if not logged in or user object is invalid
+        const token = localStorage.getItem("token");
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (!token || !user || !user.email) {
             window.location.href = 'login.html';
         }
 
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (user) {
-            document.getElementById("userFullName").textContent = user.firstName + " " + user.lastName;
-            document.getElementById("userEmail").textContent = user.email;
-        }
-        if (user?.role === "ADMIN") {
+        // Display user info
+        document.getElementById("userFullName").textContent = user.firstName + " " + user.lastName;
+        document.getElementById("userEmail").textContent = user.email;
+
+        // Hide delete button for admins
+        if (user.role === "ADMIN") {
             document.getElementById("deleteAccountBtn").style.display = "none";
         }
 
         // Handle account deletion
         document.getElementById("deleteAccountBtn").addEventListener("click", function () {
             if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
-                const token = localStorage.getItem("token");
                 fetch("http://localhost:8080/api/user/delete", {
                     method: "DELETE",
                     headers: {
@@ -209,7 +211,7 @@
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify(updatedUser)
             })
@@ -221,6 +223,8 @@
                     } else {
                         alert("Failed to update profile.");
                     }
+                }).catch(() => {
+                    alert("Network error. Please try again.");
                 });
         });
 
@@ -236,7 +240,7 @@
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify(data)
             })
@@ -247,14 +251,14 @@
                     } else {
                         alert("Failed to change password.");
                     }
+                }).catch(() => {
+                    alert("Network error. Please try again.");
                 });
         });
 
         // Pre-fill form with current user info
-        if (user) {
-            document.getElementById("firstName").value = user.firstName;
-            document.getElementById("lastName").value = user.lastName;
-        }
+        document.getElementById("firstName").value = user.firstName;
+        document.getElementById("lastName").value = user.lastName;
     </script>
 
 </body>
