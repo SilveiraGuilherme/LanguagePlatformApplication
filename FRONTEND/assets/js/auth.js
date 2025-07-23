@@ -68,14 +68,30 @@ async function handleRegister(event) {
             body: JSON.stringify(payload)
         });
 
-        const result = await response.json();
+        try {
+            const result = await response.json();
 
-        if (response.ok) {
-            message.textContent = "Registration successful! You can now log in.";
-            message.style.color = "green";
-        } else {
-            message.textContent = result.message || "Registration failed.";
-            message.style.color = "red";
+            if (response.ok) {
+                message.textContent = "Registration successful! You can now log in.";
+                message.style.color = "green";
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+            } else {
+                message.textContent = result.message || "Registration failed.";
+                message.style.color = "red";
+            }
+        } catch (err) {
+            if (response.ok) {
+                message.textContent = "Registration successful! You can now log in.";
+                message.style.color = "green";
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+            } else {
+                message.textContent = "Something went wrong. Please try again later.";
+                message.style.color = "red";
+            }
         }
     } catch (error) {
         message.textContent = "Something went wrong. Please try again later.";
