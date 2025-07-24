@@ -1,9 +1,4 @@
 <!DOCTYPE HTML>
-<!--
-	Editorial by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 
 <head>
@@ -24,7 +19,7 @@
 
                 <!-- Header -->
                 <header id="header">
-                    <a href="dashboard.html" class="logo"><strong>Language Platform</strong></a>
+                    <a href="settings.html" class="logo"><strong>LangFlow</strong> Settings</a>
                 </header>
 
                 <!-- Banner -->
@@ -103,48 +98,23 @@
                 <!-- Section -->
                 <section>
                     <header class="major">
-                        <h2>Ante interdum</h2>
-                    </header>
-                    <div class="mini-posts">
-                        <article>
-                            <a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
-                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                        </article>
-                        <article>
-                            <a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
-                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                        </article>
-                        <article>
-                            <a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
-                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                        </article>
-                    </div>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </section>
-
-                <!-- Section -->
-                <section>
-                    <header class="major">
                         <h2>Get in touch</h2>
                     </header>
-                    <p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem
-                        ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat
-                        tempus aliquam.</p>
+                    <p>Have a question or feedback? We’d love to hear from you. Reach out through the email below and
+                        we’ll get back to you as soon as possible.</p>
                     <ul class="contact">
-                        <li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
-                        <li class="icon solid fa-phone">(000) 000-0000</li>
-                        <li class="icon solid fa-home">1234 Somewhere Road #8254<br />
-                            Nashville, TN 00000-0000</li>
+                        <li class="icon solid fa-envelope"><a href="mailto:hello@langflow.com">hello@langflow.com</a>
+                        </li>
+                        <li class="icon solid fa-home">Based in Dublin, Ireland</li>
                     </ul>
                 </section>
 
                 <!-- Footer -->
                 <footer id="footer">
-                    <p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a
-                            href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5
-                            UP</a>.</p>
+                    <p class="copyright">
+                        &copy; LangFlow. All rights reserved. Design template by <a href="https://html5up.net">HTML5
+                            UP</a>.
+                    </p>
                 </footer>
 
             </div>
@@ -158,113 +128,8 @@
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
-    <script src="js/logout.js"></script>
-    <script>
-        // Redirect if not logged in or user object is invalid
-        const token = localStorage.getItem("token");
-        let user;
-        try {
-            user = JSON.parse(localStorage.getItem("user"));
-        } catch {
-            user = null;
-        }
-        if (!token || !user || !user.email) {
-            localStorage.clear();
-            window.location.href = 'login.html';
-        }
-
-        // Display user info
-        document.getElementById("userFullName").textContent = user.firstName + " " + user.lastName;
-        document.getElementById("userEmail").textContent = user.email;
-
-        // Hide delete button for admins
-        if (user.role === "ADMIN") {
-            document.getElementById("deleteAccountBtn").style.display = "none";
-        }
-
-        // Handle account deletion
-        document.getElementById("deleteAccountBtn").addEventListener("click", function () {
-            if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
-                fetch("http://localhost:8080/api/user/delete", {
-                    method: "DELETE",
-                    headers: {
-                        "Authorization": `Bearer ${token}`
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        alert("Account deleted successfully.");
-                        localStorage.clear();
-                        window.location.href = "login.html";
-                    } else {
-                        alert("Failed to delete account.");
-                    }
-                }).catch(() => {
-                    alert("Error occurred. Try again later.");
-                });
-            }
-        });
-
-        // Handle profile update
-        document.getElementById("editProfileForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-            const updatedUser = {
-                firstName: document.getElementById("firstName").value,
-                lastName: document.getElementById("lastName").value,
-                email: user.email
-            };
-            fetch("http://localhost:8080/api/user/update", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify(updatedUser)
-            })
-                .then(res => {
-                    if (res.ok) {
-                        alert("Profile updated successfully.");
-                        localStorage.setItem("user", JSON.stringify(updatedUser));
-                        window.location.reload();
-                    } else {
-                        alert("Failed to update profile.");
-                    }
-                }).catch(() => {
-                    alert("Network error. Please try again.");
-                });
-        });
-
-        // Handle password change
-        document.getElementById("changePasswordForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-            const data = {
-                email: user.email,
-                currentPassword: document.getElementById("currentPassword").value,
-                newPassword: document.getElementById("newPassword").value
-            };
-            fetch("http://localhost:8080/api/auth/change-password", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify(data)
-            })
-                .then(res => {
-                    if (res.ok) {
-                        alert("Password changed successfully.");
-                        document.getElementById("changePasswordForm").reset();
-                    } else {
-                        alert("Failed to change password.");
-                    }
-                }).catch(() => {
-                    alert("Network error. Please try again.");
-                });
-        });
-
-        // Pre-fill form with current user info
-        document.getElementById("firstName").value = user.firstName;
-        document.getElementById("lastName").value = user.lastName;
-    </script>
+    <script src="assets/js/auth-protect.js"></script>
+    <script src="assets/js/settings.js"></script>
 
 </body>
 

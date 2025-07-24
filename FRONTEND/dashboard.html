@@ -11,13 +11,6 @@
 
 <body class="is-preload">
 
-	<script>
-		// Route protection: Redirect to login if not authenticated
-		if (!localStorage.getItem("token")) {
-			window.location.href = "login.html";
-		}
-	</script>
-
 	<!-- Wrapper -->
 	<div id="wrapper">
 
@@ -27,7 +20,7 @@
 
 				<!-- Header -->
 				<header id="header">
-					<a href="dashboard.html" class="logo"><strong>Language Platform</strong> Dashboard</a>
+					<a href="dashboard.html" class="logo"><strong>LangFlow</strong> Dashboard</a>
 					<ul class="icons">
 						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
 						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
@@ -46,7 +39,7 @@
 							<p>Track your learning progress and continue practicing your French skills.</p>
 						</header>
 						<ul class="actions">
-							<li><a href="practice.html" class="button big">Start Practicing</a></li>
+							<li><a href="quiz.html" class="button big">Start Practicing</a></li>
 							<li><a href="quiz-history.html" class="button big">View Quiz History</a></li>
 						</ul>
 					</div>
@@ -77,7 +70,7 @@
 					<ul>
 						<li><a href="index.html">Home</a></li>
 						<li><a href="dashboard.html">Dashboard</a></li>
-						<li><a href="quiz.html">Quiz Practice</a></li>
+						<li><a href="quiz.html">Take a Quiz</a></li>
 						<li><a href="quiz-history.html">Quiz History</a></li>
 						<li><a href="settings.html">Settings</a></li>
 						<li><a href="#" onclick="logout()">Logout</a></li>
@@ -117,8 +110,8 @@
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
+	<script src="assets/js/auth-protect.js"></script>
 	<script src="assets/js/dashboard.js"></script>
-	<script src="assets/js/logout.js"></script>
 </body>
 
 </html>

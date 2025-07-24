@@ -11,16 +11,6 @@
 
 <body class="is-preload">
 
-	<!-- Add route protection -->
-	<script>
-		document.addEventListener("DOMContentLoaded", () => {
-			const token = localStorage.getItem("token");
-			if (!token) {
-				window.location.href = "login.html";
-			}
-		});
-	</script>
-
 	<!-- Wrapper -->
 	<div id="wrapper">
 
@@ -30,7 +20,7 @@
 
 				<!-- Header -->
 				<header id="header">
-					<a href="index.html" class="logo"><strong>Language Platform</strong></a>
+					<a href="quiz.html" class="logo"><strong>LangFlow</strong> Quiz</a>
 					<ul class="icons">
 						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
 						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
@@ -100,11 +90,11 @@
 					</header>
 					<ul>
 						<li><a href="index.html">Home</a></li>
-						<li><a href="login.html">Login</a></li>
-						<li><a href="register.html">Register</a></li>
 						<li><a href="dashboard.html">Dashboard</a></li>
 						<li><a href="quiz.html">Quiz Practice</a></li>
 						<li><a href="quiz-history.html">Quiz History</a></li>
+						<li><a href="settings.html">Settings</a></li>
+						<li><a href="#" onclick="logout()">Logout</a></li>
 					</ul>
 				</nav>
 
@@ -113,22 +103,20 @@
 					<header class="major">
 						<h2>Get in touch</h2>
 					</header>
-					<p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem
-						ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat
-						tempus aliquam.</p>
+					<p>Have a question or feedback? We’d love to hear from you. Reach out through the email below and
+						we’ll get back to you as soon as possible.</p>
 					<ul class="contact">
-						<li class="icon solid fa-envelope"><a href="#">support@languageplatform.com</a></li>
-						<li class="icon solid fa-phone">(000) 000-0000</li>
-						<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
-							Nashville, TN 00000-0000</li>
+						<li class="icon solid fa-envelope"><a href="mailto:hello@langflow.com">hello@langflow.com</a>
+						</li>
+						<li class="icon solid fa-home">Based in Dublin, Ireland</li>
 					</ul>
 				</section>
 
 				<!-- Footer -->
 				<footer id="footer">
 					<p class="copyright">
-						&copy; 2025 Language Platform. All rights reserved. Template design by <a
-							href="https://html5up.net">HTML5 UP</a>.
+						&copy; LangFlow. All rights reserved. Design template by <a href="https://html5up.net">HTML5
+							UP</a>.
 					</p>
 				</footer>
 
@@ -143,6 +131,7 @@
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
+	<script src="assets/js/auth-protect.js"></script>
 	<script src="assets/js/quiz.js"></script>
 
 </body>
