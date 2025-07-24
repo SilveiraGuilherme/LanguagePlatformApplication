@@ -30,11 +30,11 @@ document.addEventListener("DOMContentLoaded", () => {
         <h2>${flashcard.question}</h2>
         <ul>
           ${flashcard.options
-            .map(
-              (option, idx) =>
-                `<li><button class="option-btn" data-index="${idx}">${option}</button></li>`
-            )
-            .join("")}
+        .map(
+          (option, idx) =>
+            `<li><button class="option-btn" data-index="${idx}">${option}</button></li>`
+        )
+        .join("")}
         </ul>
       </div>
     `;
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   );
 
-  document.getElementById("nextFlashcardBtn").addEventListener("click", () => {
+  document.getElementById("next-button-section button").addEventListener("click", () => {
     currentFlashcardIndex++;
     if (currentFlashcardIndex < flashcards.length) {
       renderFlashcard();

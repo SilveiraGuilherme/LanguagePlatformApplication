@@ -9,4 +9,8 @@ import com.project.languageplatform.enums.DifficultyLevel;
 
 public interface FlashCardRepository extends JpaRepository<FlashCard, Long> {
     List<FlashCard> findByDifficultyLevel(DifficultyLevel difficultyLevel);
+
+    List<FlashCard> findTop10ByDifficultyLevel(DifficultyLevel difficultyLevel);
+
+    List<FlashCard> findTop10ByOrderByFlashCardIDAsc();
 }
