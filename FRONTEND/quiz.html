@@ -7,6 +7,8 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="stylesheet" href="assets/css/custom.css" />
+
 </head>
 
 <body class="is-preload">
@@ -51,21 +53,26 @@
 					<header class="major">
 						<h2>Flashcard Quiz</h2>
 					</header>
+					<div id="startSessionSection">
+						<button id="startSessionBtn" class="button primary">Start Quiz</button>
+					</div>
 					<div id="quiz-container">
-						<!-- Flashcard content will be dynamically inserted here -->
-						<div id="flashcardContainer" class="box">
-							<p id="flashcard-question">Loading...</p>
-							<ul id="answer-options"></ul>
-							<div id="rating-section" style="display: none;">
-								<p>How well did you know the answer?</p>
-								<button class="button small" onclick="rateFlashcard('EASY')">Easy</button>
-								<button class="button small" onclick="rateFlashcard('MEDIUM')">Medium</button>
-								<button class="button small" onclick="rateFlashcard('HARD')">Hard</button>
-								<button class="button small" onclick="rateFlashcard('DONT_KNOW')">Don't Know</button>
-							</div>
-							<div id="next-button-section" style="display: none;">
-								<button class="button primary" onclick="loadNextFlashcard()">Next</button>
-							</div>
+						<div id="flashcard-content"></div>
+
+						<div id="confirmSection" style="display: none; margin-top: 10px;">
+							<button id="confirm-button" class="button primary">Confirm</button>
+						</div>
+
+						<div id="ratingSection" style="display: none;">
+							<p>How well did you know the answer?</p>
+							<button class="button small rating-btn" data-rating="EASY">Easy</button>
+							<button class="button small rating-btn" data-rating="MEDIUM">Medium</button>
+							<button class="button small rating-btn" data-rating="HARD">Hard</button>
+							<button class="button small rating-btn" data-rating="DONT_KNOW">Don't Know</button>
+						</div>
+
+						<div id="nextButtonSection" style="display: none;">
+							<button class="button primary">Next</button>
 						</div>
 					</div>
 				</section>
@@ -130,7 +137,6 @@
 	<script src="assets/js/browser.min.js"></script>
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
-	<button class="button primary">Next</button>
 	<script src="assets/js/auth-protect.js"></script>
 	<script src="assets/js/quiz.js"></script>
 	<script src="assets/js/logout.js"></script>

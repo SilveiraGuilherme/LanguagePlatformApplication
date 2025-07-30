@@ -1,0 +1,17 @@
+/* custom.css */
+.selected-option {
+    background-color: #f0f0f0;
+    border: 2px solid #ff9900;
+    border-radius: 5px;
+}
+
+.selected-rating {
+    background-color: #f0f0f0;
+    border: 2px solid #ff9900;
+    border-radius: 5px;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
