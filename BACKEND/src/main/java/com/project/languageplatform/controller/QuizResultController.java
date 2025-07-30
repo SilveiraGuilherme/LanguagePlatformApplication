@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/quiz-results")
+@RequestMapping("/api/quiz-results")
 public class QuizResultController {
 
     @Autowired
@@ -55,11 +55,14 @@ public class QuizResultController {
         return ResponseEntity.ok(dto);
     }
 
-    // Create a new quiz result
+    // Create multiple quiz results
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public QuizResult createQuizResult(@RequestBody QuizResult quizResult) {
-        return quizResultService.saveQuizResult(quizResult);
+    public ResponseEntity<List<QuizResult>> createMultipleQuizResults(@RequestBody List<QuizResult> quizResults) {
+        List<QuizResult> savedResults = quizResults.stream()
+            .map(quizResultService::saveQuizResult)
+            .toList();
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedResults);
     }
 
     // Process quiz submission

@@ -195,20 +195,47 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function submitResults() {
+    const userId = parseInt(localStorage.getItem("userID"));
+    const sessionId = parseInt(localStorage.getItem("sessionId"));
+    const difficultyLevel = "BEGINNER"; // Adjust if dynamic
+    const completionTime = new Date().toISOString(); // Current time
+    const totalQuestions = userAnswers.length;
+    const correctAnswers = userAnswers.filter(ans => ans.isCorrect).length;
+    const scorePercentage = Math.round((correctAnswers / totalQuestions) * 100);
+
+    const resultsToSend = userAnswers.map(ans => ({
+      user: { userID: userId },
+      session: { sessionID: sessionId },
+      difficultyLevel: difficultyLevel,
+      totalQuestions: totalQuestions,
+      correctAnswers: correctAnswers,
+      scorePercentage: scorePercentage,
+      completionTime: completionTime,
+      flashcardId: ans.flashcardId,
+      selectedAnswer: ans.selectedAnswer,
+      isCorrect: ans.isCorrect,
+      rating: ans.rating
+    }));
+
     fetch("http://localhost:8080/api/quiz-results", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userAnswers),
+      body: JSON.stringify(resultsToSend),
     })
       .then((response) => {
         if (!response.ok) throw new Error("Failed to submit results.");
         window.location.href = "quiz-history.html";
       })
       .catch((error) => {
-        flashcardContainer.innerHTML = `<p>Error submitting results: ${error.message}</p>`;
+        const errorContainer = document.getElementById("flashcardContainer");
+        if (errorContainer) {
+          errorContainer.innerHTML = `<p>Error submitting results: ${error.message}</p>`;
+        } else {
+          alert("Error submitting results: " + error.message);
+        }
       });
   }
 });
