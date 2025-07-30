@@ -13,6 +13,31 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentFlashcardIndex = 0;
   let userAnswers = [];
 
+  function fetchFlashcards() {
+    const sessionId = localStorage.getItem("sessionId");
+    if (!sessionId) {
+      flashcardContainer.innerHTML = "<p>No session found. Please start a session first.</p>";
+      return;
+    }
+
+    fetch(`http://localhost:8080/api/practice-session-flashcards/session/${sessionId}/prioritized?limit=10`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to fetch flashcards.");
+        return response.json();
+      })
+      .then((data) => {
+        flashcards = data;
+        renderFlashcard();
+      })
+      .catch((error) => {
+        flashcardContainer.innerHTML = `<p>Error loading flashcards: ${error.message}</p>`;
+      });
+  }
+
   function renderFlashcard() {
     const flashcard = flashcards[currentFlashcardIndex];
     if (!flashcard) {
@@ -65,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   );
 
-  document.getElementById("next-button-section button").addEventListener("click", () => {
+  document.querySelector("#next-button-section button")?.addEventListener("click", () => {
     currentFlashcardIndex++;
     if (currentFlashcardIndex < flashcards.length) {
       renderFlashcard();
@@ -89,25 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch((error) => {
         flashcardContainer.innerHTML = `<p>Error submitting results: ${error.message}</p>`;
-      });
-  }
-
-  function fetchFlashcards() {
-    fetch("http://localhost:8080/api/flashcards", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Failed to fetch flashcards.");
-        return response.json();
-      })
-      .then((data) => {
-        flashcards = data;
-        renderFlashcard();
-      })
-      .catch((error) => {
-        flashcardContainer.innerHTML = `<p>Error loading flashcards: ${error.message}</p>`;
       });
   }
 
