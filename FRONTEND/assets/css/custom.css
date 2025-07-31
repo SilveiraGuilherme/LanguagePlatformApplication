@@ -15,3 +15,40 @@
     pointer-events: none;
     opacity: 0.6;
 }
+
+/* Quiz History */
+    .quiz-history-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .quiz-card {
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .quiz-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .quiz-card h3 {
+        margin-top: 0;
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .quiz-card p {
+        margin: 0.3rem 0;
+        font-size: 0.95rem;
+    }
+
+    .quiz-card .button.small {
+        margin-top: 0.8rem;
+        display: inline-block;
+    }

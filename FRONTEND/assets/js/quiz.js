@@ -102,10 +102,31 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener("click", handleOptionClick)
     );
 
-    // Reset button text to "Next"
     const nextBtn = document.querySelector("#nextButtonSection button");
     if (nextBtn) {
       nextBtn.innerText = "Next";
+      nextBtn.onclick = () => {
+        console.log("Next/Submit button clicked");
+
+        if (nextBtn.innerText.trim().toLowerCase() === "submit") {
+          submitResults();
+        } else {
+          // Ensure we move forward only if rating was given
+          if (!userAnswers[currentFlashcardIndex]?.rating) {
+            alert("Please rate this flashcard before continuing.");
+            return;
+          }
+
+          currentFlashcardIndex++;
+          renderFlashcard();
+
+          // If now at last flashcard, update button to 'Submit'
+          const isLast = currentFlashcardIndex === flashcards.length - 1;
+          if (isLast && nextBtn) {
+            nextBtn.innerText = "Submit";
+          }
+        }
+      };
     }
   }
 
@@ -180,27 +201,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (confirmSection) confirmSection.style.display = "none";
   });
 
-  document.querySelector("#nextButtonSection button")?.addEventListener("click", () => {
-    const nextBtn = document.querySelector("#nextButtonSection button");
-
-    // If current flashcard is last, change button to Submit
-    if (currentFlashcardIndex === flashcards.length - 1) {
-      nextBtn.innerText = "Submit";
-      return;
-    }
-
-    if (nextBtn.innerText === "Submit") {
-      console.log("✅ Submit button clicked. Submitting quiz results...");
-
-      submitResults();
-      return;
-    }
-
-    currentFlashcardIndex++;
-    renderFlashcard();
-  });
-
   function submitResults() {
+    console.log("Submit button clicked.");
     const userId = parseInt(localStorage.getItem("userID"));
     const sessionId = parseInt(localStorage.getItem("sessionId"));
     const difficultyLevel = "BEGINNER"; // Adjust if dynamic
@@ -238,8 +240,8 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((savedResults) => {
         if (Array.isArray(savedResults) && savedResults.length > 0) {
           const firstResultId = savedResults[0].resultID;
-          localStorage.setItem("lastResultId", firstResultId);
-          window.location.href = `results.html?resultId=${firstResultId}`;
+          localStorage.setItem("latestResultID", firstResultId);
+          window.location.href = `results.html`;
         } else {
           throw new Error("No result ID returned from server.");
         }

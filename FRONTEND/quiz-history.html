@@ -5,7 +5,9 @@
 	<title>Quiz History | Language Learning Platform</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<link rel="stylesheet" href="assets/css/main.css" />
+<link rel="stylesheet" href="assets/css/custom.css" />
 </head>
 
 <body class="is-preload">
@@ -40,7 +42,7 @@
 						</header>
 					</div>
 					<span class="image object">
-						<img src="images/quiz-history.jpg" alt="" />
+						<img src="images/pic02.jpg" alt="" />
 					</span>
 				</section>
 
@@ -49,8 +51,11 @@
 					<header class="major">
 						<h2>Quiz Performance Summary</h2>
 					</header>
-					<div id="quizHistoryList">
-						<!-- Quiz history records will be loaded here dynamically -->
+					<div id="quizHistoryList" class="quiz-history-wrapper">
+						<!-- Cards injected by JS -->
+						<div id="quizHistoryCardsContainer" class="quiz-history-cards grid">
+							<!-- Cards will appear here -->
+						</div>
 					</div>
 				</section>
 

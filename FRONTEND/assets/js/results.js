@@ -1,26 +1,38 @@
-
-
 // Fetch the latest quiz result by resultID stored in localStorage
 document.addEventListener('DOMContentLoaded', function () {
   const resultID = localStorage.getItem('latestResultID');
-  const resultContainer = document.getElementById('quizHistoryList');
+  const resultContainer = document.getElementById('resultSummary');
 
-  if (!resultID) {
-    resultContainer.innerHTML = '<p>No recent quiz result found.</p>';
+  if (!resultContainer) {
+    console.error('Container element with ID "resultSummary" not found.');
     return;
   }
 
-  fetch(`/api/quiz-results/${resultID}`)
+  if (!resultID) {
+    resultContainer.innerHTML = '<p class="text-warning">No recent quiz result found.</p>';
+    return;
+  }
+
+  const token = localStorage.getItem('token');
+  fetch(`http://localhost:8080/api/quiz-results/${resultID}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  })
     .then(response => {
       if (!response.ok) {
-        throw new Error('Failed to fetch quiz result');
+        if (response.status === 403) {
+          throw new Error('Access forbidden. Please make sure you are logged in with the correct permissions.');
+        } else {
+          throw new Error(`Failed to fetch quiz result (Status: ${response.status})`);
+        }
       }
       return response.json();
     })
     .then(result => {
       const {
-        resultID,
-        userID,
         difficultyLevel,
         totalQuestions,
         correctAnswers,
@@ -29,26 +41,14 @@ document.addEventListener('DOMContentLoaded', function () {
         studentName
       } = result;
 
-      resultContainer.innerHTML = `
-        <div class="quiz-result-card">
-          <h3>Result ID: ${resultID}</h3>
-          <p>Student: ${studentName}</p>
-          <p>Difficulty: ${difficultyLevel}</p>
-          <p>Score: ${scorePercentage}% (${correctAnswers}/${totalQuestions})</p>
-          <p>Completed at: ${new Date(completionTime).toLocaleString()}</p>
-        </div>
-      `;
-
-      const viewAllButton = document.createElement('button');
-      viewAllButton.textContent = 'View All Quiz Results';
-      viewAllButton.className = 'btn btn-primary';
-      viewAllButton.style.marginTop = '20px';
-      viewAllButton.onclick = () => {
-        window.location.href = 'quiz-history.html';
-      };
-      resultContainer.appendChild(viewAllButton);
+      document.getElementById('studentName').textContent = studentName;
+      document.getElementById('difficultyLevel').textContent = difficultyLevel;
+      document.getElementById('totalQuestions').textContent = totalQuestions;
+      document.getElementById('correctAnswers').textContent = correctAnswers;
+      document.getElementById('scorePercentage').textContent = scorePercentage;
+      document.getElementById('completionTime').textContent = new Date(completionTime).toLocaleString();
     })
     .catch(error => {
-      resultContainer.innerHTML = `<p>Error loading result: ${error.message}</p>`;
+      resultContainer.innerHTML = `<p class="text-danger">Error loading result: ${error.message}</p>`;
     });
 });

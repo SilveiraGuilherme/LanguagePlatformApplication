@@ -2,10 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
 
-    const historyContainer = document.getElementById("quizHistoryList");
-    historyContainer.innerHTML = "<p>Loading quiz history...</p>";
+    const historyContainer = document.getElementById("quizHistoryCardsContainer");
+    // historyContainer.innerHTML = "<p>Loading quiz history...</p>";
 
-    fetch(`http://localhost:8080/api/quiz-results/${user.userID}`, {
+    fetch(`http://localhost:8080/api/quiz-results/user/${user.userID}`, {
         headers: {
             "Authorization": `Bearer ${token}`
         }
@@ -24,15 +24,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            const listHtml = data.map(result => `
-                <div class="box">
-                    <h3>${new Date(result.dateSubmitted).toLocaleDateString()}</h3>
-                    <p>Correct: ${result.correctAnswers} / ${result.totalQuestions}</p>
-                    <p>Score: ${(result.correctAnswers / result.totalQuestions * 100).toFixed(1)}%</p>
+            const cardsHtml = data.map(result => `
+                <div class="box quiz-card">
+                    <h3>${new Date(result.completionTime).toLocaleString()}</h3>
+                    <p><strong>Name:</strong> ${result.studentName}</p>
+                    <p><strong>Difficulty:</strong> ${result.difficultyLevel}</p>
+                    <p><strong>Correct:</strong> ${result.correctAnswers} / ${result.totalQuestions}</p>
+                    <p><strong>Score:</strong> ${result.scorePercentage.toFixed(1)}%</p>
+                    <a href="results.html" class="button small primary">View Details</a>
                 </div>
             `).join("");
 
-            historyContainer.innerHTML = listHtml;
+            historyContainer.innerHTML = cardsHtml;
         })
         .catch(error => {
             console.error(error);

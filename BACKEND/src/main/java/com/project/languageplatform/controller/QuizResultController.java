@@ -40,6 +40,7 @@ public class QuizResultController {
 
     // Get a quiz result by ID
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<QuizResultResponseDTO> getQuizResultById(@PathVariable Long id) {
         QuizResult result = quizResultService.getQuizResultById(id);
         QuizResultResponseDTO dto = new QuizResultResponseDTO();
@@ -79,8 +80,8 @@ public class QuizResultController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<List<QuizResult>> createMultipleQuizResults(@RequestBody List<QuizResult> quizResults) {
         List<QuizResult> savedResults = quizResults.stream()
-            .map(quizResultService::saveQuizResult)
-            .toList();
+                .map(quizResultService::saveQuizResult)
+                .toList();
         return ResponseEntity.status(HttpStatus.CREATED).body(savedResults);
     }
 
