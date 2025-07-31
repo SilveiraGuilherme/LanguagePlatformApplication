@@ -55,6 +55,25 @@ public class QuizResultController {
         return ResponseEntity.ok(dto);
     }
 
+    // Get all quiz results for a given user (for profile history or user dashboard)
+    // Get all quiz results by a specific user ID
+    @GetMapping("/user/{userID}")
+    public List<QuizResultResponseDTO> getQuizResultsByUserID(@PathVariable Long userID) {
+        return quizResultService.getQuizResultsByUserID(userID).stream().map(result -> {
+            QuizResultResponseDTO dto = new QuizResultResponseDTO();
+            dto.setResultID(result.getResultID());
+            dto.setStudentID(result.getUser().getUserID());
+            dto.setStudentName(result.getUser().getFirstName() + " " + result.getUser().getLastName());
+            dto.setSessionID(result.getSession().getSessionID());
+            dto.setDifficultyLevel(result.getDifficultyLevel().toString());
+            dto.setTotalQuestions(result.getTotalQuestions());
+            dto.setCorrectAnswers(result.getCorrectAnswers());
+            dto.setScorePercentage(result.getScorePercentage());
+            dto.setCompletionTime(result.getCompletionTime());
+            return dto;
+        }).toList();
+    }
+
     // Create multiple quiz results
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

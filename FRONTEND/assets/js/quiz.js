@@ -68,23 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }).catch((error) => {
         flashcardContainer.innerHTML = `<p>Error loading flashcards: ${error.message}</p>`;
       });;
-
-    // fetch(`http://localhost:8080/api/practice-session-flashcards/session/${sessionId}/prioritized?limit=10`, {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // })
-    //   .then((response) => {
-    //     if (!response.ok) throw new Error("Failed to fetch flashcards.");
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     flashcards = data;
-    //     renderFlashcard();
-    //   })
-    //   .catch((error) => {
-    //     flashcardContainer.innerHTML = `<p>Error loading flashcards: ${error.message}</p>`;
-    //   });
   }
 
   function renderFlashcard() {
@@ -118,6 +101,12 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".option-btn").forEach((btn) =>
       btn.addEventListener("click", handleOptionClick)
     );
+
+    // Reset button text to "Next"
+    const nextBtn = document.querySelector("#nextButtonSection button");
+    if (nextBtn) {
+      nextBtn.innerText = "Next";
+    }
   }
 
   function handleOptionClick(event) {
@@ -158,7 +147,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       console.log("Saved rating:", rating, "for flashcard", userAnswers[currentFlashcardIndex]);
 
-      if (nextButtonSection) nextButtonSection.style.display = "block";
+      if (nextButtonSection) {
+        nextButtonSection.style.display = "block";
+        const nextBtn = nextButtonSection.querySelector("button");
+        if (nextBtn && currentFlashcardIndex === flashcards.length - 1) {
+          nextBtn.innerText = "Submit";
+        }
+      }
     })
   );
 
@@ -186,12 +181,23 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.querySelector("#nextButtonSection button")?.addEventListener("click", () => {
-    currentFlashcardIndex++;
-    if (currentFlashcardIndex < flashcards.length) {
-      renderFlashcard();
-    } else {
-      submitResults();
+    const nextBtn = document.querySelector("#nextButtonSection button");
+
+    // If current flashcard is last, change button to Submit
+    if (currentFlashcardIndex === flashcards.length - 1) {
+      nextBtn.innerText = "Submit";
+      return;
     }
+
+    if (nextBtn.innerText === "Submit") {
+      console.log("✅ Submit button clicked. Submitting quiz results...");
+
+      submitResults();
+      return;
+    }
+
+    currentFlashcardIndex++;
+    renderFlashcard();
   });
 
   function submitResults() {
@@ -227,7 +233,16 @@ document.addEventListener("DOMContentLoaded", () => {
     })
       .then((response) => {
         if (!response.ok) throw new Error("Failed to submit results.");
-        window.location.href = "quiz-history.html";
+        return response.json();
+      })
+      .then((savedResults) => {
+        if (Array.isArray(savedResults) && savedResults.length > 0) {
+          const firstResultId = savedResults[0].resultID;
+          localStorage.setItem("lastResultId", firstResultId);
+          window.location.href = `results.html?resultId=${firstResultId}`;
+        } else {
+          throw new Error("No result ID returned from server.");
+        }
       })
       .catch((error) => {
         const errorContainer = document.getElementById("flashcardContainer");

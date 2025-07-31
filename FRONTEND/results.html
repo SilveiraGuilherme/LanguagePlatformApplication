@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Result Summary</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/custom.css" />
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css" />
+    </noscript>
+</head>
+
+<body class="is-preload">
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Main -->
+        <div id="main">
+            <div class="inner">
+
+                <!-- Header -->
+                <header id="header">
+                    <a href="quiz.html" class="logo"><strong>LangFlow</strong> Quiz</a>
+                    <ul class="icons">
+                        <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                        <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                        <li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
+                        <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                        <li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
+                    </ul>
+                </header>
+
+                <!-- Result Summary Section -->
+                <section id="main" class="wrapper">
+                    <div class="inner">
+                        <h1 class="major">Result Summary</h1>
+                        <div id="result-summary" class="box">
+                            <p><strong>Student Name:</strong> <span id="studentName"></span></p>
+                            <p><strong>Total Questions:</strong> <span id="totalQuestions"></span></p>
+                            <p><strong>Correct Answers:</strong> <span id="correctAnswers"></span></p>
+                            <p><strong>Score Percentage:</strong> <span id="scorePercentage"></span>%</p>
+                            <p><strong>Completion Time:</strong> <span id="completionTime"></span></p>
+                        </div>
+                        <ul class="actions">
+                            <li><a href="quiz-history.html" class="button primary">View Quiz History</a></li>
+                            <li><a href="index.html" class="button">Go to Home</a></li>
+                        </ul>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <div class="inner">
+
+                <!-- Search -->
+                <section id="search" class="alt">
+                    <form method="post" action="#">
+                        <input type="text" name="query" id="query" placeholder="Search" />
+                    </form>
+                </section>
+
+                <!-- Menu -->
+                <nav id="menu">
+                    <header class="major">
+                        <h2>Menu</h2>
+                    </header>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="quiz.html">Quiz Practice</a></li>
+                        <li><a href="quiz-history.html">Quiz History</a></li>
+                        <li><a href="settings.html">Settings</a></li>
+                        <li><a href="#" onclick="logout()">Logout</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Contact -->
+                <section>
+                    <header class="major">
+                        <h2>Get in touch</h2>
+                    </header>
+                    <p>Have a question or feedback? We’d love to hear from you. Reach out through the email below and we’ll get back to you as soon as possible.</p>
+                    <ul class="contact">
+                        <li class="icon solid fa-envelope"><a href="mailto:hello@langflow.com">hello@langflow.com</a></li>
+                        <li class="icon solid fa-home">Based in Dublin, Ireland</li>
+                    </ul>
+                </section>
+
+                <!-- Footer -->
+                <footer id="footer">
+                    <p class="copyright">
+                        &copy; LangFlow. All rights reserved. Design template by <a href="https://html5up.net">HTML5 UP</a>.
+                    </p>
+                </footer>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/logout.js"></script>
+    <script src="results.js"></script>
+</body>
+
+</html>

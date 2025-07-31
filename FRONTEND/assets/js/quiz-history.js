@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const historyContainer = document.getElementById("quizHistoryList");
     historyContainer.innerHTML = "<p>Loading quiz history...</p>";
 
-    fetch(`http://localhost:8080/api/quiz-results/user/${user.id}`, {
+    fetch(`http://localhost:8080/api/quiz-results/${user.userID}`, {
         headers: {
             "Authorization": `Bearer ${token}`
         }
@@ -17,7 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return response.json();
         })
         .then(data => {
-            data.reverse(); // Show the most recent quizzes first
+            data.reverse(); // Show the most recent results first
+            console.log("Quiz History Data:", data);
             if (data.length === 0) {
                 historyContainer.innerHTML = "<p>No quiz results found.</p>";
                 return;
