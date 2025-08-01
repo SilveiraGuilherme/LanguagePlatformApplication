@@ -1,4 +1,5 @@
 package com.project.languageplatform.service;
+
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,7 +118,8 @@ public class QuizResultService {
             String difficultyStr = difficultyObj.toString().trim().toUpperCase();
             if (!difficultyStr.equals("MIXED")) {
                 try {
-                    result.setDifficultyLevel(Enum.valueOf(com.project.languageplatform.enums.DifficultyLevel.class, difficultyStr));
+                    result.setDifficultyLevel(
+                            Enum.valueOf(com.project.languageplatform.enums.DifficultyLevel.class, difficultyStr));
                 } catch (IllegalArgumentException e) {
                     throw new RuntimeException("Invalid difficulty level: " + difficultyStr);
                 }
@@ -140,6 +142,27 @@ public class QuizResultService {
         response.setCompletionTime(result.getCompletionTime());
 
         return response;
+    }
+
+    public List<QuizResultResponseDTO> getQuizResultsByUserId(Long userID) {
+        User user = userRepository.findById(userID)
+                .orElseThrow(() -> new RuntimeException("User not found: " + userID));
+
+        List<QuizResult> results = quizResultRepository.findByUser(user);
+
+        return results.stream().map(result -> {
+            QuizResultResponseDTO dto = new QuizResultResponseDTO();
+            dto.setResultID(result.getResultID());
+            dto.setStudentID(user.getUserID());
+            dto.setStudentName(user.getFirstName() + " " + user.getLastName());
+            dto.setSessionID(result.getSession().getSessionID());
+            dto.setDifficultyLevel(result.getDifficultyLevel().toString());
+            dto.setTotalQuestions(result.getTotalQuestions());
+            dto.setCorrectAnswers(result.getCorrectAnswers());
+            dto.setScorePercentage(result.getScorePercentage());
+            dto.setCompletionTime(result.getCompletionTime());
+            return dto;
+        }).toList();
     }
 
     // Retrieve quiz result by ID
