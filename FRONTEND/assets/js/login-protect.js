@@ -1,11 +1,11 @@
-import { getOngoingSession } from './api-config.js';
+import { getStudentById } from './api-config.js';
 
 function parseJwtPayload(token) {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const binary = atob(base64);
-  const bytes = Uint8Array.from([...binary].map(c => c.charCodeAt(0)));
-  return JSON.parse(new TextDecoder().decode(bytes));
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const binary = atob(base64);
+    const bytes = Uint8Array.from([...binary].map(c => c.charCodeAt(0)));
+    return JSON.parse(new TextDecoder().decode(bytes));
 }
 
 // Route protection with JWT expiration and presence check
@@ -33,11 +33,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (payload.exp && payload.exp < currentTime) {
             throw new Error("Token expired");
         }
+        await getStudentById(user.userID);
 
-        // Optionally verify token with backend by pinging a lightweight protected endpoint
-        await getOngoingSession(user.userID);
     } catch (error) {
         console.error("Authentication check failed:", error);
-        window.location.href = "login.html";
+        //window.location.href = "login.html";
     }
 });

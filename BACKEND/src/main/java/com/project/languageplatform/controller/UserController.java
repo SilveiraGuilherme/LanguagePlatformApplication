@@ -27,7 +27,7 @@ public class UserController {
 
     // Get student by ID
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
     public ResponseEntity<User> getStudentById(@PathVariable Long id) {
         return userService.getStudentById(id)
                 .map(ResponseEntity::ok)

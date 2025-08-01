@@ -244,7 +244,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    if (ratingSection) ratingSection.style.display = 'block';
+    if (ratingSection) {
+      ratingSection.style.display = 'block';
+      attachRatingHandlers(); // ensure rating buttons are wired
+    }
     if (confirmSection) confirmSection.style.display = 'none';
   });
 });
