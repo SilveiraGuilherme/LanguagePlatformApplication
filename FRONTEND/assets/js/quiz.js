@@ -1,5 +1,6 @@
 import {
   startPracticeSession,
+  getPrioritizedFlashCards,
   getAllFlashCards,
   submitQuiz,
   createMultipleQuizResults
@@ -53,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const data = await getAllFlashCards();
+      const data = await getPrioritizedFlashCards(sessionId, 10);;
       flashcards = Array.isArray(data) ? data : [];
       renderFlashcard();
     } catch (error) {

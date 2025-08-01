@@ -78,50 +78,50 @@ async function del(endpoint) {
 /* ------------------ Domain APIs ------------------ */
 
 // Users / Students
-export function getStudentById(id) { return get(`/api/students/${id}`); }
-export function updateStudent(id, payload) { return put(`/api/students/${id}`, payload); }
-export function deleteStudent(id) { return del(`/api/students/${id}`); }
-export function getAllStudents() { return get(`/api/students`); }
-export function createStudent(payload) { return post(`/api/students`, payload); }
+// export function getStudentById(id) { return get(`/api/students/${id}`); }
+// export function updateStudent(id, payload) { return put(`/api/students/${id}`, payload); }
+// export function deleteStudent(id) { return del(`/api/students/${id}`); }
+// export function getAllStudents() { return get(`/api/students`); }
+// export function createStudent(payload) { return post(`/api/students`, payload); }
 
 // Quiz Results
 export function fetchQuizResultById(resultID) { return get(`/api/quiz-results/${resultID}`); }
-export function updateQuizResult(resultID, payload) { return put(`/api/quiz-results/${resultID}`, payload); }
-export function deleteQuizResult(resultID) { return del(`/api/quiz-results/${resultID}`); }
-export function getAllQuizResults() { return get(`/api/quiz-results`); }
-export function createMultipleQuizResults(payloadArray) { return post(`/api/quiz-results`, payloadArray); }
 export function submitQuiz(payload) { return post(`/api/quiz-results/submit`, payload); }
 export function getQuizResultsByUserID(userID) { return get(`/api/quiz-results/user/${userID}`); }
+// export function updateQuizResult(resultID, payload) { return put(`/api/quiz-results/${resultID}`, payload); }
+// export function deleteQuizResult(resultID) { return del(`/api/quiz-results/${resultID}`); }
+// export function getAllQuizResults() { return get(`/api/quiz-results`); }
+// export function createMultipleQuizResults(payloadArray) { return post(`/api/quiz-results`, payloadArray); }
 
 // Practice Sessions
-export function getSessionById(id) { return get(`/api/practice-sessions/${id}`); }
-export function updateSession(id, payload) { return put(`/api/practice-sessions/${id}`, payload); }
-export function deleteSession(id) { return del(`/api/practice-sessions/${id}`); }
 export function startPracticeSession(userID) { return post(`/api/practice-sessions/start`, { userID: parseInt(userID, 10) }); }
-export function getAllSessions() { return get(`/api/practice-sessions`); }
 export function getOngoingSession(userID) { return get(`/api/practice-sessions/ongoing/${userID}`); }
+// export function getSessionById(id) { return get(`/api/practice-sessions/${id}`); }
+// export function updateSession(id, payload) { return put(`/api/practice-sessions/${id}`, payload); }
+// export function deleteSession(id) { return del(`/api/practice-sessions/${id}`); }
+// export function getAllSessions() { return get(`/api/practice-sessions`); }
 
 // Practice Session Flashcards
-export function getAllPracticeSessionFlashcards() { return get(`/api/practice-session-flashcards`); }
-export function createPracticeSessionFlashcard(payload) { return post(`/api/practice-session-flashcards`, payload); }
-export function createSimplifiedPracticeSessionFlashcard(payload) { return post(`/api/practice-session-flashcards/create`, payload); }
 export function updateRating(sessionId, flashCardId, ratingObj) { return put(`/api/practice-session-flashcards/${sessionId}/${flashCardId}/rating`, ratingObj); }
-export function getPracticeSessionFlashcardById(sessionId, flashCardId) { return get(`/api/practice-session-flashcards/${sessionId}/${flashCardId}`); }
-export function deletePracticeSessionFlashcard(sessionId, flashCardId) { return del(`/api/practice-session-flashcards/${sessionId}/${flashCardId}`); }
-export function getBySessionId(sessionId) { return get(`/api/practice-session-flashcards/session/${sessionId}`); }
 export function getPrioritizedFlashCards(sessionId, limit = 10) { return get(`/api/practice-session-flashcards/session/${sessionId}/prioritized`, { limit }); }
+// export function getAllPracticeSessionFlashcards() { return get(`/api/practice-session-flashcards`); }
+// export function createPracticeSessionFlashcard(payload) { return post(`/api/practice-session-flashcards`, payload); }
+// export function createSimplifiedPracticeSessionFlashcard(payload) { return post(`/api/practice-session-flashcards/create`, payload); }
+// export function getPracticeSessionFlashcardById(sessionId, flashCardId) { return get(`/api/practice-session-flashcards/${sessionId}/${flashCardId}`); }
+// export function deletePracticeSessionFlashcard(sessionId, flashCardId) { return del(`/api/practice-session-flashcards/${sessionId}/${flashCardId}`); }
+// export function getBySessionId(sessionId) { return get(`/api/practice-session-flashcards/session/${sessionId}`); }
 
 // Flashcards
-export function getFlashCardById(id) { return get(`/api/flashcards/${id}`); }
-export function updateFlashCard(id, payload) { return put(`/api/flashcards/${id}`, payload); }
-export function deleteFlashCard(id) { return del(`/api/flashcards/${id}`); }
 export function getAllFlashCards() { return get(`/api/flashcards`); }
 export function createFlashCard(payload) { return post(`/api/flashcards`, payload); }
-export function getFlashCardsByDifficulty(difficultyLevel) { return get(`/api/flashcards/filter`, { difficultyLevel }); }
+// export function getFlashCardById(id) { return get(`/api/flashcards/${id}`); }
+// export function updateFlashCard(id, payload) { return put(`/api/flashcards/${id}`, payload); }
+// export function deleteFlashCard(id) { return del(`/api/flashcards/${id}`); }
+// export function getFlashCardsByDifficulty(difficultyLevel) { return get(`/api/flashcards/filter`, { difficultyLevel }); }
 
 // Authentication
-export function resetPassword(payload) { return post(`/api/auth/reset-password`, payload); }
-export function requestResetToken(payload) { return post(`/api/auth/request-reset`, payload); }
 export function register(payload) { return post(`/api/auth/register`, payload); }
 export function login(payload) { return post(`/api/auth/login`, payload); }
-export function changePassword(payload) { return post(`/api/auth/change-password`, payload); }
+// export function resetPassword(payload) { return post(`/api/auth/reset-password`, payload); }
+// export function requestResetToken(payload) { return post(`/api/auth/request-reset`, payload); }
+// export function changePassword(payload) { return post(`/api/auth/change-password`, payload); }

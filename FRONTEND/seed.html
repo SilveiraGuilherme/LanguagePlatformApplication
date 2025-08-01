@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+  <head><meta charset="utf-8" /><title>Seed Flashcards</title></head>
+  <body>
+    <script type="module">
+      import { createFlashCard } from './assets/js/api-config.js'; // adjust relative if necessary
+
+      const flashcards = [
+        {
+          sentence: "Où est la bibliothèque ?",
+          difficultyLevel: "BEGINNER",
+          optionA: "Where is the library?",
+          optionB: "What time is it?",
+          optionC: "How do you say it?",
+          optionD: "Who is he?",
+          correctAnswer: "Where is the library?"
+        },
+        {
+          sentence: "Je voudrais un café, s’il vous plaît.",
+          difficultyLevel: "BEGINNER",
+          optionA: "I want water.",
+          optionB: "Please give me a coffee.",
+          optionC: "I like tea.",
+          optionD: "Where is the train?",
+          correctAnswer: "Please give me a coffee."
+        },
+        {
+          sentence: "Quel est ton plat préféré ?",
+          difficultyLevel: "INTERMEDIATE",
+          optionA: "What’s your favorite color?",
+          optionB: "Where do you live?",
+          optionC: "What is your favorite dish?",
+          optionD: "How old are you?",
+          correctAnswer: "What is your favorite dish?"
+        },
+        {
+          sentence: "Il fait beau aujourd’hui.",
+          difficultyLevel: "BEGINNER",
+          optionA: "It’s raining today.",
+          optionB: "It’s cold today.",
+          optionC: "The weather is nice today.",
+          optionD: "I am tired today.",
+          correctAnswer: "The weather is nice today."
+        },
+        {
+          sentence: "Est-ce que tu as déjà visité Paris ?",
+          difficultyLevel: "INTERMEDIATE",
+          optionA: "Have you ever visited Paris?",
+          optionB: "Do you live in Paris?",
+          optionC: "Will you go to Paris?",
+          optionD: "Did you leave Paris?",
+          correctAnswer: "Have you ever visited Paris?"
+        },
+        {
+          sentence: "Je ne comprends pas ce que tu dis.",
+          difficultyLevel: "INTERMEDIATE",
+          optionA: "I agree with you.",
+          optionB: "I don't know what you want.",
+          optionC: "I don’t understand what you’re saying.",
+          optionD: "I like what you said.",
+          correctAnswer: "I don’t understand what you’re saying."
+        },
+        {
+          sentence: "Peux-tu me recommander un restaurant ?",
+          difficultyLevel: "ADVANCED",
+          optionA: "Can you recommend a book?",
+          optionB: "Can you tell me the time?",
+          optionC: "Can you recommend a restaurant?",
+          optionD: "Can you help me tomorrow?",
+          correctAnswer: "Can you recommend a restaurant?"
+        },
+        {
+          sentence: "Je suis en train d’apprendre le français.",
+          difficultyLevel: "INTERMEDIATE",
+          optionA: "I learned French yesterday.",
+          optionB: "I will study French next week.",
+          optionC: "I am learning French right now.",
+          optionD: "I forgot my French.",
+          correctAnswer: "I am learning French right now."
+        },
+        {
+          sentence: "À quelle heure part le train ?",
+          difficultyLevel: "BEGINNER",
+          optionA: "How much is the ticket?",
+          optionB: "When does the plane arrive?",
+          optionC: "What time does the train leave?",
+          optionD: "Where is the station?",
+          correctAnswer: "What time does the train leave?"
+        },
+        {
+          sentence: "J’ai besoin d’aide avec mes devoirs.",
+          difficultyLevel: "ADVANCED",
+          optionA: "I want to go home.",
+          optionB: "I need help with my homework.",
+          optionC: "I finished my homework.",
+          optionD: "I lost my homework.",
+          correctAnswer: "I need help with my homework."
+        }
+      ];
+
+      (async () => {
+        for (const card of flashcards) {
+          try {
+            const created = await createFlashCard(card);
+            console.log('Created', created);
+          } catch (err) {
+            console.error('Error creating card', card, err);
+          }
+        }
+        console.log('Seeding done');
+      })();
+    </script>
+  </body>
+</html>
