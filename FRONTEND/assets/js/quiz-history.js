@@ -1,44 +1,69 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user"));
+import { getQuizResultsByUserID } from './api-config.js';
+
+function createQuizCard(result) {
+    const score = typeof result.scorePercentage === 'number' ? result.scorePercentage.toFixed(1) : 'N/A';
+    return `
+    <div class="box quiz-card">
+        <h3>${new Date(result.completionTime).toLocaleString()}</h3>
+        <p><strong>Name:</strong> ${result.studentName}</p>
+        <p><strong>Difficulty:</strong> ${result.difficultyLevel}</p>
+        <p><strong>Correct:</strong> ${result.correctAnswers} / ${result.totalQuestions}</p>
+        <p><strong>Score:</strong> ${score}%</p>
+        <a href="results.html" class="button small primary" data-resultid="${result.resultID}">View Details</a>
+    </div>
+  `;
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const userRaw = localStorage.getItem("user");
+    if (!userRaw) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    let user;
+    try {
+        user = JSON.parse(userRaw);
+    } catch {
+        window.location.href = "login.html";
+        return;
+    }
+
+    if (!user?.userID) {
+        window.location.href = "login.html";
+        return;
+    }
 
     const historyContainer = document.getElementById("quizHistoryCardsContainer");
-    // historyContainer.innerHTML = "<p>Loading quiz history...</p>";
+    if (!historyContainer) {
+        console.error("Quiz history container not found.");
+        return;
+    }
 
-    fetch(`http://localhost:8080/api/quiz-results/user/${user.userID}`, {
-        headers: {
-            "Authorization": `Bearer ${token}`
+    try {
+        const data = await getQuizResultsByUserID(user.userID);
+
+        if (!Array.isArray(data) || data.length === 0) {
+            historyContainer.innerHTML = "<p>No quiz results found.</p>";
+            return;
         }
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to fetch quiz history");
-            }
-            return response.json();
-        })
-        .then(data => {
-            data.reverse(); // Show the most recent results first
-            console.log("Quiz History Data:", data);
-            if (data.length === 0) {
-                historyContainer.innerHTML = "<p>No quiz results found.</p>";
-                return;
-            }
 
-            const cardsHtml = data.map(result => `
-                <div class="box quiz-card">
-                    <h3>${new Date(result.completionTime).toLocaleString()}</h3>
-                    <p><strong>Name:</strong> ${result.studentName}</p>
-                    <p><strong>Difficulty:</strong> ${result.difficultyLevel}</p>
-                    <p><strong>Correct:</strong> ${result.correctAnswers} / ${result.totalQuestions}</p>
-                    <p><strong>Score:</strong> ${result.scorePercentage.toFixed(1)}%</p>
-                    <a href="results.html" class="button small primary">View Details</a>
-                </div>
-            `).join("");
+        data.reverse();
+        const cardsHtml = data.map(createQuizCard).join("");
+        historyContainer.innerHTML = cardsHtml;
 
-            historyContainer.innerHTML = cardsHtml;
-        })
-        .catch(error => {
-            console.error(error);
-            historyContainer.innerHTML = "<p>Error loading quiz history.</p>";
+        historyContainer.querySelectorAll('a[data-resultid]').forEach(a => {
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                const rid = a.getAttribute('data-resultid');
+                if (rid) {
+                    localStorage.setItem('latestResultID', rid);
+                    window.location.href = 'results.html';
+                }
+            });
         });
+    } catch (error) {
+        console.error("Error loading quiz history:", error);
+        historyContainer.innerHTML = "<p>Error loading quiz history.</p>";
+    }
 });

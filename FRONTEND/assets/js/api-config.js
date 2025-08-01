@@ -1,69 +1,127 @@
-// const API_BASE = "http://localhost:8080";
+const BASE_URL = 'http://localhost:8080';
+// Paste Azure link!!!!!
 
-// // Helper to get headers with token
-// const authHeaders = () => {
-//     const token = localStorage.getItem("token");
-//     return {
-//         Authorization: `Bearer ${token}`,
-//         "Content-Type": "application/json",
-//     };
-// };
+function getAuthHeaders() {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+}
 
-// const api = {
-//     headers: authHeaders,
+async function handleResponse(response) {
+    let data = {};
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+        try { data = await response.json(); } catch { } // ignore parse errors
+    }
 
-//     auth: {
-//         login: `${API_BASE}/api/auth/login`,
-//         register: `${API_BASE}/api/auth/register`,
-//         requestReset: `${API_BASE}/api/auth/request-reset`,
-//         resetPassword: `${API_BASE}/api/auth/reset-password`,
-//         changePassword: `${API_BASE}/api/auth/change-password`,
-//     },
-//     users: {
-//         getAll: `${API_BASE}/api/students`,
-//         create: `${API_BASE}/api/students`,
-//         getById: (id) => `${API_BASE}/api/students/${id}`,
-//         update: (id) => `${API_BASE}/api/students/${id}`,
-//         delete: (id) => `${API_BASE}/api/students/${id}`,
-//     },
-//     flashcards: {
-//         getAll: `${API_BASE}/api/flashcards`,
-//         create: `${API_BASE}/api/flashcards`,
-//         getById: (id) => `${API_BASE}/api/flashcards/${id}`,
-//         update: (id) => `${API_BASE}/api/flashcards/${id}`,
-//         delete: (id) => `${API_BASE}/api/flashcards/${id}`,
-//         filterByDifficulty: (level) => `${API_BASE}/api/flashcards/filter?difficultyLevel=${level}`,
-//     },
-//     sessions: {
-//         getAll: `${API_BASE}/api/practice-sessions`,
-//         start: `${API_BASE}/api/practice-sessions/start`,
-//         getById: (id) => `${API_BASE}/api/practice-sessions/${id}`,
-//         update: (id) => `${API_BASE}/api/practice-sessions/${id}`,
-//         delete: (id) => `${API_BASE}/api/practice-sessions/${id}`,
-//         getOngoing: (userId) => `${API_BASE}/api/practice-sessions/ongoing/${userId}`,
-//     },
-//     sessionFlashcards: {
-//         getAll: `${API_BASE}/api/practice-session-flashcards`,
-//         create: `${API_BASE}/api/practice-session-flashcards`,
-//         createSimplified: `${API_BASE}/api/practice-session-flashcards/create`,
-//         getBySession: (sessionId) => `${API_BASE}/api/practice-session-flashcards/session/${sessionId}`,
-//         getPrioritized: (sessionId, limit = 10) =>
-//             `${API_BASE}/api/practice-session-flashcards/session/${sessionId}/prioritized?limit=${limit}`,
-//         getById: (sessionId, flashCardId) =>
-//             `${API_BASE}/api/practice-session-flashcards/${sessionId}/${flashCardId}`,
-//         updateRating: (sessionId, flashCardId) =>
-//             `${API_BASE}/api/practice-session-flashcards/${sessionId}/${flashCardId}/rating`,
-//         delete: (sessionId, flashCardId) =>
-//             `${API_BASE}/api/practice-session-flashcards/${sessionId}/${flashCardId}`,
-//     },
-//     quizResults: {
-//         getAll: `${API_BASE}/quiz-results`,
-//         create: `${API_BASE}/quiz-results`,
-//         getById: (id) => `${API_BASE}/quiz-results/${id}`,
-//         update: (id) => `${API_BASE}/quiz-results/${id}`,
-//         delete: (id) => `${API_BASE}/quiz-results/${id}`,
-//         submit: `${API_BASE}/quiz-results/submit`,
-//     },
-// };
+    if (!response.ok) {
+        const errorMsg = data.message || data.error || response.statusText || 'API request failed';
+        throw new Error(errorMsg);
+    }
 
-// export default api;
+    return data;
+}
+
+// Generic method helpers
+async function get(endpoint, query = null) {
+    let url = `${BASE_URL}${endpoint}`;
+    if (query && typeof query === 'object') {
+        const qs = Object.entries(query)
+            .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+            .join('&');
+        if (qs) url += `?${qs}`;
+    }
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeaders()
+        }
+    });
+    return handleResponse(response);
+}
+
+async function post(endpoint, data) {
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeaders()
+        },
+        body: JSON.stringify(data)
+    });
+    return handleResponse(response);
+}
+
+async function put(endpoint, data) {
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeaders()
+        },
+        body: JSON.stringify(data)
+    });
+    return handleResponse(response);
+}
+
+async function del(endpoint) {
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeaders()
+        }
+    });
+    return handleResponse(response);
+}
+
+/* ------------------ Domain APIs ------------------ */
+
+// Users / Students
+export function getStudentById(id) { return get(`/api/students/${id}`); }
+export function updateStudent(id, payload) { return put(`/api/students/${id}`, payload); }
+export function deleteStudent(id) { return del(`/api/students/${id}`); }
+export function getAllStudents() { return get(`/api/students`); }
+export function createStudent(payload) { return post(`/api/students`, payload); }
+
+// Quiz Results
+export function fetchQuizResultById(resultID) { return get(`/api/quiz-results/${resultID}`); }
+export function updateQuizResult(resultID, payload) { return put(`/api/quiz-results/${resultID}`, payload); }
+export function deleteQuizResult(resultID) { return del(`/api/quiz-results/${resultID}`); }
+export function getAllQuizResults() { return get(`/api/quiz-results`); }
+export function createMultipleQuizResults(payloadArray) { return post(`/api/quiz-results`, payloadArray); }
+export function submitQuiz(payload) { return post(`/api/quiz-results/submit`, payload); }
+export function getQuizResultsByUserID(userID) { return get(`/api/quiz-results/user/${userID}`); }
+
+// Practice Sessions
+export function getSessionById(id) { return get(`/api/practice-sessions/${id}`); }
+export function updateSession(id, payload) { return put(`/api/practice-sessions/${id}`, payload); }
+export function deleteSession(id) { return del(`/api/practice-sessions/${id}`); }
+export function startPracticeSession(userID) { return post(`/api/practice-sessions/start`, { userID: parseInt(userID, 10) }); }
+export function getAllSessions() { return get(`/api/practice-sessions`); }
+export function getOngoingSession(userID) { return get(`/api/practice-sessions/ongoing/${userID}`); }
+
+// Practice Session Flashcards
+export function getAllPracticeSessionFlashcards() { return get(`/api/practice-session-flashcards`); }
+export function createPracticeSessionFlashcard(payload) { return post(`/api/practice-session-flashcards`, payload); }
+export function createSimplifiedPracticeSessionFlashcard(payload) { return post(`/api/practice-session-flashcards/create`, payload); }
+export function updateRating(sessionId, flashCardId, ratingObj) { return put(`/api/practice-session-flashcards/${sessionId}/${flashCardId}/rating`, ratingObj); }
+export function getPracticeSessionFlashcardById(sessionId, flashCardId) { return get(`/api/practice-session-flashcards/${sessionId}/${flashCardId}`); }
+export function deletePracticeSessionFlashcard(sessionId, flashCardId) { return del(`/api/practice-session-flashcards/${sessionId}/${flashCardId}`); }
+export function getBySessionId(sessionId) { return get(`/api/practice-session-flashcards/session/${sessionId}`); }
+export function getPrioritizedFlashCards(sessionId, limit = 10) { return get(`/api/practice-session-flashcards/session/${sessionId}/prioritized`, { limit }); }
+
+// Flashcards
+export function getFlashCardById(id) { return get(`/api/flashcards/${id}`); }
+export function updateFlashCard(id, payload) { return put(`/api/flashcards/${id}`, payload); }
+export function deleteFlashCard(id) { return del(`/api/flashcards/${id}`); }
+export function getAllFlashCards() { return get(`/api/flashcards`); }
+export function createFlashCard(payload) { return post(`/api/flashcards`, payload); }
+export function getFlashCardsByDifficulty(difficultyLevel) { return get(`/api/flashcards/filter`, { difficultyLevel }); }
+
+// Authentication
+export function resetPassword(payload) { return post(`/api/auth/reset-password`, payload); }
+export function requestResetToken(payload) { return post(`/api/auth/request-reset`, payload); }
+export function register(payload) { return post(`/api/auth/register`, payload); }
+export function login(payload) { return post(`/api/auth/login`, payload); }
+export function changePassword(payload) { return post(`/api/auth/change-password`, payload); }
