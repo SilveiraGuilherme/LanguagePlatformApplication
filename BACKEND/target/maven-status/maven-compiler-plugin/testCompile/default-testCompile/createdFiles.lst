@@ -1,1 +1,4 @@
-com/guilherme/project/languageplatform/LanguageplatformApplicationTests.class
+com/project/languageplatform/QuizResultServiceTest.class
+com/project/languageplatform/PracticeSessionServiceTest.class
+com/project/languageplatform/FlashCardServiceTest.class
+com/project/languageplatform/LanguageplatformApplicationTests.class

@@ -1,7 +1,6 @@
 import {
   startPracticeSession,
-  getPrioritizedFlashCards,
-  getAllFlashCards,
+  getNextSessionFlashCards,
   submitQuiz,
   createMultipleQuizResults
 } from './api-config.js';
@@ -15,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const startSessionSection = document.getElementById('startSessionSection');
   const startSessionBtn = document.getElementById('startSessionBtn');
-  const flashcardContainer = document.getElementById('flashcardContainer');
+  const flashcardContainer = document.getElementById('flashcard-content');
   const ratingSection = document.getElementById('ratingSection');
   const nextButtonSection = document.getElementById('nextButtonSection');
   const confirmSection = document.getElementById('confirmSection');
@@ -54,11 +53,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const data = await getPrioritizedFlashCards(sessionId, 10);;
-      flashcards = Array.isArray(data) ? data : [];
+      const userId = localStorage.getItem('userID');
+      const data = await getNextSessionFlashCards(userId, 10);
+
+      console.log("📦 Flashcards received from backend:", data);
+
+      if (!Array.isArray(data) || data.length === 0) {
+        flashcardContainer.innerHTML = '<p>No flashcards available. Try again later.</p>';
+        return;
+      }
+
+      flashcards = data;
       renderFlashcard();
     } catch (error) {
-      if (flashcardContainer) flashcardContainer.innerHTML = `<p>Error loading flashcards: ${error.message}</p>`;
+      if (flashcardContainer) {
+        flashcardContainer.innerHTML = `<p>Error loading flashcards: ${error.message}</p>`;
+      }
     }
   }
 

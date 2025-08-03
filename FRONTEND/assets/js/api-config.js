@@ -78,7 +78,7 @@ async function del(endpoint) {
 /* ------------------ Domain APIs ------------------ */
 
 // Users / Students
-// export function getStudentById(id) { return get(`/api/students/${id}`); }
+export function getStudentById(id) { return get(`/api/students/${id}`); }
 // export function updateStudent(id, payload) { return put(`/api/students/${id}`, payload); }
 // export function deleteStudent(id) { return del(`/api/students/${id}`); }
 // export function getAllStudents() { return get(`/api/students`); }
@@ -91,7 +91,7 @@ export function getQuizResultsByUserID(userID) { return get(`/api/quiz-results/u
 // export function updateQuizResult(resultID, payload) { return put(`/api/quiz-results/${resultID}`, payload); }
 // export function deleteQuizResult(resultID) { return del(`/api/quiz-results/${resultID}`); }
 // export function getAllQuizResults() { return get(`/api/quiz-results`); }
-// export function createMultipleQuizResults(payloadArray) { return post(`/api/quiz-results`, payloadArray); }
+export function createMultipleQuizResults(payloadArray) { return post(`/api/quiz-results`, payloadArray); }
 
 // Practice Sessions
 export function startPracticeSession(userID) { return post(`/api/practice-sessions/start`, { userID: parseInt(userID, 10) }); }
@@ -104,6 +104,7 @@ export function getOngoingSession(userID) { return get(`/api/practice-sessions/o
 // Practice Session Flashcards
 export function updateRating(sessionId, flashCardId, ratingObj) { return put(`/api/practice-session-flashcards/${sessionId}/${flashCardId}/rating`, ratingObj); }
 export function getPrioritizedFlashCards(sessionId, limit = 10) { return get(`/api/practice-session-flashcards/session/${sessionId}/prioritized`, { limit }); }
+export function getNextSessionFlashCards(userId, limit = 10) {return get(`/api/practice-session-flashcards/next-flashcards/${userId}?limit=${limit}`); }
 // export function getAllPracticeSessionFlashcards() { return get(`/api/practice-session-flashcards`); }
 // export function createPracticeSessionFlashcard(payload) { return post(`/api/practice-session-flashcards`, payload); }
 // export function createSimplifiedPracticeSessionFlashcard(payload) { return post(`/api/practice-session-flashcards/create`, payload); }

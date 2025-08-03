@@ -1,6 +1,7 @@
 package com.project.languageplatform.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.project.languageplatform.entity.FlashCard;
@@ -14,6 +15,7 @@ import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PracticeSessionFlashCardService {
@@ -25,6 +27,7 @@ public class PracticeSessionFlashCardService {
     private PracticeSessionService practiceSessionService;
 
     @Autowired
+    @Lazy
     private FlashCardService flashCardService;
 
     // Get all PracticeSessionFlashCards
@@ -117,5 +120,61 @@ public class PracticeSessionFlashCardService {
         // Set a default position (can be ignored if dynamically calculated later)
         psfc.setPositionInQueue(0);
         return repository.save(psfc);
+    }
+
+    /// Get next flashcards for a user, prioritizing rated cards and filling with
+    /// fresh ones if needed
+    public List<FlashCard> getNextSessionFlashCards(Long userID, int maxFlashcards) {
+        // List<PracticeSessionFlashCard> rated =
+        // repository.findBySessionUserUserID(userID);
+
+        // rated.sort((a, b) -> Integer.compare(getPriority(b.getRating()),
+        // getPriority(a.getRating())));
+
+        // List<FlashCard> prioritized = rated.stream()
+        // .map(PracticeSessionFlashCard::getFlashCard)
+        // .distinct()
+        // .limit(maxFlashcards)
+        // .collect(Collectors.toList());
+
+        // System.out.println("Rated flashcards: " + rated.size());
+        // System.out.println("Prioritized: " + prioritized.size());
+        // // If fewer than maxFlashcards, fetch fresh flashcards to fill
+        // if (prioritized.size() < maxFlashcards) {
+        // System.out.println("Filling with fresh flashcards...");
+        // System.out.println("User ID: " + userID + ", Needed: " + (maxFlashcards -
+        // prioritized.size()));
+        // int remaining = maxFlashcards - prioritized.size();
+        // List<FlashCard> fresh = flashCardService.getUnseenFlashCards(userID,
+        // remaining);
+
+        // prioritized.addAll(fresh);
+        // }
+        List<PracticeSessionFlashCard> rated = repository.findBySessionUserUserID(userID);
+        rated.sort((a, b) -> Integer.compare(getPriority(b.getRating()), getPriority(a.getRating())));
+
+        List<FlashCard> prioritized = rated.stream()
+                .map(PracticeSessionFlashCard::getFlashCard)
+                .distinct()
+                .limit(maxFlashcards)
+                .collect(Collectors.toList());
+
+        // Fill remaining with unseen flashcards
+        if (prioritized.size() < maxFlashcards) {
+            int remaining = maxFlashcards - prioritized.size();
+            List<FlashCard> fresh = flashCardService.getUnseenFlashCards(userID, remaining);
+            prioritized.addAll(fresh);
+        }
+
+        // Fallback: if still empty, return a few flashcards from all available
+        if (prioritized.isEmpty()) {
+            List<FlashCard> fallback = flashCardService.getAllFlashCards()
+                    .stream()
+                    .limit(maxFlashcards)
+                    .collect(Collectors.toList());
+            return fallback;
+        }
+
+        return prioritized;
     }
 }

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.project.languageplatform.dto.FlashCardResponseDTO;
 import com.project.languageplatform.entity.PracticeSessionFlashCard;
 import com.project.languageplatform.entity.id.PracticeSessionFlashCardId;
 import com.project.languageplatform.enums.Rating;
@@ -13,6 +13,7 @@ import com.project.languageplatform.service.PracticeSessionFlashCardService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/practice-session-flashcards")
@@ -29,7 +30,8 @@ public class PracticeSessionFlashCardController {
         return service.getAll();
     }
 
-    // Retrieve a PracticeSessionFlashCard by its composite ID (sessionId and flashCardId)
+    // Retrieve a PracticeSessionFlashCard by its composite ID (sessionId and
+    // flashCardId)
     @GetMapping("/{sessionId}/{flashCardId}")
     @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
     public Optional<PracticeSessionFlashCard> getById(@PathVariable Long sessionId,
@@ -72,6 +74,7 @@ public class PracticeSessionFlashCardController {
         PracticeSessionFlashCardId id = new PracticeSessionFlashCardId(sessionId, flashCardId);
         service.deleteById(id);
     }
+
     // Create a PracticeSessionFlashCard from session and flashcard IDs
     @PostMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
@@ -81,6 +84,7 @@ public class PracticeSessionFlashCardController {
         Rating rating = Rating.valueOf(data.get("rating").toString());
         return service.createFromIds(sessionId, flashCardId, rating);
     }
+
     // Get prioritized flashcards for a session
     @GetMapping("/session/{sessionId}/prioritized")
     @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
@@ -88,5 +92,17 @@ public class PracticeSessionFlashCardController {
             @PathVariable Long sessionId,
             @RequestParam(defaultValue = "10") int limit) {
         return service.getPrioritizedFlashCardsForSession(sessionId, limit);
+    }
+
+    // Get next flashcards for a user (prioritized, filled with fresh if needed)
+    @GetMapping("/next-flashcards/{userID}")
+    @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
+    public List<FlashCardResponseDTO> getNextSessionFlashCardsForUser(
+            @PathVariable Long userID,
+            @RequestParam(defaultValue = "10") int limit) {
+        return service.getNextSessionFlashCards(userID, limit)
+                .stream()
+                .map(FlashCardResponseDTO::new)
+                .collect(Collectors.toList());
     }
 }

@@ -2,6 +2,9 @@ package com.project.languageplatform.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.context.annotation.Lazy;
 
 import com.project.languageplatform.entity.FlashCard;
 import com.project.languageplatform.enums.DifficultyLevel;
@@ -17,14 +20,10 @@ import java.util.Optional;
 @Service
 public class FlashCardService {
 
-    @Autowired
-    private FlashCardRepository flashCardRepository;
+    private final FlashCardRepository flashCardRepository;
 
-    /**
-     * Constructor for FlashCardService.
-     * @param flashCardRepository the repository to interact with flashcards.
-     */
-    public FlashCardService(FlashCardRepository flashCardRepository) {
+    @Autowired
+    public FlashCardService(@Lazy FlashCardRepository flashCardRepository) {
         this.flashCardRepository = flashCardRepository;
     }
 
@@ -61,5 +60,10 @@ public class FlashCardService {
     // Delete a flashcard by ID
     public void deleteFlashCard(Long id) {
         flashCardRepository.deleteById(id);
+    }
+    // Get unseen flashcards for a specific user up to a limit
+    public List<FlashCard> getUnseenFlashCards(Long userID, int limit) {
+        Pageable pageable = PageRequest.of(0, limit);
+        return flashCardRepository.findUnseenFlashCardsForUser(userID, pageable);
     }
 }
