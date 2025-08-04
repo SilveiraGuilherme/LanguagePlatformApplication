@@ -4,7 +4,7 @@ package com.project.languageplatform;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class LanguageplatformApplicationTests {
+class LanguagePlatformApplicationTests {
 
 	//@Test
 	//void contextLoads() {}
