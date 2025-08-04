@@ -48,8 +48,16 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        data.reverse();
-        const cardsHtml = data.map(createQuizCard).join("");
+        const uniqueResultsMap = new Map();
+        data.forEach(result => {
+            if (!uniqueResultsMap.has(result.resultID)) {
+                uniqueResultsMap.set(result.resultID, result);
+            }
+        });
+        const uniqueResults = Array.from(uniqueResultsMap.values());
+
+        uniqueResults.reverse();
+        const cardsHtml = uniqueResults.map(createQuizCard).join("");
         historyContainer.innerHTML = cardsHtml;
 
         historyContainer.querySelectorAll('a[data-resultid]').forEach(a => {

@@ -1,51 +1,37 @@
 package com.project.languageplatform.dto;
 
-import java.time.LocalDateTime;
-
+import com.project.languageplatform.entity.PracticeSession;
+import com.project.languageplatform.entity.User;
 import com.project.languageplatform.enums.DifficultyLevel;
 
-public class QuizResultResponseDTO {
-    private Long resultID;
-    private Long studentID;
-    private String studentName;
-    private Long sessionID;
+import java.time.LocalDateTime;
+
+public class QuizResultRequestDTO {
+    private User user;
+    private PracticeSession session;
     private DifficultyLevel difficultyLevel;
     private int totalQuestions;
     private int correctAnswers;
     private double scorePercentage;
     private LocalDateTime completionTime;
 
-    // Getters and Setters
-    public Long getResultID() {
-        return resultID;
+    public QuizResultRequestDTO() {
     }
 
-    public void setResultID(Long resultID) {
-        this.resultID = resultID;
+    public User getUser() {
+        return user;
     }
 
-    public Long getStudentID() {
-        return studentID;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setStudentID(Long studentID) {
-        this.studentID = studentID;
+    public PracticeSession getSession() {
+        return session;
     }
 
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
-
-    public Long getSessionID() {
-        return sessionID;
-    }
-
-    public void setSessionID(Long sessionID) {
-        this.sessionID = sessionID;
+    public void setSession(PracticeSession session) {
+        this.session = session;
     }
 
     public DifficultyLevel getDifficultyLevel() {

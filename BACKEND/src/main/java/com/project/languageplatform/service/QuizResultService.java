@@ -1,5 +1,7 @@
 package com.project.languageplatform.service;
 
+import com.project.languageplatform.enums.Rating;
+
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,6 @@ import com.project.languageplatform.repository.PracticeSessionRepository;
 import com.project.languageplatform.repository.QuizResultRepository;
 import com.project.languageplatform.repository.UserRepository;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,6 +34,9 @@ public class QuizResultService {
 
     @Autowired
     public PracticeSessionRepository practiceSessionRepository;
+
+    @Autowired
+    public PracticeSessionFlashCardService practiceSessionFlashCardService;
 
     // Return all quiz results
     public List<QuizResult> getAllQuizResults() {
@@ -55,8 +58,15 @@ public class QuizResultService {
 
     @SuppressWarnings("unchecked")
     public QuizResultResponseDTO processQuizSubmission(Map<String, Object> submissionData) {
-        Long userID = ((Number) submissionData.get("userID")).longValue();
-        Long sessionID = ((Number) submissionData.get("sessionID")).longValue();
+        Map<String, Object> userMap = (Map<String, Object>) submissionData.get("user");
+        Map<String, Object> sessionMap = (Map<String, Object>) submissionData.get("session");
+
+        if (userMap == null || sessionMap == null) {
+            throw new RuntimeException("User or session data is missing in the submission.");
+        }
+
+        Long userID = ((Number) userMap.get("userID")).longValue();
+        Long sessionID = ((Number) sessionMap.get("sessionID")).longValue();
         List<Map<String, String>> answers = (List<Map<String, String>>) submissionData.get("answers");
 
         if (answers == null || answers.isEmpty()) {
@@ -96,8 +106,7 @@ public class QuizResultService {
             }
         }
 
-        BigDecimal scorePercentage = BigDecimal.valueOf((correctAnswers * 100.0) / totalQuestions)
-                .setScale(2, RoundingMode.HALF_UP);
+        double scorePercentage = Math.round((correctAnswers * 100.0 / totalQuestions) * 100.0) / 100.0;
 
         User user = userRepository.findById(userID)
                 .orElseThrow(() -> new RuntimeException("Student not found: " + userID));
@@ -130,12 +139,26 @@ public class QuizResultService {
 
         result = quizResultRepository.save(result);
 
+        // Update rating in PracticeSessionFlashCard for each flashcard answered
+        for (Map<String, String> answer : answers) {
+            Long flashCardID = Long.valueOf(answer.get("flashCardID"));
+            String ratingStr = answer.get("rating");
+            if (ratingStr != null) {
+                try {
+                    Rating rating = Rating.valueOf(ratingStr.toUpperCase());
+                    practiceSessionFlashCardService.upsertRating(sessionID, flashCardID, userID, rating);
+                } catch (IllegalArgumentException e) {
+                    throw new RuntimeException("Invalid rating value: " + ratingStr);
+                }
+            }
+        }
+
         QuizResultResponseDTO response = new QuizResultResponseDTO();
         response.setResultID(result.getResultID());
         response.setStudentID(user.getUserID());
         response.setStudentName(user.getFirstName() + " " + user.getLastName());
         response.setSessionID(session.getSessionID());
-        response.setDifficultyLevel(result.getDifficultyLevel().toString());
+        response.setDifficultyLevel(result.getDifficultyLevel());
         response.setTotalQuestions(result.getTotalQuestions());
         response.setCorrectAnswers(result.getCorrectAnswers());
         response.setScorePercentage(result.getScorePercentage());
@@ -156,7 +179,7 @@ public class QuizResultService {
             dto.setStudentID(user.getUserID());
             dto.setStudentName(user.getFirstName() + " " + user.getLastName());
             dto.setSessionID(result.getSession().getSessionID());
-            dto.setDifficultyLevel(result.getDifficultyLevel().toString());
+            dto.setDifficultyLevel(result.getDifficultyLevel());
             dto.setTotalQuestions(result.getTotalQuestions());
             dto.setCorrectAnswers(result.getCorrectAnswers());
             dto.setScorePercentage(result.getScorePercentage());

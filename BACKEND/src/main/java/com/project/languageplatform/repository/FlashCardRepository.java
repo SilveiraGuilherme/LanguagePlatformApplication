@@ -21,4 +21,6 @@ public interface FlashCardRepository extends JpaRepository<FlashCard, Long> {
             "SELECT psf.flashCard.flashCardID FROM PracticeSessionFlashCard psf " +
             "WHERE psf.session.user.userID = :userID)")
     List<FlashCard> findUnseenFlashCardsForUser(@Param("userID") Long userID, Pageable pageable);
+
+    boolean existsBySentence(String sentence);
 }

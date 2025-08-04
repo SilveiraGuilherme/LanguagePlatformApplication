@@ -21,7 +21,6 @@
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/controller/PracticeSessionController.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/service/QuizResultService.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/repository/PracticeSessionFlashCardRepository.java
-/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/LanguageplatformApplication.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/entity/id/PracticeSessionFlashCardId.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/controller/UserController.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/entity/FlashCard.java
@@ -32,6 +31,7 @@
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/security/JwtAuthenticationFilter.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/security/MyUserDetailsService.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/enums/Rating.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/LanguagePlatformApplication.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/entity/QuizResult.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/entity/User.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/controller/AuthenticationController.java

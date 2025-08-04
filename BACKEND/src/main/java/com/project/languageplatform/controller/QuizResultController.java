@@ -6,12 +6,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import com.project.languageplatform.dto.QuizResultRequestDTO;
 import com.project.languageplatform.dto.QuizResultResponseDTO;
 import com.project.languageplatform.entity.QuizResult;
+import com.project.languageplatform.entity.User;
+import com.project.languageplatform.entity.PracticeSession;
+import com.project.languageplatform.repository.UserRepository;
+import com.project.languageplatform.repository.PracticeSessionRepository;
+import com.project.languageplatform.repository.QuizResultRepository;
 import com.project.languageplatform.service.QuizResultService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/quiz-results")
@@ -19,6 +26,12 @@ public class QuizResultController {
 
     @Autowired
     private QuizResultService quizResultService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PracticeSessionRepository practiceSessionRepository;
+    @Autowired
+    private QuizResultRepository quizResultRepository;
 
     // Get all quiz results
     @GetMapping
@@ -29,7 +42,7 @@ public class QuizResultController {
             dto.setStudentID(result.getUser().getUserID());
             dto.setStudentName(result.getUser().getFirstName() + " " + result.getUser().getLastName());
             dto.setSessionID(result.getSession().getSessionID());
-            dto.setDifficultyLevel(result.getDifficultyLevel().toString());
+            dto.setDifficultyLevel(result.getDifficultyLevel());
             dto.setTotalQuestions(result.getTotalQuestions());
             dto.setCorrectAnswers(result.getCorrectAnswers());
             dto.setScorePercentage(result.getScorePercentage());
@@ -48,7 +61,7 @@ public class QuizResultController {
         dto.setStudentID(result.getUser().getUserID());
         dto.setStudentName(result.getUser().getFirstName() + " " + result.getUser().getLastName());
         dto.setSessionID(result.getSession().getSessionID());
-        dto.setDifficultyLevel(result.getDifficultyLevel().toString());
+        dto.setDifficultyLevel(result.getDifficultyLevel());
         dto.setTotalQuestions(result.getTotalQuestions());
         dto.setCorrectAnswers(result.getCorrectAnswers());
         dto.setScorePercentage(result.getScorePercentage());
@@ -76,9 +89,30 @@ public class QuizResultController {
     // Process quiz submission
     @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
     @PostMapping("/submit")
-    public ResponseEntity<QuizResultResponseDTO> submitQuiz(@RequestBody Map<String, Object> submissionData) {
-        QuizResultResponseDTO result = quizResultService.processQuizSubmission(submissionData);
-        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    public ResponseEntity<Map<String, Object>> submitQuizResult(@RequestBody QuizResultRequestDTO requestDTO) {
+        Long userId = requestDTO.getUser().getUserID();
+        Long sessionId = requestDTO.getSession().getSessionID();
+
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        PracticeSession session = practiceSessionRepository.findById(sessionId)
+            .orElseThrow(() -> new RuntimeException("Session not found"));
+
+        QuizResult result = new QuizResult();
+        result.setUser(user);
+        result.setSession(session);
+        result.setDifficultyLevel(requestDTO.getDifficultyLevel());
+        result.setTotalQuestions(requestDTO.getTotalQuestions());
+        result.setCorrectAnswers(requestDTO.getCorrectAnswers());
+        result.setScorePercentage(requestDTO.getScorePercentage());
+        result.setCompletionTime(requestDTO.getCompletionTime());
+
+        QuizResult savedResult = quizResultRepository.save(result);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("resultID", savedResult.getResultID());
+
+        return ResponseEntity.ok(response);
     }
 
     // Update an existing quiz result

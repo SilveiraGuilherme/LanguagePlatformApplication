@@ -1,8 +1,8 @@
 import {
   startPracticeSession,
   getNextSessionFlashCards,
-  submitQuiz,
-  createMultipleQuizResults
+  updateRating,
+  submitQuiz
 } from './api-config.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -90,17 +90,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function attachRatingHandlers() {
     document.querySelectorAll('.rating-btn').forEach((btn) => {
-      btn.addEventListener('click', (event) => {
+      const newBtn = btn.cloneNode(true); // Clone to remove existing listeners
+      btn.parentNode.replaceChild(newBtn, btn); // Replace the old button
+
+      newBtn.addEventListener('click', (event) => {
         const rating = event.target.getAttribute('data-rating');
         if (!userAnswers[currentFlashcardIndex]) return; // guard
         userAnswers[currentFlashcardIndex].rating = rating;
+
         document.querySelectorAll('.rating-btn').forEach((b) => b.classList.remove('selected-rating'));
         event.target.classList.add('selected-rating');
 
-        if (nextButtonSection) {
-          nextButtonSection.style.display = 'block';
-          updateNextButtonText();
-        }
+        if (nextButtonSection) nextButtonSection.style.display = 'block'; // Show next button section
       });
     });
   }
@@ -144,25 +145,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const correctAnswers = userAnswers.filter((ans) => ans.isCorrect).length;
     const scorePercentage = totalQuestions ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
 
-    const resultsToSend = userAnswers.map((ans) => ({
+    const resultsToSend = {
       user: { userID: userId },
       session: { sessionID: sessionId },
       difficultyLevel,
       totalQuestions,
       correctAnswers,
       scorePercentage,
-      completionTime,
-      flashcardId: ans.flashcardId,
-      selectedAnswer: ans.selectedAnswer,
-      isCorrect: ans.isCorrect,
-      rating: ans.rating
-    }));
+      completionTime
+    };
 
     try {
-      const savedResults = await createMultipleQuizResults(resultsToSend);
-      if (Array.isArray(savedResults) && savedResults.length > 0) {
-        const firstResultId = savedResults[0].resultID;
-        localStorage.setItem('latestResultID', firstResultId);
+      const savedResult = await submitQuiz(resultsToSend);
+      if (savedResult?.resultID) {
+        localStorage.setItem('latestResultID', savedResult.resultID);
         window.location.href = 'results.html';
       } else {
         throw new Error('No result ID returned from server.');
@@ -190,6 +186,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (nextButtonSection) nextButtonSection.style.display = 'none';
     if (confirmSection) confirmSection.style.display = 'none';
 
+    // Update question counter
+    const questionCounter = document.getElementById('question-counter');
+    if (questionCounter) {
+      questionCounter.innerText = `${currentFlashcardIndex + 1} / ${flashcards.length}`;
+    }
+
     document.getElementById('flashcard-content').innerHTML = `
       <div class="flashcard">
         <h2>${flashcard.sentence}</h2>
@@ -214,19 +216,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextBtn = nextButtonSection?.querySelector('button');
     if (nextBtn) {
       nextBtn.onclick = () => {
+        const currentAnswer = userAnswers[currentFlashcardIndex];
+        if (!currentAnswer?.rating) {
+          alert('Please rate this flashcard before continuing.');
+          return;
+        }
+
+        const sessionId = localStorage.getItem('sessionId');
+        const userId = localStorage.getItem('userID');
+
+        updateRating(sessionId, currentAnswer.flashcardId, currentAnswer.rating, userId)
+          .then(() => {
+            console.log("Rating updated successfully.");
+          })
+          .catch(err => {
+            console.error("Error saving rating to PracticeSessionFlashCard:", err);
+          });
+
         if (nextBtn.innerText.trim().toLowerCase() === 'submit') {
-          // Require rating before final submit
-          if (!userAnswers[currentFlashcardIndex]?.rating) {
-            alert('Please rate this flashcard before submitting.');
-            return;
-          }
           submitResults();
         } else {
-          // Next: ensure rating exists for current before moving
-          if (!userAnswers[currentFlashcardIndex]?.rating) {
-            alert('Please rate this flashcard before continuing.');
-            return;
-          }
           currentFlashcardIndex++;
           renderFlashcard();
         }

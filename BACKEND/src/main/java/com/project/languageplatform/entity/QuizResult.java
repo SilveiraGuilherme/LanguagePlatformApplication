@@ -1,7 +1,6 @@
 package com.project.languageplatform.entity;
 
 import java.time.LocalDateTime;
-import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.languageplatform.enums.DifficultyLevel;
@@ -47,7 +46,7 @@ public class QuizResult {
 
     @NotNull
     @Column(name = "scorePercentage")
-    private BigDecimal scorePercentage;
+    private double scorePercentage;
 
     // Constructors
     public QuizResult() {
@@ -121,11 +120,11 @@ public class QuizResult {
         this.completionTime = completionTime;
     }
 
-    public BigDecimal getScorePercentage() {
+    public double getScorePercentage() {
         return scorePercentage;
     }
 
-    public void setScorePercentage(BigDecimal scorePercentage) {
+    public void setScorePercentage(double scorePercentage) {
         this.scorePercentage = scorePercentage;
     }
 

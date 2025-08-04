@@ -1,5 +1,5 @@
-const BASE_URL = 'http://localhost:8080';
-// Paste Azure link!!!!!
+//const BASE_URL = 'http://localhost:8080';
+const BASE_URL = 'https://language-learning-backend-h4engnf2e0ezc8ch.francecentral-01.azurewebsites.net';
 
 function getAuthHeaders() {
     const token = localStorage.getItem('token');
@@ -102,7 +102,7 @@ export function getOngoingSession(userID) { return get(`/api/practice-sessions/o
 // export function getAllSessions() { return get(`/api/practice-sessions`); }
 
 // Practice Session Flashcards
-export function updateRating(sessionId, flashCardId, ratingObj) { return put(`/api/practice-session-flashcards/${sessionId}/${flashCardId}/rating`, ratingObj); }
+export function updateRating(sessionId, flashCardId, rating, userId) { return put(`/api/practice-session-flashcards/${sessionId}/${flashCardId}/rating`, {rating, userID: userId}); }
 export function getPrioritizedFlashCards(sessionId, limit = 10) { return get(`/api/practice-session-flashcards/session/${sessionId}/prioritized`, { limit }); }
 export function getNextSessionFlashCards(userId, limit = 10) {return get(`/api/practice-session-flashcards/next-flashcards/${userId}?limit=${limit}`); }
 // export function getAllPracticeSessionFlashcards() { return get(`/api/practice-session-flashcards`); }

@@ -57,12 +57,13 @@ public class PracticeSessionFlashCardController {
     // Update the rating for a specific PracticeSessionFlashCard
     @PutMapping("/{sessionId}/{flashCardId}/rating")
     @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
-    public PracticeSessionFlashCard updateRating(@PathVariable Long sessionId,
+    public void updateRating(@PathVariable Long sessionId,
             @PathVariable Long flashCardId,
             @RequestBody java.util.Map<String, String> request) {
         Rating rating = Rating.valueOf(request.get("rating"));
-        PracticeSessionFlashCardId id = new PracticeSessionFlashCardId(sessionId, flashCardId);
-        return service.updateRating(id, rating);
+        Long userId = Long.valueOf(request.get("userID"));
+
+        service.upsertRating(sessionId, flashCardId, userId, rating);
     }
 
     // Delete a PracticeSessionFlashCard by its composite ID

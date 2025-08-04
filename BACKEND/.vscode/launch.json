@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "LanguagePlatformApplication",
+            "request": "launch",
+            "mainClass": "com.project.languageplatform.LanguagePlatformApplication",
+            "projectName": "languageplatform"
+        },
+        {
+            "type": "java",
             "name": "LanguageplatformApplication",
             "request": "launch",
             "mainClass": "com.project.languageplatform.LanguageplatformApplication",
