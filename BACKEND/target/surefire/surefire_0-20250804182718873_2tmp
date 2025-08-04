@@ -1,5 +1,0 @@
-#surefire_0
-#Mon Aug 04 18:27:18 IST 2025
-basedir=/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND
-localRepository=/Users/guilhermesilveira/.m2/repository
-test=FlashCardServiceTest
