@@ -32,6 +32,7 @@ com/project/languageplatform/security/MyUserDetailsService.class
 com/project/languageplatform/exception/GlobalExceptionHandler.class
 com/project/languageplatform/repository/FlashCardRepository.class
 com/project/languageplatform/dto/RegisterRequest.class
+com/project/languageplatform/dto/QuizResultRequestDTO.class
 com/project/languageplatform/repository/PracticeSessionRepository.class
 com/project/languageplatform/entity/FlashCard.class
 com/project/languageplatform/controller/PracticeSessionController.class

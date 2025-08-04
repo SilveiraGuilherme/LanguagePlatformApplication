@@ -39,3 +39,4 @@
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/dto/QuizResultResponseDTO.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/security/SecurityConfig.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/enums/Role.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/dto/QuizResultRequestDTO.java
