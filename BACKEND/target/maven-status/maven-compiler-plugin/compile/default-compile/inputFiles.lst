@@ -25,6 +25,7 @@
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/controller/UserController.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/entity/FlashCard.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/dto/ResetPasswordRequest.java
+/Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/security/CorsConfig.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/service/PracticeSessionFlashCardService.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/dto/ForgotPasswordRequest.java
 /Users/guilhermesilveira/Documents/LanguagePlatformApplication/BACKEND/src/main/java/com/project/languageplatform/security/JwtUtil.java

@@ -21,6 +21,7 @@ com/project/languageplatform/service/PracticeSessionFlashCardService.class
 com/project/languageplatform/controller/UserController.class
 com/project/languageplatform/dto/AuthResponse.class
 com/project/languageplatform/security/AuthenticationService.class
+com/project/languageplatform/security/CorsConfig.class
 com/project/languageplatform/repository/PracticeSessionFlashCardRepository.class
 com/project/languageplatform/entity/id/PracticeSessionFlashCardId.class
 com/project/languageplatform/controller/AuthenticationController.class
