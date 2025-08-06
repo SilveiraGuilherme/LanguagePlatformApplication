@@ -104,22 +104,15 @@
 	</dependencies>
 
 <build>
-	<plugins>
-		<plugin>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-maven-plugin</artifactId>
-			<configuration>
-				<mainClass>com.guilherme.project.languageplatform.LanguagePlatformApplication</mainClass>
-			</configuration>
-			<executions>
-				<execution>
-					<goals>
-						<goal>repackage</goal>
-					</goals>
-				</execution>
-			</executions>
-		</plugin>
-	</plugins>
+  <plugins>
+    <plugin>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-maven-plugin</artifactId>
+      <configuration>
+        <mainClass>com.project.languageplatform.LanguagePlatformApplication</mainClass>
+      </configuration>
+    </plugin>
+  </plugins>
 </build>
 
 </project>

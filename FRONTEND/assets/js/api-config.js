@@ -1,5 +1,5 @@
-const BASE_URL = 'http://localhost:8080';
-//const BASE_URL = 'https://language-learning-backend-h4engnf2e0ezc8ch.francecentral-01.azurewebsites.net';
+//const BASE_URL = 'http://localhost:8080';
+const BASE_URL = 'https://language-learning-backend-h4engnf2e0ezc8ch.francecentral-01.azurewebsites.net';
 
 function getAuthHeaders() {
     const token = localStorage.getItem('token');
