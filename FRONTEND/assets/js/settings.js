@@ -1,10 +1,11 @@
 import { updateStudent, deleteStudent, changePassword } from './api-config.js';
 
-// Load user from storage
+// Check if user is logged in
 const userRaw = localStorage.getItem('user');
 if (!userRaw) {
     window.location.href = 'login.html';
 }
+// Parse stored user data
 let user;
 try {
     user = JSON.parse(userRaw);
@@ -12,16 +13,11 @@ try {
     window.location.href = 'login.html';
 }
 
-// Display user info
+// Show user details on page
 document.getElementById('userFullName').textContent = `${user.firstName} ${user.lastName}`;
 document.getElementById('userEmail').textContent = user.email;
 
-// Hide delete button for admins
-if (user.role === 'ADMIN') {
-    document.getElementById('deleteAccountBtn').style.display = 'none';
-}
-
-// Handle account deletion
+// Delete user account
 document.getElementById('deleteAccountBtn').addEventListener('click', async function () {
     if (!confirm('Are you sure you want to delete your account? This action cannot be undone.')) return;
     try {
@@ -35,14 +31,14 @@ document.getElementById('deleteAccountBtn').addEventListener('click', async func
     }
 });
 
-// Handle profile update
+// Update user profile
 document.getElementById('editProfileForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     const updatedUser = {
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
         email: user.email,
-        password: user.password // keep existing if needed; backend might ignore or require
+        password: user.password
     };
     try {
         const saved = await updateStudent(user.userID, updatedUser);
@@ -57,7 +53,7 @@ document.getElementById('editProfileForm').addEventListener('submit', async func
     }
 });
 
-// Handle password change
+// Change user password
 document.getElementById('changePasswordForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     const data = {
@@ -75,6 +71,6 @@ document.getElementById('changePasswordForm').addEventListener('submit', async f
     }
 });
 
-// Pre-fill form with current user info
+// Pre-fill form with current values
 document.getElementById('firstName').value = user.firstName;
 document.getElementById('lastName').value = user.lastName;

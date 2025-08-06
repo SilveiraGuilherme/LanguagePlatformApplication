@@ -1,5 +1,9 @@
+// quiz-history.js
+// Handles display of a student's past quiz results on the quiz history page.
+
 import { getQuizResultsByUserID } from './api-config.js';
 
+// Create a single quiz result card HTML string
 function createQuizCard(result) {
     const score = typeof result.scorePercentage === 'number' ? result.scorePercentage.toFixed(1) : 'N/A';
     return `
@@ -14,6 +18,7 @@ function createQuizCard(result) {
   `;
 }
 
+// Load and render quiz history after DOM is ready
 document.addEventListener("DOMContentLoaded", async () => {
     const userRaw = localStorage.getItem("user");
     if (!userRaw) {
@@ -48,6 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
+        // Remove duplicates based on resultID
         const uniqueResultsMap = new Map();
         data.forEach(result => {
             if (!uniqueResultsMap.has(result.resultID)) {
@@ -56,10 +62,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
         const uniqueResults = Array.from(uniqueResultsMap.values());
 
+        // Render quiz result cards
         uniqueResults.reverse();
         const cardsHtml = uniqueResults.map(createQuizCard).join("");
         historyContainer.innerHTML = cardsHtml;
 
+        // Handle "View Details" button clicks
         historyContainer.querySelectorAll('a[data-resultid]').forEach(a => {
             a.addEventListener('click', (e) => {
                 e.preventDefault();

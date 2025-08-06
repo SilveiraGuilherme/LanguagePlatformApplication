@@ -1,5 +1,10 @@
+// login-protect.js
+// Protects routes by verifying JWT token presence and validity in localStorage.
+// Redirects to login page if the token is missing, malformed, or expired.
+
 import { getStudentById } from './api-config.js';
 
+// Decode JWT payload from token
 function parseJwtPayload(token) {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -8,7 +13,7 @@ function parseJwtPayload(token) {
     return JSON.parse(new TextDecoder().decode(bytes));
 }
 
-// Route protection with JWT expiration and presence check
+// Check token validity when the page loads
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         const token = localStorage.getItem("token");
@@ -33,10 +38,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (payload.exp && payload.exp < currentTime) {
             throw new Error("Token expired");
         }
+        // Optionally validate user ID with backend
         await getStudentById(user.userID);
 
     } catch (error) {
         console.error("Authentication check failed:", error);
-        //window.location.href = "login.html";
+        window.location.href = "login.html";
     }
 });

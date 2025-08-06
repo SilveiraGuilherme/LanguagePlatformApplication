@@ -1,16 +1,18 @@
-//const BASE_URL = 'http://localhost:8080';
-const BASE_URL = 'https://language-learning-backend-h4engnf2e0ezc8ch.francecentral-01.azurewebsites.net';
+const BASE_URL = 'http://localhost:8080';
+//const BASE_URL = 'https://language-learning-backend-h4engnf2e0ezc8ch.francecentral-01.azurewebsites.net';
 
+// Retrieves the auth token from localStorage and sets Authorization header
 function getAuthHeaders() {
     const token = localStorage.getItem('token');
     return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
+// Parses and returns JSON response, throws if status is not OK
 async function handleResponse(response) {
     let data = {};
     const contentType = response.headers.get('content-type') || '';
     if (contentType.includes('application/json')) {
-        try { data = await response.json(); } catch { } // ignore parse errors
+        try { data = await response.json(); } catch { }
     }
 
     if (!response.ok) {
@@ -21,7 +23,7 @@ async function handleResponse(response) {
     return data;
 }
 
-// Generic method helpers
+/* ---------- Generic HTTP Methods ---------- */
 async function get(endpoint, query = null) {
     let url = `${BASE_URL}${endpoint}`;
     if (query && typeof query === 'object') {
@@ -75,9 +77,9 @@ async function del(endpoint) {
     return handleResponse(response);
 }
 
-/* ------------------ Domain APIs ------------------ */
+/* ---------- API Methods ---------- */
 
-// Users / Students
+// User
 export function getStudentById(id) { return get(`/api/students/${id}`); }
 // export function updateStudent(id, payload) { return put(`/api/students/${id}`, payload); }
 // export function deleteStudent(id) { return del(`/api/students/${id}`); }
@@ -88,10 +90,10 @@ export function getStudentById(id) { return get(`/api/students/${id}`); }
 export function fetchQuizResultById(resultID) { return get(`/api/quiz-results/${resultID}`); }
 export function submitQuiz(payload) { return post(`/api/quiz-results/submit`, payload); }
 export function getQuizResultsByUserID(userID) { return get(`/api/quiz-results/user/${userID}`); }
+export function createMultipleQuizResults(payloadArray) { return post(`/api/quiz-results`, payloadArray); }
 // export function updateQuizResult(resultID, payload) { return put(`/api/quiz-results/${resultID}`, payload); }
 // export function deleteQuizResult(resultID) { return del(`/api/quiz-results/${resultID}`); }
 // export function getAllQuizResults() { return get(`/api/quiz-results`); }
-export function createMultipleQuizResults(payloadArray) { return post(`/api/quiz-results`, payloadArray); }
 
 // Practice Sessions
 export function startPracticeSession(userID) { return post(`/api/practice-sessions/start`, { userID: parseInt(userID, 10) }); }

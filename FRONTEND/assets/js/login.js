@@ -1,5 +1,7 @@
+// Handles login and registration functionality for the language learning platform
 import { login as apiLogin, register as apiRegister } from './api-config.js';
 
+// Handles user login
 async function handleLogin(event) {
     event.preventDefault();
 
@@ -20,7 +22,6 @@ async function handleLogin(event) {
             throw new Error('Incomplete login response from server.');
         }
 
-        // Normalize storage
         localStorage.setItem('token', token);
         const userObj = {
             userID,
@@ -42,6 +43,7 @@ async function handleLogin(event) {
     }
 }
 
+// Handles user registration
 async function handleRegister(event) {
     event.preventDefault();
 
@@ -76,5 +78,6 @@ async function handleRegister(event) {
     }
 }
 
+// Attach event listeners to forms (if present on page)
 document.getElementById('loginForm')?.addEventListener('submit', handleLogin);
 document.getElementById('registerForm')?.addEventListener('submit', handleRegister);

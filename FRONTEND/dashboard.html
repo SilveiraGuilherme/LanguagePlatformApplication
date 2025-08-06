@@ -22,12 +22,6 @@
 				<header id="header">
 					<a href="dashboard.html" class="logo"><strong>LangFlow</strong> Dashboard</a>
 					<ul class="icons">
-						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-						<li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a>
-						</li>
-						<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-						<li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
 					</ul>
 				</header>
 
@@ -35,9 +29,11 @@
 				<section id="banner">
 					<div class="content">
 						<header>
+							<!-- Display user name dynamically after login -->
 							<h1 id="welcomeText">Welcome, <span id="userNamePlaceholder">User</span>!</h1>
 							<p>Track your learning progress and continue practicing your French skills.</p>
 						</header>
+						<!-- User actions: start quiz or view past results -->
 						<ul class="actions">
 							<li><a href="quiz.html" class="button big">Start Practicing</a></li>
 							<li><a href="quiz-history.html" class="button big">View Quiz History</a></li>
@@ -62,7 +58,7 @@
 					</form>
 				</section>
 
-				<!-- Menu -->
+				<!-- Navigation links -->
 				<nav id="menu">
 					<header class="major">
 						<h2>Menu</h2>
@@ -72,11 +68,12 @@
 						<li><a href="quiz.html">Take a Quiz</a></li>
 						<li><a href="quiz-history.html">Quiz History</a></li>
 						<li><a href="settings.html">Settings</a></li>
+						<!-- Triggers logout function -->
 						<li><a href="#" onclick="logout()">Logout</a></li>
 					</ul>
 				</nav>
 
-				<!-- Section -->
+				<!-- Contact information -->
 				<section>
 					<header class="major">
 						<h2>Get in touch</h2>
@@ -103,7 +100,7 @@
 
 	</div>
 
-	<!-- Scripts -->
+	<!-- Core scripts and module imports -->
 	<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/browser.min.js"></script>
 	<script src="assets/js/breakpoints.min.js"></script>

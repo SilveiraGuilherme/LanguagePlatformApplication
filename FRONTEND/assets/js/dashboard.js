@@ -1,3 +1,4 @@
+// Displays the user's first name on the dashboard page
 document.addEventListener("DOMContentLoaded", () => {
     const firstName = localStorage.getItem('firstName');
 
