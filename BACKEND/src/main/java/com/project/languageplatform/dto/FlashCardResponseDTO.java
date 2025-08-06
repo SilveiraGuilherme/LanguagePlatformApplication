@@ -3,6 +3,10 @@ package com.project.languageplatform.dto;
 import com.project.languageplatform.entity.FlashCard;
 import com.project.languageplatform.enums.DifficultyLevel;
 
+/**
+ * Data Transfer Object for returning flashcard information to the client.
+ * Used in API responses to encapsulate necessary flashcard data.
+ */
 public class FlashCardResponseDTO {
     private Long flashCardID;
     private String sentence;

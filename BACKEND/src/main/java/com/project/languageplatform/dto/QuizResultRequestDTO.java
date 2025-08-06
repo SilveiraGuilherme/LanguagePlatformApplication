@@ -6,6 +6,9 @@ import com.project.languageplatform.enums.DifficultyLevel;
 
 import java.time.LocalDateTime;
 
+/**
+ * DTO to receive quiz result data from the client.
+ */
 public class QuizResultRequestDTO {
     private User user;
     private PracticeSession session;
@@ -15,9 +18,11 @@ public class QuizResultRequestDTO {
     private double scorePercentage;
     private LocalDateTime completionTime;
 
+    // Default constructor
     public QuizResultRequestDTO() {
     }
 
+    // Getters and Setters
     public User getUser() {
         return user;
     }

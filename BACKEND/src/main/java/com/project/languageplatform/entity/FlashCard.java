@@ -6,39 +6,43 @@ import com.project.languageplatform.enums.DifficultyLevel;
 
 import java.util.List;
 
+/**
+ * Entity representing a flashcard used for language learning.
+ * Includes a sentence, difficulty level, multiple choice options, and the correct answer.
+ */
 @Entity
 @Table(name = "FlashCard")
 public class FlashCard {
     // Variables
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long flashCardID;
+    private Long flashCardID; // Primary key
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String sentence;
+    private String sentence; // Sentence in the target language
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private DifficultyLevel difficultyLevel;
+    private DifficultyLevel difficultyLevel; // Difficulty of the sentence (BEGINNER, INTERMEDIATE, ADVANCED)
 
     @Column(nullable = false)
-    private String optionA;
+    private String optionA; // Multiple choice option
 
     @Column(nullable = false)
-    private String optionB;
+    private String optionB; // Multiple choice option
 
     @Column(nullable = false)
-    private String optionC;
+    private String optionC; // Multiple choice option
 
     @Column(nullable = false)
-    private String optionD;
+    private String optionD; // Multiple choice option
 
     @Column(nullable = false)
-    private String correctAnswer; // should match one of the options
+    private String correctAnswer; // Correct answer text matching one of the options
 
     @OneToMany(mappedBy = "flashCard", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<PracticeSessionFlashCard> practiceSessionFlashCards;
+    private List<PracticeSessionFlashCard> practiceSessionFlashCards; // List of associations with practice sessions (hidden in JSON)
 
     // Constructors
     public FlashCard() {

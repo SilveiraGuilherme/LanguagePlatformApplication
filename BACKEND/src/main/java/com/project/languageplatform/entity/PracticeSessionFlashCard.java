@@ -10,9 +10,9 @@ import com.project.languageplatform.enums.Rating;
 @Entity
 @Table(name = "PracticeSessionFlashCard")
 public class PracticeSessionFlashCard {
-    // Variables
+
     @EmbeddedId
-    private PracticeSessionFlashCardId id = new PracticeSessionFlashCardId();
+    private PracticeSessionFlashCardId id = new PracticeSessionFlashCardId(); // Composite key: sessionID + flashCardID
 
     @ManyToOne
     @MapsId("sessionID")
@@ -25,15 +25,16 @@ public class PracticeSessionFlashCard {
     private FlashCard flashCard;
 
     @Min(0)
-    private int positionInQueue;
+    private int positionInQueue; // Used to order flashcards in a session
 
     @Enumerated(EnumType.STRING)
-    private Rating rating = Rating.DONT_KNOW;
+    private Rating rating = Rating.DONT_KNOW; // Initial rating for new flashcards
 
-    // Constructors
+    // Default constructor
     public PracticeSessionFlashCard() {
     }
 
+    // Constructor with all fields
     public PracticeSessionFlashCard(PracticeSession session, FlashCard flashCard, int positionInQueue, Rating rating) {
         this.session = session;
         this.flashCard = flashCard;
@@ -42,6 +43,7 @@ public class PracticeSessionFlashCard {
         this.id = new PracticeSessionFlashCardId(session.getSessionID(), flashCard.getFlashCardID());
     }
 
+    // Constructor for default rating
     public PracticeSessionFlashCard(PracticeSession session, FlashCard flashCard) {
         this.session = session;
         this.flashCard = flashCard;

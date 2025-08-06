@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 
 import com.project.languageplatform.enums.DifficultyLevel;
 
+/**
+ * DTO for returning quiz result details to the frontend.
+ */
 public class QuizResultResponseDTO {
     private Long resultID;
     private Long studentID;

@@ -17,14 +17,14 @@ public class FlashCardController {
     @Autowired
     private FlashCardService flashCardService;
 
-    // Get all flashcards
+    // Returns all flashcards (STUDENT or ADMIN)
     @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
     @GetMapping
     public ResponseEntity<List<FlashCard>> getAllFlashCards() {
         return ResponseEntity.ok(flashCardService.getAllFlashCards());
     }
 
-    // Get a flashcard by its ID
+    // Returns a flashcard by ID (STUDENT or ADMIN)
     @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<FlashCard> getFlashCardById(@PathVariable Long id) {
@@ -33,7 +33,7 @@ public class FlashCardController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Filter flashcards by difficulty level (e.g., BEGINNER, INTERMEDIATE, ADVANCED)
+    // Filters flashcards by difficulty level (STUDENT or ADMIN)
     @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
     @GetMapping("/filter")
     public ResponseEntity<List<FlashCard>> getFlashCardsByDifficulty(@RequestParam String difficultyLevel) {
@@ -49,14 +49,14 @@ public class FlashCardController {
         return ResponseEntity.ok(flashCardService.getFlashCardsFiltered(difficultyLevel.toUpperCase()));
     }
 
-    // Create a new flashcard
+    // Creates a new flashcard (ADMIN only)
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<FlashCard> createFlashCard(@RequestBody FlashCard flashCard) {
         return ResponseEntity.ok(flashCardService.saveFlashCard(flashCard));
     }
 
-    // Update an existing flashcard by ID
+    // Updates a flashcard by ID (ADMIN only)
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<FlashCard> updateFlashCard(@PathVariable Long id, @RequestBody FlashCard flashCard) {
@@ -64,7 +64,7 @@ public class FlashCardController {
         return ResponseEntity.ok(flashCardService.saveFlashCard(flashCard));
     }
 
-    // Delete a flashcard by ID
+    // Deletes a flashcard by ID (ADMIN only)
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFlashCard(@PathVariable Long id) {

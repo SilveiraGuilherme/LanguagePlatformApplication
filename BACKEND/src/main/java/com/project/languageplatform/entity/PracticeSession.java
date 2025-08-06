@@ -45,7 +45,8 @@ public class PracticeSession {
         this.user = user;
         this.startTime = LocalDateTime.now();
     }
-
+    
+    // Automatically set startTime if not manually set
     @PrePersist
     protected void onCreate() {
         if (this.startTime == null) {

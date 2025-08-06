@@ -1,10 +1,10 @@
 package com.project.languageplatform.dto;
 
+// DTO for handling forgot password requests
 public class ForgotPasswordRequest {
-    // Variable
     private String email;
 
-    // Constructor
+    // Constructors
     public ForgotPasswordRequest() {
     }
 

@@ -1,6 +1,8 @@
 package com.project.languageplatform.dto;
 
-// This class is used to encapsulate the data needed to reset a user's password.
+/**
+ * DTO for handling password reset requests.
+ */
 public class ResetPasswordRequest {
     // Variables
     private String email;

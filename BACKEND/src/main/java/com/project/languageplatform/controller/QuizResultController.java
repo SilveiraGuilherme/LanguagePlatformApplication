@@ -3,7 +3,6 @@ package com.project.languageplatform.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.project.languageplatform.dto.QuizResultRequestDTO;
@@ -33,7 +32,7 @@ public class QuizResultController {
     @Autowired
     private QuizResultRepository quizResultRepository;
 
-    // Get all quiz results
+    // Fetch all quiz results
     @GetMapping
     public List<QuizResultResponseDTO> getAllQuizResults() {
         return quizResultService.getAllQuizResults().stream().map(result -> {
@@ -51,9 +50,8 @@ public class QuizResultController {
         }).toList();
     }
 
-    // Get a quiz result by ID
+    // Fetch a single quiz result by its ID
     @GetMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<QuizResultResponseDTO> getQuizResultById(@PathVariable Long id) {
         QuizResult result = quizResultService.getQuizResultById(id);
         QuizResultResponseDTO dto = new QuizResultResponseDTO();
@@ -69,14 +67,13 @@ public class QuizResultController {
         return ResponseEntity.ok(dto);
     }
 
-    // Get all quiz results for a given user (for profile history or user dashboard)
-    // Get all quiz results by a specific user ID
+    // Fetch all quiz results by user ID
     @GetMapping("/user/{userID}")
     public List<QuizResultResponseDTO> getQuizResultsByUserID(@PathVariable Long userID) {
         return quizResultService.getQuizResultsByUserId(userID);
     }
 
-    // Create multiple quiz results
+    // Save multiple quiz results
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<List<QuizResult>> createMultipleQuizResults(@RequestBody List<QuizResult> quizResults) {
@@ -86,8 +83,7 @@ public class QuizResultController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedResults);
     }
 
-    // Process quiz submission
-    @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
+    // Submit a quiz result (used at end of quiz session)
     @PostMapping("/submit")
     public ResponseEntity<Map<String, Object>> submitQuizResult(@RequestBody QuizResultRequestDTO requestDTO) {
         Long userId = requestDTO.getUser().getUserID();
@@ -115,7 +111,7 @@ public class QuizResultController {
         return ResponseEntity.ok(response);
     }
 
-    // Update an existing quiz result
+    // Update quiz result by ID
     @PutMapping("/{id}")
     public ResponseEntity<QuizResult> updateQuizResult(@PathVariable Long id, @RequestBody QuizResult updatedResult) {
         updatedResult.setResultID(id);
@@ -123,7 +119,7 @@ public class QuizResultController {
         return ResponseEntity.ok(updated);
     }
 
-    // Delete a quiz result by ID
+    // Delete quiz result by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteQuizResult(@PathVariable Long id) {
         quizResultService.deleteQuizResultById(id);

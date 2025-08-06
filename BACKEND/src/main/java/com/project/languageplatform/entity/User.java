@@ -13,9 +13,8 @@ import jakarta.validation.constraints.Email;
 @Table(name = "User")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class User {
-    // Variables
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment primary key
     @Column(name = "userID")
     private Long userID;
 
@@ -43,12 +42,11 @@ public class User {
     private Role role = Role.STUDENT;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PracticeSession> practiceSessions;
+    private List<PracticeSession> practiceSessions; // Practice sessions associated with the user
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<QuizResult> quizResults;
+    private List<QuizResult> quizResults; // Quiz results associated with the user
 
-    // Constructors
     public User() {
     }
 
@@ -63,7 +61,6 @@ public class User {
         this.password = password;
     }
 
-    // Getters and Setters
     public String getEmail() {
         return email;
     }

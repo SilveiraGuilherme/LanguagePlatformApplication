@@ -5,6 +5,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+/**
+ * DTO for user registration.
+ */
 public class RegisterRequest {
     // Variables for registration details
     @NotBlank(message = "Email is required")
@@ -21,7 +24,7 @@ public class RegisterRequest {
     @NotBlank(message = "Last name is required")
     private String lastName;
 
-    // Constructor
+    // Constructors
     public RegisterRequest() {
     }
     public RegisterRequest(String email, String password, String firstName, String lastName) {

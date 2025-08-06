@@ -1,5 +1,6 @@
-// Helper class required for a table with a composite primary key
-// The unique identifier for this table is made of two fields together.
+/**
+ * Composite key for PracticeSessionFlashCard entity using sessionID and flashCardID.
+ */
 
 package com.project.languageplatform.entity.id;
 
@@ -9,11 +10,9 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class PracticeSessionFlashCardId implements Serializable {
-    // Variables
     private Long sessionID;
     private Long flashCardID;
 
-    // Constructors
     public PracticeSessionFlashCardId() {
     }
 
@@ -22,7 +21,6 @@ public class PracticeSessionFlashCardId implements Serializable {
         this.flashCardID = flashCardID;
     }
 
-    // Getters and Setters
     public Long getSessionID() {
         return sessionID;
     }
@@ -39,7 +37,6 @@ public class PracticeSessionFlashCardId implements Serializable {
         this.flashCardID = flashCardID;
     }
 
-    // Equals and hashCode
     @Override
     public boolean equals(Object o) {
         if (this == o)

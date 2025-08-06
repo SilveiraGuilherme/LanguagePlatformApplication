@@ -2,8 +2,8 @@ package com.project.languageplatform.dto;
 
 import com.project.languageplatform.enums.Role;
 
+// DTO representing the response returned upon successful authentication
 public class AuthResponse {
-    // Variable to hold the authentication token
     private String token;
     private Long userID;
     private String firstName;
@@ -11,7 +11,6 @@ public class AuthResponse {
     private String email;
     private Role role;
 
-    // Constructor to initialize the AuthResponse with a token
     public AuthResponse() {
     }
 
@@ -24,7 +23,7 @@ public class AuthResponse {
         this.role = role;
     }
 
-    // Getters and Setters
+    // Getters and setters
     public String getToken() {
         return token;
     }

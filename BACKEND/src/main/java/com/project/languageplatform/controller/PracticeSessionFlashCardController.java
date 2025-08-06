@@ -23,40 +23,35 @@ public class PracticeSessionFlashCardController {
     @Autowired
     private PracticeSessionFlashCardService service;
 
-    // Retrieve all PracticeSessionFlashCard records
+    // Get all PracticeSessionFlashCard records
     @GetMapping
-    @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
     public List<PracticeSessionFlashCard> getAll() {
         return service.getAll();
     }
 
-    // Retrieve a PracticeSessionFlashCard by its composite ID (sessionId and
-    // flashCardId)
+    // Get flashcard by sessionId and flashCardId
     @GetMapping("/{sessionId}/{flashCardId}")
-    @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
     public Optional<PracticeSessionFlashCard> getById(@PathVariable Long sessionId,
             @PathVariable Long flashCardId) {
         PracticeSessionFlashCardId id = new PracticeSessionFlashCardId(sessionId, flashCardId);
         return service.getById(id);
     }
 
-    // Retrieve all flashcards associated with a specific practice session
+    // Get all flashcards for a session
     @GetMapping("/session/{sessionId}")
-    @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
     public List<PracticeSessionFlashCard> getBySessionId(@PathVariable Long sessionId) {
         return service.getBySessionId(sessionId);
     }
 
-    // Create a new PracticeSessionFlashCard entry
+    // Create a new PracticeSessionFlashCard
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public PracticeSessionFlashCard create(@RequestBody PracticeSessionFlashCard psfc) {
         return service.save(psfc);
     }
 
-    // Update the rating for a specific PracticeSessionFlashCard
+    // Update rating of a PracticeSessionFlashCard
     @PutMapping("/{sessionId}/{flashCardId}/rating")
-    @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
     public void updateRating(@PathVariable Long sessionId,
             @PathVariable Long flashCardId,
             @RequestBody java.util.Map<String, String> request) {
@@ -66,7 +61,7 @@ public class PracticeSessionFlashCardController {
         service.upsertRating(sessionId, flashCardId, userId, rating);
     }
 
-    // Delete a PracticeSessionFlashCard by its composite ID
+    // Delete a PracticeSessionFlashCard by ID
     @DeleteMapping("/{sessionId}/{flashCardId}")
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -76,7 +71,7 @@ public class PracticeSessionFlashCardController {
         service.deleteById(id);
     }
 
-    // Create a PracticeSessionFlashCard from session and flashcard IDs
+    // Create from sessionId and flashCardId
     @PostMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
     public PracticeSessionFlashCard createSimplified(@RequestBody java.util.Map<String, Object> data) {
@@ -88,16 +83,14 @@ public class PracticeSessionFlashCardController {
 
     // Get prioritized flashcards for a session
     @GetMapping("/session/{sessionId}/prioritized")
-    @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
     public List<com.project.languageplatform.entity.FlashCard> getPrioritizedFlashCards(
             @PathVariable Long sessionId,
             @RequestParam(defaultValue = "10") int limit) {
         return service.getPrioritizedFlashCardsForSession(sessionId, limit);
     }
 
-    // Get next flashcards for a user (prioritized, filled with fresh if needed)
+    // Get next flashcards for user, prioritized and supplemented
     @GetMapping("/next-flashcards/{userID}")
-    @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
     public List<FlashCardResponseDTO> getNextSessionFlashCardsForUser(
             @PathVariable Long userID,
             @RequestParam(defaultValue = "10") int limit) {

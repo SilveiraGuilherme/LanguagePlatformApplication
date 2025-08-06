@@ -8,10 +8,10 @@ import com.project.languageplatform.enums.DifficultyLevel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+// Represents the result of a quiz taken by a user.
 @Entity
 @Table(name = "QuizResult")
 public class QuizResult {
-    // Variables
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long resultID;
@@ -40,15 +40,16 @@ public class QuizResult {
     @Column(nullable = false)
     private int correctAnswers;
 
+    // Timestamp marking when the quiz was completed.
     @NotNull
     @Column(name = "completionTime", nullable = false)
     private LocalDateTime completionTime;
 
+    // Calculated percentage score for the quiz.
     @NotNull
     @Column(name = "scorePercentage")
     private double scorePercentage;
 
-    // Constructors
     public QuizResult() {
     }
 
@@ -63,7 +64,6 @@ public class QuizResult {
     }
 
 
-    // Getters and Setters
     public Long getResultID() {
         return resultID;
     }

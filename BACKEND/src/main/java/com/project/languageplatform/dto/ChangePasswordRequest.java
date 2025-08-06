@@ -4,18 +4,17 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class ChangePasswordRequest {
-    // Variables
+
     @NotBlank
     @Email
-    private String email;
+    private String email; // User's email address
 
     @NotBlank
-    private String currentPassword;
+    private String currentPassword; // Existing password for verification
 
     @NotBlank
-    private String newPassword;
+    private String newPassword; // New password to be set
 
-    // Constructor
     public ChangePasswordRequest() {
     }
 
@@ -25,7 +24,6 @@ public class ChangePasswordRequest {
         this.newPassword = newPassword;
     }
 
-    // Getters and Setters
     public String getEmail() {
         return email;
     }

@@ -19,14 +19,14 @@ public class PracticeSessionController {
     @Autowired
     private PracticeSessionService practiceSessionService;
 
-    // Retrieve all practice sessions
+    // Get all practice sessions (admin or student access)
     @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
     @GetMapping
     public List<PracticeSession> getAllSessions() {
         return practiceSessionService.getAllPracticeSessions();
     }
 
-    // Retrieve a practice session by its ID
+    // Get a specific practice session by ID
     @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<PracticeSession> getSessionById(@PathVariable Long id) {
@@ -35,7 +35,7 @@ public class PracticeSessionController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Retrieve the ongoing (not finished) practice session for a specific student
+    // Get the current ongoing session for a student
     @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
     @GetMapping("/ongoing/{userID}")
     public ResponseEntity<PracticeSession> getOngoingSession(@PathVariable Long userID) {
@@ -44,7 +44,7 @@ public class PracticeSessionController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Create a new practice session
+    // Start a new practice session for a student
     @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
     @PostMapping("/start")
     public ResponseEntity<PracticeSession> createSession(@RequestBody Map<String, Long> request) {
@@ -53,14 +53,14 @@ public class PracticeSessionController {
         return ResponseEntity.status(201).body(session);
     }
 
-    // Update an existing practice session by its ID
+    // Update a practice session (admin only)
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public PracticeSession updateSession(@PathVariable Long id, @RequestBody PracticeSession updatedSession) {
         return practiceSessionService.updatePracticeSession(id, updatedSession);
     }
 
-    // Delete a practice session by its ID
+    // Delete a practice session by ID (admin only)
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteSession(@PathVariable Long id) {

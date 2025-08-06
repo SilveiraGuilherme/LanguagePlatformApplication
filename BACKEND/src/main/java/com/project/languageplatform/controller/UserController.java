@@ -18,14 +18,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // Get all students
+    // Get all students (Admin only)
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<User>> getAllStudents() {
         return ResponseEntity.ok(userService.getAllStudents());
     }
 
-    // Get student by ID
+    // Get a student by ID (Student or Admin)
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
     public ResponseEntity<User> getStudentById(@PathVariable Long id) {
@@ -34,7 +34,7 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Create new student
+    // Create a new student (Student or Admin)
     @PostMapping
     @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
     public ResponseEntity<User> createStudent(@RequestBody User student) {
@@ -43,7 +43,7 @@ public class UserController {
                 .body(createdStudent);
     }
 
-    // Update student
+    // Update an existing student (Student or Admin)
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
     public ResponseEntity<User> updateStudent(@PathVariable Long id, @RequestBody User student) {
@@ -54,7 +54,7 @@ public class UserController {
         return ResponseEntity.ok(userService.saveStudent(student));
     }
 
-    // Delete student
+    // Delete a student (Admin only)
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
