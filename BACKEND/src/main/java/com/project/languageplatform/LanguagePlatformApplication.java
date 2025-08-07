@@ -12,13 +12,19 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * Main application class for the Language Platform.
+ * It bootstraps the Spring Boot application and loads initial flashcard data.
+ */
 @SpringBootApplication
 public class LanguagePlatformApplication {
 
+	// Entry point for the Spring Boot application
 	public static void main(String[] args) {
 		SpringApplication.run(LanguagePlatformApplication.class, args);
 	}
 
+	// Loads flashcards from a JSON file into the database at application startup
 	@Bean
 	public CommandLineRunner loadFlashCards(FlashCardRepository repository) {
 	    return args -> {

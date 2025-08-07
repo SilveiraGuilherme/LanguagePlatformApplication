@@ -4,7 +4,7 @@
 
 package com.project.languageplatform.entity.id;
 
-import java.io.Serializable; // Required by JPA to allow object comparison and caching
+import java.io.Serializable;
 import java.util.Objects;
 import jakarta.persistence.Embeddable;
 

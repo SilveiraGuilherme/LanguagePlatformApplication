@@ -10,12 +10,14 @@ import com.project.languageplatform.repository.UserRepository;
 
 import java.util.Collections;
 
+// Custom implementation of Spring Security's UserDetailsService to load user details during authentication
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
 
+    // Loads the user from the database using email and builds a Spring Security User object
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)

@@ -1,3 +1,8 @@
+
+/**
+ * Service class responsible for processing quiz submissions, calculating results,
+ * saving them, and retrieving quiz history for users.
+ */
 package com.project.languageplatform.service;
 
 import com.project.languageplatform.enums.Rating;
@@ -38,17 +43,17 @@ public class QuizResultService {
     @Autowired
     public PracticeSessionFlashCardService practiceSessionFlashCardService;
 
-    // Return all quiz results
+    // Fetch all quiz results (admin use)
     public List<QuizResult> getAllQuizResults() {
         return quizResultRepository.findAll();
     }
 
-    // Save a new quiz result
+    // Save a given QuizResult entity
     public QuizResult saveQuizResult(QuizResult result) {
         return quizResultRepository.save(result);
     }
 
-    // Delete quiz result by ID
+    // Delete a quiz result by its ID, throwing error if not found
     public void deleteQuizResultById(Long id) {
         if (!quizResultRepository.existsById(id)) {
             throw new RuntimeException("QuizResult not found with ID: " + id);
@@ -56,6 +61,7 @@ public class QuizResultService {
         quizResultRepository.deleteById(id);
     }
 
+    // Handle quiz submission, calculate score, update ratings, and return result summary
     @SuppressWarnings("unchecked")
     public QuizResultResponseDTO processQuizSubmission(Map<String, Object> submissionData) {
         Map<String, Object> userMap = (Map<String, Object>) submissionData.get("user");
@@ -122,6 +128,7 @@ public class QuizResultService {
         result.setScorePercentage(scorePercentage);
         result.setCompletionTime(LocalDateTime.now());
 
+        // Extract and validate difficulty level
         Object difficultyObj = submissionData.get("difficultyLevel");
         if (difficultyObj != null) {
             String difficultyStr = difficultyObj.toString().trim().toUpperCase();
@@ -167,6 +174,7 @@ public class QuizResultService {
         return response;
     }
 
+    // Retrieve all quiz results for a given user, formatted as response DTOs
     public List<QuizResultResponseDTO> getQuizResultsByUserId(Long userID) {
         User user = userRepository.findById(userID)
                 .orElseThrow(() -> new RuntimeException("User not found: " + userID));
@@ -188,7 +196,7 @@ public class QuizResultService {
         }).toList();
     }
 
-    // Retrieve quiz result by ID
+    // Retrieve a single quiz result by its ID
     public QuizResult getQuizResultById(Long id) {
         return quizResultRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("QuizResult not found with ID: " + id));

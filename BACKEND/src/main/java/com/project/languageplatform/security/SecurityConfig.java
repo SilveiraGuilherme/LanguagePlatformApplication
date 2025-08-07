@@ -12,11 +12,12 @@ import org.springframework.security.crypto.bcrypt.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.*;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import java.util.List;
 
+/**
+ * SecurityConfig class configures Spring Security for the application.
+ * It sets up HTTP security rules, disables CSRF, enables JWT authentication,
+ * and defines access based on user roles (ADMIN, STUDENT).
+ */
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
@@ -30,6 +31,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    // Defines security filter chain including CORS, JWT filter, and route access rules
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .cors(org.springframework.security.config.Customizer.withDefaults())
@@ -55,6 +57,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    // Provides authentication using custom user details service and password encoder
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
@@ -63,11 +66,13 @@ public class SecurityConfig {
     }
 
     @Bean
+    // Exposes the AuthenticationManager bean for authentication processes
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
     @Bean
+    // Defines the password encoder using BCrypt
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }

@@ -17,6 +17,9 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for PracticeSessionService using Mockito.
+ */
 public class PracticeSessionServiceTest {
 
     @Mock
@@ -29,6 +32,8 @@ public class PracticeSessionServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
+
+    // --- Retrieval Tests ---
 
     @Test
     void testGetAllPracticeSessions() {
@@ -61,6 +66,8 @@ public class PracticeSessionServiceTest {
         verify(practiceSessionRepository, times(1)).findByUserUserIDAndSessionStatus(1L, PracticeSession.SessionStatus.ONGOING);
     }
 
+    // --- Save/Update Tests ---
+
     @Test
     void testSavePracticeSession() {
         PracticeSession session = new PracticeSession();
@@ -71,28 +78,30 @@ public class PracticeSessionServiceTest {
         verify(practiceSessionRepository, times(1)).save(session);
     }
 
-@Test
-void testUpdatePracticeSession() {
-    Long sessionId = 1L;
+    @Test
+    void testUpdatePracticeSession() {
+        Long sessionId = 1L;
 
-    PracticeSession existingSession = new PracticeSession();
-    existingSession.setSessionStatus(PracticeSession.SessionStatus.ONGOING);
+        PracticeSession existingSession = new PracticeSession();
+        existingSession.setSessionStatus(PracticeSession.SessionStatus.ONGOING);
 
-    PracticeSession updatedSession = new PracticeSession();
-    updatedSession.setSessionStatus(PracticeSession.SessionStatus.ONGOING); // simulate update
+        PracticeSession updatedSession = new PracticeSession();
+        updatedSession.setSessionStatus(PracticeSession.SessionStatus.ONGOING);
 
-    // Mock the findById call to return an existing session
-    when(practiceSessionRepository.findById(sessionId)).thenReturn(Optional.of(existingSession));
+        // Mock the findById call to return an existing session
+        when(practiceSessionRepository.findById(sessionId)).thenReturn(Optional.of(existingSession));
 
-    // Mock the save call to return the updated session
-    when(practiceSessionRepository.save(existingSession)).thenReturn(existingSession);
+        // Mock the save call to return the updated session
+        when(practiceSessionRepository.save(existingSession)).thenReturn(existingSession);
 
-    PracticeSession result = practiceSessionService.updatePracticeSession(sessionId, updatedSession);
+        PracticeSession result = practiceSessionService.updatePracticeSession(sessionId, updatedSession);
 
-    assertEquals(existingSession, result);
-    verify(practiceSessionRepository).findById(sessionId);
-    verify(practiceSessionRepository).save(existingSession);
-}
+        assertEquals(existingSession, result);
+        verify(practiceSessionRepository).findById(sessionId);
+        verify(practiceSessionRepository).save(existingSession);
+    }
+
+    // --- Deletion Test ---
 
     @Test
     void testDeletePracticeSession() {

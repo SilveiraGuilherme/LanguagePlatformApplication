@@ -15,7 +15,6 @@ import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -70,6 +69,7 @@ public class PracticeSessionFlashCardService {
         }
     }
 
+    // Add a flashcard to a given practice session
     public PracticeSessionFlashCard addFlashCardToSession(PracticeSession session, FlashCard flashCard) {
         PracticeSessionFlashCard psfc = new PracticeSessionFlashCard(session, flashCard);
         return repository.save(psfc);
@@ -100,7 +100,7 @@ public class PracticeSessionFlashCardService {
                 .toList();
     }
 
-    // Helper method to get priority based on rating
+    // Assign numerical priority to a rating
     private int getPriority(Rating rating) {
         return switch (rating) {
             case DONT_KNOW -> 4;
@@ -120,13 +120,12 @@ public class PracticeSessionFlashCardService {
 
         PracticeSessionFlashCard psfc = new PracticeSessionFlashCard(session, flashCard);
         psfc.setRating(rating);
-        // Set a default position (can be ignored if dynamically calculated later)
+        // Set a default position
         psfc.setPositionInQueue(0);
         return repository.save(psfc);
     }
 
-    /// Get next flashcards for a user, prioritizing rated cards and filling with
-    /// fresh ones if needed
+    // Get flashcards for the next session (prioritize rated, fill with fresh)
     public List<FlashCard> getNextSessionFlashCards(Long userID, int maxFlashcards) {
         // Step 1: Get flashcards the user has never practiced before
         List<FlashCard> unseen = getUnseenFlashCards(userID, maxFlashcards);
@@ -179,7 +178,6 @@ public class PracticeSessionFlashCardService {
                 .limit(limit)
                 .toList();
     }
-    // Save or override the rating given by a user for a flashcard in a session
     // Save or update the user's rating for a flashcard in a session
     public void upsertRating(Long sessionId, Long flashCardId, Long userId, Rating rating) {
         PracticeSessionFlashCardId psfcId = new PracticeSessionFlashCardId(sessionId, flashCardId);

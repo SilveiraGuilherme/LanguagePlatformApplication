@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Service class responsible for managing flashcards.
- * It interacts with the FlashCardRepository to perform CRUD operations.
+ * Service class responsible for handling business logic related to FlashCards.
+ * Provides methods to retrieve, filter, save, and delete flashcards.
  */
 @Service
 public class FlashCardService {
@@ -27,22 +27,22 @@ public class FlashCardService {
         this.flashCardRepository = flashCardRepository;
     }
 
-    // Get all flashcards
+    // Retrieve all flashcards
     public List<FlashCard> getAllFlashCards() {
         return flashCardRepository.findAll();
     }
 
-    // Get a flashcard by ID
+    // Retrieve a flashcard by its ID
     public Optional<FlashCard> getFlashCardById(Long id) {
         return flashCardRepository.findById(id);
     }
 
-    // Get flashcards by enum difficulty
+    // Retrieve flashcards by DifficultyLevel enum
     public List<FlashCard> getFlashCardsByDifficulty(DifficultyLevel difficultyLevel) {
         return flashCardRepository.findByDifficultyLevel(difficultyLevel);
     }
 
-    // Get flashcards by difficulty string or all if invalid
+    // Retrieve flashcards by difficulty string or all if input is invalid
     public List<FlashCard> getFlashCardsFiltered(String difficultyLevelStr) {
         try {
             DifficultyLevel difficultyLevel = DifficultyLevel.valueOf(difficultyLevelStr.toUpperCase());
@@ -61,7 +61,8 @@ public class FlashCardService {
     public void deleteFlashCard(Long id) {
         flashCardRepository.deleteById(id);
     }
-    // Get unseen flashcards for a specific user up to a limit
+
+    // Retrieve unseen flashcards for a specific user with a limit
     public List<FlashCard> getUnseenFlashCards(Long userID, int limit) {
         Pageable pageable = PageRequest.of(0, limit);
         return flashCardRepository.findUnseenFlashCardsForUser(userID, pageable);

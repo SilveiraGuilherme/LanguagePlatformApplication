@@ -12,6 +12,7 @@ import com.project.languageplatform.dto.RegisterRequest;
 import com.project.languageplatform.entity.User;
 import com.project.languageplatform.repository.UserRepository;
 
+// Handles authentication logic including login, registration, and password operations
 @Service
 public class AuthenticationService {
 
@@ -28,6 +29,7 @@ public class AuthenticationService {
         this.authManager = authManager;
     }
 
+    // Registers a new user and returns a JWT token
     public String register(RegisterRequest request) {
         User user = new User();
         user.setEmail(request.getEmail());
@@ -38,6 +40,7 @@ public class AuthenticationService {
         return jwtUtil.generateToken(user.getEmail(), user.getRole().name());
     }
 
+    // Authenticates user and returns token and user details
     public Map<String, Object> login(LoginRequest request) {
         authManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
@@ -58,12 +61,14 @@ public class AuthenticationService {
         return response;
     }
 
+    // Generates a JWT token for password reset
     public String generateResetToken(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User with given email not found."));
         return jwtUtil.generateToken(user.getEmail(), user.getRole().name()); // This token can be reused for password reset
     }
 
+    // Resets user password after validating token
     public void resetPassword(String email, String token, String newPassword) {
         if (!jwtUtil.validateToken(token, email)) {
             throw new IllegalArgumentException("Invalid or expired token.");
@@ -75,6 +80,8 @@ public class AuthenticationService {
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
+    
+    // Changes password after verifying current one
     public void changePassword(String email, String currentPassword, String newPassword) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));

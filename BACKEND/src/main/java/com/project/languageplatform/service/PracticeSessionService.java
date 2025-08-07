@@ -19,27 +19,26 @@ public class PracticeSessionService {
     @Autowired
     private PracticeSessionRepository practiceSessionRepository;
 
-    // Get all sessions
+    // Retrieve all practice sessions
     public List<PracticeSession> getAllPracticeSessions() {
         return practiceSessionRepository.findAll();
     }
 
-    // Get session by ID
+    // Retrieve a practice session by its ID
     public Optional<PracticeSession> getPracticeSessionById(Long id) {
         return practiceSessionRepository.findById(id);
     }
 
-    // Get student's ongoing session
+    // Retrieve the ongoing session for a specific student
     public Optional<PracticeSession> getOngoingSessionByStudentId(Long userID) {
         return practiceSessionRepository.findByUserUserIDAndSessionStatus(userID,
                 PracticeSession.SessionStatus.ONGOING);
     }
 
-
-    // Start a new session for a student
     @Autowired
     private UserRepository userRepository;
 
+    // Create and start a new session for a student
     public PracticeSession startSessionForStudent(Long userID) {
         User user = userRepository.findById(userID)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
@@ -51,6 +50,7 @@ public class PracticeSessionService {
         return practiceSessionRepository.save(session);
     }
 
+    // Mark a session as completed by setting its end time and status
     public PracticeSession completeSession(Long sessionId) {
         PracticeSession session = practiceSessionRepository.findById(sessionId)
                 .orElseThrow(() -> new RuntimeException("Session not found"));
@@ -61,12 +61,12 @@ public class PracticeSessionService {
         return practiceSessionRepository.save(session);
     }
 
-    // Save new session
+    // Save a new or existing practice session
     public PracticeSession savePracticeSession(PracticeSession session) {
         return practiceSessionRepository.save(session);
     }
 
-    // Update session status and end time
+    // Update the status and end time of a practice session
     public PracticeSession updatePracticeSession(Long id, PracticeSession updatedSession) {
         PracticeSession session = practiceSessionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Session not found"));
@@ -77,7 +77,7 @@ public class PracticeSessionService {
         return practiceSessionRepository.save(session);
     }
 
-    // Delete session by ID
+    // Delete a practice session by its ID
     public void deletePracticeSession(Long id) {
         practiceSessionRepository.deleteById(id);
     }

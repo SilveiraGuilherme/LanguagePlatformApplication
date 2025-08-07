@@ -43,7 +43,7 @@ public class FlashCardServiceTest {
     @Test
     public void testGetAllFlashCards() {
         List<FlashCard> flashCards = flashCardService.getAllFlashCards();
-        System.out.println("✅ Test ran successfully. Flashcard count: " + flashCards.size());
+        System.out.println("Test ran successfully. Flashcard count: " + flashCards.size());
         assertFalse(flashCards.isEmpty(), "FlashCards list should not be empty");
         assertEquals(1, flashCards.size(), "There should be 1 flashcard");
         assertEquals("Comment tu t'appelles ?", flashCards.get(0).getSentence());

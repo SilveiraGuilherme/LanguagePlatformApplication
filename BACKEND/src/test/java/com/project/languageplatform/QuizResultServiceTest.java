@@ -17,6 +17,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Test class for verifying the behavior of QuizResultService
+ */
 public class QuizResultServiceTest {
 
     private QuizResultRepository quizResultRepository;

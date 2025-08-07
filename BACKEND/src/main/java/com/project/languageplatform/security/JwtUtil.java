@@ -7,12 +7,17 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
+/**
+ * Utility class for generating, parsing, and validating JWT tokens.
+ * Used for securing user authentication and authorization.
+ */
 @Component
 public class JwtUtil {
 
-    // Secret key for signing tokens (use environment variables in production)
+    // Static secret key used for signing JWTs (replace with secure environment variable in production)
     private final SecretKey SECRET_KEY = Keys.hmacShaKeyFor("secretKey1234567890secretKey1234567890".getBytes());
 
+    // JWT token validity duration (10 hours)
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; // 10 hours
 
     // Generate a JWT token using user's email and role
@@ -31,6 +36,7 @@ public class JwtUtil {
         return extractClaims(token).getSubject();
     }
 
+    // Extract user role from token claims
     public String extractRole(String token) {
         return extractClaims(token).get("role", String.class);
     }
