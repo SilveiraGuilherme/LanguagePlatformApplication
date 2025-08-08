@@ -1,6 +1,6 @@
-# 🌍 LangDrill
+# 🌍 LangFlow
 
-**LangDrill** is a full-stack language learning platform designed to help students practice sentence-based flashcards through adaptive quizzes. The backend supports user registration, secure sessions, flashcard management, and quiz result tracking using spaced repetition principles.
+**LangFlow** is a full-stack language learning platform designed to help students practice sentence-based flashcards through adaptive quizzes. The backend supports user registration, secure sessions, flashcard management, and quiz result tracking using spaced repetition principles.
 
 This project was developed as the final project of my **Higher Diploma in Computing** at **National College of Ireland (NCI)**. It applies multiple concepts and technologies I’ve learned throughout the course, with an emphasis on real-world backend development and RESTful API design.
 
