@@ -14,6 +14,7 @@ try {
 }
 
 // Show user details on page
+console.log('User data:', user);
 document.getElementById('userFullName').textContent = `${user.firstName} ${user.lastName}`;
 document.getElementById('userEmail').textContent = user.email;
 

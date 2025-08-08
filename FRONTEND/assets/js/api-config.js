@@ -81,8 +81,8 @@ async function del(endpoint) {
 
 // User
 export function getStudentById(id) { return get(`/api/students/${id}`); }
-// export function updateStudent(id, payload) { return put(`/api/students/${id}`, payload); }
-// export function deleteStudent(id) { return del(`/api/students/${id}`); }
+export function deleteStudent(id) { return del(`/api/students/${id}`); }
+export function updateStudent(id, payload) { return put(`/api/students/${id}`, payload); }
 // export function getAllStudents() { return get(`/api/students`); }
 // export function createStudent(payload) { return post(`/api/students`, payload); }
 
@@ -125,6 +125,6 @@ export function createFlashCard(payload) { return post(`/api/flashcards`, payloa
 // Authentication
 export function register(payload) { return post(`/api/auth/register`, payload); }
 export function login(payload) { return post(`/api/auth/login`, payload); }
+export function changePassword(payload) { return post(`/api/auth/change-password`, payload); }
 // export function resetPassword(payload) { return post(`/api/auth/reset-password`, payload); }
 // export function requestResetToken(payload) { return post(`/api/auth/request-reset`, payload); }
-// export function changePassword(payload) { return post(`/api/auth/change-password`, payload); }
