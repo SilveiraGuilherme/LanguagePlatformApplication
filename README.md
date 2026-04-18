@@ -45,17 +45,64 @@ This project consolidates the following topics covered in the **Higher Diploma i
 
 ## 🧪 How to Run Locally
 
-1. Clone the repository
-2. Set up your MySQL database using the schema provided
-3. Configure your database properties in `application.properties`
-4. Run the application using:
-   ```bash
-   mvn spring-boot:run
-   ```
-5. Access Swagger UI at:
-   ```
-   http://localhost:8080/swagger-ui/index.html
-   ```
+### 1) Clone and open the project
+
+```bash
+git clone <your-repo-url>
+cd LanguagePlatformApplication
+```
+
+### 2) Set up MySQL schema (first time only)
+
+Run:
+
+```bash
+/usr/local/mysql/bin/mysql -u root -p < BACKEND/schema_local.sql
+```
+
+This creates the `languagelearning` database and all required tables.
+
+### 3) Configure local environment variables
+
+Create a local env file in `BACKEND/.env` (this file is gitignored):
+
+```dotenv
+DB_URL=jdbc:mysql://localhost:3306/languagelearning?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+DB_USERNAME=root
+DB_PASSWORD=your_mysql_password
+```
+
+You can copy from `BACKEND/.env.example`.
+
+### 4) Run backend (Spring Boot)
+
+```bash
+cd BACKEND
+./run-local.sh
+```
+
+Backend will run on:
+
+`http://localhost:8080`
+
+Swagger UI:
+
+`http://localhost:8080/swagger-ui/index.html`
+
+### 5) Run frontend
+
+In a second terminal:
+
+```bash
+cd FRONTEND
+python3 -m http.server 5500
+```
+
+Open:
+
+`http://localhost:5500`
+
+> Make sure `FRONTEND/assets/js/api-config.js` uses `http://localhost:8080` as `BASE_URL`.
 
 ---
 
