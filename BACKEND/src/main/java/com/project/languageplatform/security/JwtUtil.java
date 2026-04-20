@@ -2,9 +2,11 @@ package com.project.languageplatform.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 /**
@@ -14,8 +16,11 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    // Static secret key used for signing JWTs (replace with secure environment variable in production)
-    private final SecretKey SECRET_KEY = Keys.hmacShaKeyFor("secretKey1234567890secretKey1234567890".getBytes());
+    private final SecretKey secretKey;
+
+    public JwtUtil(@Value("${JWT_SECRET}") String jwtSecret) {
+        this.secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+    }
 
     // JWT token validity duration (10 hours)
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; // 10 hours
@@ -27,7 +32,7 @@ public class JwtUtil {
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -55,7 +60,7 @@ public class JwtUtil {
     // Extract claims from token
     private Claims extractClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();

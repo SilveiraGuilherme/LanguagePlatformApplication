@@ -20,8 +20,8 @@ This project was developed as the final project of my **Higher Diploma in Comput
 
 ## 🛠️ Tech Stack
 
-- **Java 21 + Spring Boot**
-- **MySQL (hosted on Azure)**
+- **Java 25 + Spring Boot**
+- **MySQL (hosted on Aiven)**
 - **Maven**
 - **JWT Security**
 - **Swagger UI**
@@ -70,6 +70,8 @@ Create a local env file in `BACKEND/.env` (this file is gitignored):
 DB_URL=jdbc:mysql://localhost:3306/languagelearning?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
 DB_USERNAME=root
 DB_PASSWORD=your_mysql_password
+JWT_SECRET=replace_with_a_long_random_secret_at_least_32_chars
+APP_CORS_ALLOWED_ORIGINS=http://localhost:5500,http://127.0.0.1:5500
 ```
 
 You can copy from `BACKEND/.env.example`.
@@ -102,7 +104,97 @@ Open:
 
 `http://localhost:5500`
 
-> Make sure `FRONTEND/assets/js/api-config.js` uses `http://localhost:8080` as `BASE_URL`.
+> Make sure `FRONTEND/assets/js/api-config.js` points to your backend URL when you deploy. Keep `http://localhost:8080` for local development.
+
+---
+
+## ☁️ Free Deployment Checklist
+
+### Recommended stack
+
+- **Frontend**: Netlify
+- **Backend**: Render Web Service
+- **Database**: Aiven MySQL
+
+### Teacher-style deployment flow
+
+1. Deploy the backend first so the frontend has a real API URL.
+2. Set backend environment variables on Render.
+3. Deploy the frontend on Netlify.
+4. Point the frontend to the backend URL.
+5. Test login, quiz flow, and CORS from the live site.
+
+### 1) Prepare backend environment variables
+
+Set these on your hosting platform:
+
+- `DB_URL` = your hosted MySQL JDBC URL
+- `DB_USERNAME` = your database username
+- `DB_PASSWORD` = your database password
+- `JWT_SECRET` = a long random secret string
+- `APP_CORS_ALLOWED_ORIGINS` = your Netlify URL(s), comma-separated
+
+Example:
+
+```text
+APP_CORS_ALLOWED_ORIGINS=https://your-site.netlify.app,https://www.your-site.netlify.app
+```
+
+For JWT, generate a strong secret locally, for example:
+
+```bash
+openssl rand -base64 48
+```
+
+### 2) Deploy the backend on Render
+
+Render settings:
+
+- **Option A**: Import the repo and let Render read [render.yaml](render.yaml)
+- **Option B**: Create a Web Service manually
+
+If you configure it manually, use:
+
+- **Root directory**: `BACKEND`
+- **Runtime**: Docker
+- **Dockerfile**: `BACKEND/Dockerfile`
+- **Port**: Render provides `PORT` automatically, and the container already reads it
+
+After the first deploy, copy the Render service URL. You will use it in the frontend.
+
+Suggested Render env values:
+
+- `DB_URL` = your Aiven JDBC URL
+- `DB_USERNAME` = `avnadmin` or your custom user
+- `DB_PASSWORD` = your Aiven password
+- `JWT_SECRET` = a long random secret
+- `APP_CORS_ALLOWED_ORIGINS` = your Netlify URL(s) plus any local testing origin
+
+### 3) Deploy the frontend on Netlify
+
+Update the frontend API base URL in [FRONTEND/assets/js/api-config.js](FRONTEND/assets/js/api-config.js) to point to your Render backend URL, for example:
+
+```javascript
+const BASE_URL = window.APP_CONFIG?.API_BASE_URL || 'https://your-render-service.onrender.com';
+```
+
+If you want to keep it configurable, you can inject `window.APP_CONFIG.API_BASE_URL` before loading the app scripts.
+
+### 4) Import the database schema
+
+Import [BACKEND/schema_local.sql](BACKEND/schema_local.sql) into your hosted database before the first backend start.
+
+### 5) Final checks
+
+- Backend health endpoint responds with `UP`
+- Frontend can log in and call backend APIs
+- No CORS errors in the browser console
+
+### 6) Common gotchas
+
+- If login fails from Netlify, check `APP_CORS_ALLOWED_ORIGINS` on Render.
+- If the frontend still hits localhost, update the base URL in `FRONTEND/assets/js/api-config.js`.
+- If the backend fails to connect, re-check the Aiven JDBC URL, username, password, and SSL settings.
 
 ---
 
