@@ -1,6 +1,6 @@
 [build]
 publish = "FRONTEND"
-command = "if [ -n \"$API_BASE_URL\" ]; then sed -i \"s|__API_BASE_URL__|$API_BASE_URL|g\" FRONTEND/assets/js/main.js && echo 'Injected API_BASE_URL into main.js'; else echo 'API_BASE_URL not set; using localhost fallback'; fi"
+command = "echo 'Static site - no build needed'"
 
 [[redirects]]
 from = "/*"

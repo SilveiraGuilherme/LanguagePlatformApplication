@@ -6,11 +6,10 @@
 
 // Inject backend API URL from environment or defaults
 (function() {
-	const injectedApiUrl = '__API_BASE_URL__';
+	const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 	const apiUrl =
-		(injectedApiUrl && !injectedApiUrl.includes('__API_BASE_URL__') ? injectedApiUrl : null) ||
 		localStorage.getItem('API_BASE_URL') ||
-		'http://localhost:8080';
+		(isLocalhost ? 'http://localhost:8080' : 'https://languageplatformbackend.onrender.com');
 	
 	window.APP_CONFIG = {
 		API_BASE_URL: apiUrl
