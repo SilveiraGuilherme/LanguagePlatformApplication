@@ -6,8 +6,9 @@
 
 // Inject backend API URL from environment or defaults
 (function() {
-	const apiUrl = 
-		(typeof process !== 'undefined' && process.env && process.env.API_BASE_URL) ||
+	const injectedApiUrl = '__API_BASE_URL__';
+	const apiUrl =
+		(injectedApiUrl && !injectedApiUrl.includes('__API_BASE_URL__') ? injectedApiUrl : null) ||
 		localStorage.getItem('API_BASE_URL') ||
 		'http://localhost:8080';
 	
