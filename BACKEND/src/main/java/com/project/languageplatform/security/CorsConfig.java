@@ -7,6 +7,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Configuration;
@@ -28,10 +29,22 @@ public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.stream(allowedOrigins.split(","))
+
+        List<String> configuredOrigins = Arrays.stream(allowedOrigins.split(","))
             .map(String::trim)
             .filter(origin -> !origin.isBlank())
-            .collect(Collectors.toList()));
+            .collect(Collectors.toList());
+
+        List<String> exactOrigins = configuredOrigins.stream()
+            .filter(origin -> !origin.contains("*"))
+            .collect(Collectors.toCollection(ArrayList::new));
+
+        List<String> originPatterns = configuredOrigins.stream()
+            .filter(origin -> origin.contains("*"))
+            .collect(Collectors.toCollection(ArrayList::new));
+
+        configuration.setAllowedOrigins(exactOrigins);
+        configuration.setAllowedOriginPatterns(originPatterns);
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
