@@ -39,7 +39,7 @@ This project consolidates the following topics covered in the **Higher Diploma i
 - Authentication and Security using JWT
 - Agile methodology and task planning (Trello)
 - Manual testing and debugging with Postman
-- Deployment practices using Azure
+- Deployment practices using Render, Netlify, and Aiven
 
 ---
 
