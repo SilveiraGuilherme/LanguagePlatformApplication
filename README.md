@@ -172,13 +172,21 @@ Suggested Render env values:
 
 ### 3) Deploy the frontend on Netlify
 
-Update the frontend API base URL in [FRONTEND/assets/js/api-config.js](FRONTEND/assets/js/api-config.js) to point to your Render backend URL, for example:
+The frontend is already configured to read the backend URL from an environment variable.
 
-```javascript
-const BASE_URL = window.APP_CONFIG?.API_BASE_URL || 'https://your-render-service.onrender.com';
-```
+**Steps:**
+1. Connect your GitHub repo to Netlify.
+2. Netlify will auto-read [netlify.toml](netlify.toml).
+3. Set publish directory to `FRONTEND` (if not auto-detected).
+4. Go to **Settings → Build & deploy → Environment → Environment variables**.
+5. Add: `API_BASE_URL` = `https://languageplatformbackend.onrender.com` (your Render backend URL)
+6. Redeploy.
 
-If you want to keep it configurable, you can inject `window.APP_CONFIG.API_BASE_URL` before loading the app scripts.
+**How it works:**
+- Locally: `FRONTEND/assets/js/main.js` defaults to `http://localhost:8080`
+- On Netlify: It reads `API_BASE_URL` from the environment variable and uses that instead
+
+No code changes needed — the frontend automatically picks the right backend based on where it's running.
 
 ### 4) Import the database schema
 
