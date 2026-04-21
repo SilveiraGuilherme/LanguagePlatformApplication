@@ -4,6 +4,18 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
+// Inject backend API URL from environment or defaults
+(function() {
+	const apiUrl = 
+		(typeof process !== 'undefined' && process.env && process.env.API_BASE_URL) ||
+		localStorage.getItem('API_BASE_URL') ||
+		'http://localhost:8080';
+	
+	window.APP_CONFIG = {
+		API_BASE_URL: apiUrl
+	};
+})();
+
 (function($) {
 
 	var	$window = $(window),

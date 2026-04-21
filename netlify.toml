@@ -1,0 +1,12 @@
+[build]
+publish = "FRONTEND"
+command = "echo 'Static site - no build needed'"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
+# Environment variables
+# Set on Netlify UI: Settings > Build & deploy > Environment > Environment variables
+# API_BASE_URL = your Render backend URL (e.g., https://languageplatformbackend.onrender.com)
