@@ -6,6 +6,10 @@ function getAuthHeaders() {
     return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
+function shouldSendAuthHeader(endpoint) {
+    return !endpoint.startsWith('/api/auth/');
+}
+
 // Parses and returns JSON response, throws if status is not OK
 async function handleResponse(response) {
     let data = {};
@@ -35,7 +39,7 @@ async function get(endpoint, query = null) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            ...getAuthHeaders()
+            ...(shouldSendAuthHeader(endpoint) ? getAuthHeaders() : {})
         }
     });
     return handleResponse(response);
@@ -46,7 +50,7 @@ async function post(endpoint, data) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            ...getAuthHeaders()
+            ...(shouldSendAuthHeader(endpoint) ? getAuthHeaders() : {})
         },
         body: JSON.stringify(data)
     });
@@ -58,7 +62,7 @@ async function put(endpoint, data) {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            ...getAuthHeaders()
+            ...(shouldSendAuthHeader(endpoint) ? getAuthHeaders() : {})
         },
         body: JSON.stringify(data)
     });
@@ -70,7 +74,7 @@ async function del(endpoint) {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            ...getAuthHeaders()
+            ...(shouldSendAuthHeader(endpoint) ? getAuthHeaders() : {})
         }
     });
     return handleResponse(response);
