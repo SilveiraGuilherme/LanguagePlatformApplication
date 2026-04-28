@@ -20,7 +20,7 @@ This project was developed as the final project of my **Higher Diploma in Comput
 
 ## 🛠️ Tech Stack
 
-- **Java 25 + Spring Boot**
+- **Java 21 + Spring Boot**
 - **MySQL (hosted on Aiven)**
 - **Maven**
 - **JWT Security**
