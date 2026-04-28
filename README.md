@@ -204,6 +204,17 @@ Import [BACKEND/schema_local.sql](BACKEND/schema_local.sql) into your hosted dat
 - If the frontend still hits localhost, update the base URL in `FRONTEND/assets/js/api-config.js`.
 - If the backend fails to connect, re-check the Aiven JDBC URL, username, password, and SSL settings.
 
+- If registration or login requests return `403` in the browser during local testing, you may have a stale token or API URL saved in the browser `localStorage`. Clear those keys and retry. In the browser console run:
+
+```javascript
+localStorage.removeItem('token');
+localStorage.removeItem('API_BASE_URL');
+localStorage.removeItem('user');
+localStorage.removeItem('userID');
+```
+
+	The frontend was updated to avoid sending an `Authorization` header to public auth routes (e.g. `/api/auth/register` and `/api/auth/login`), but older stored tokens can still cause the browser to send them — clearing `localStorage` fixes this.
+
 ---
 
 ## 📫 Contact
