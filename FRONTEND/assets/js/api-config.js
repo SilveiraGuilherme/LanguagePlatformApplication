@@ -1,4 +1,4 @@
-const BASE_URL = window.APP_CONFIG?.API_BASE_URL || 'http://localhost:8080';
+const BASE_URL = window.APP_CONFIG?.API_BASE_URL || (location.protocol === 'https:' ? 'https://languageplatformbackend.onrender.com' : 'http://localhost:8080');
 
 // Retrieves the auth token from localStorage and sets Authorization header
 function getAuthHeaders() {
