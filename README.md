@@ -1,22 +1,22 @@
-# LangFlow
+# 🌍 LangFlow
 
 LangFlow is a production-ready web application for language practice through adaptive flashcard quizzes.
 
-## Live Access
+## 🌐 Live Access
 
 - Frontend (Netlify): https://langflow.netlify.app/
 - Backend API (Render): https://languageplatformbackend.onrender.com
 - API Health Check: https://languageplatformbackend.onrender.com/actuator/health
 - Swagger UI: https://languageplatformbackend.onrender.com/swagger-ui/index.html
 
-## Product Scope
+## 🚀 Product Scope
 
 - Secure user registration and login (JWT)
 - Practice sessions with adaptive flashcard flow
 - Quiz submission and score/history tracking
 - Role-protected API endpoints
 
-## Technical Architecture
+## 🏗️ Technical Architecture
 
 - Frontend: static web app (`FRONTEND/`)
 - Backend: Spring Boot REST API (`BACKEND/`)
@@ -25,7 +25,7 @@ LangFlow is a production-ready web application for language practice through ada
 	- Frontend on Netlify
 	- Backend on Render (Docker)
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 - Java 21
 - Spring Boot
@@ -34,7 +34,7 @@ LangFlow is a production-ready web application for language practice through ada
 - JWT Authentication
 - Swagger/OpenAPI
 
-## Security & Configuration
+## 🔐 Security & Configuration
 
 The backend expects these environment variables in production:
 
@@ -46,7 +46,7 @@ The backend expects these environment variables in production:
 
 Frontend must target the backend over HTTPS in production.
 
-## Local Development (Developer Handover)
+## 🧪 Local Development (Developer Handover)
 
 1) Import schema:
 
@@ -80,12 +80,12 @@ python3 -m http.server 5500
 
 5) Open: http://localhost:5500
 
-## Operational Notes
+## 📌 Operational Notes
 
 - On first deployment, import `BACKEND/schema_local.sql` before starting the API.
 - If browser auth behaves unexpectedly during local testing, clear local storage keys (`token`, `user`, `userID`, `API_BASE_URL`) and login again.
 
-## Contact
+## 📫 Contact
 
 Guilherme Silveira  
 gws.silveira@gmail.com
