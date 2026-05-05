@@ -28,3 +28,6 @@ replay_pid*
 *.env
 BACKEND/.env
 BACKEND/src/main/resources/application-local.properties
+
+# VS Code prompt drafts
+.github/prompts/
